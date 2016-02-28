@@ -2,7 +2,7 @@ import socket
 import logging
 from time import time
 
-from ogn.gateway import settings
+from ogn.client import settings
 
 
 def create_aprs_login(user_name, pass_code, app_name, app_version, aprs_filter=None):
@@ -12,7 +12,7 @@ def create_aprs_login(user_name, pass_code, app_name, app_version, aprs_filter=N
         return "user {} pass {} vers {} {} filter {}\n".format(user_name, pass_code, app_name, app_version, aprs_filter)
 
 
-class ognGateway:
+class AprsClient:
     def __init__(self, aprs_user, aprs_filter=''):
         self.logger = logging.getLogger(__name__)
         self.logger.info("Connect to OGN as {} with filter '{}'".format(aprs_user, (aprs_filter if aprs_filter else 'full-feed')))
