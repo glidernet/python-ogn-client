@@ -1,0 +1,5 @@
+# Install ogn-python
+-e .
+
+# Install development requirements
+-e .[dev]
