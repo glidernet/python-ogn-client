@@ -3,7 +3,7 @@
 from os import path
 from setuptools import setup, find_packages
 
-from ogn.gateway.settings import PACKAGE_VERSION
+from ogn.client.settings import PACKAGE_VERSION
 
 
 here = path.abspath(path.dirname(__file__))
@@ -13,11 +13,11 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='ogn-python',
+    name='python-ogn-client',
     version=PACKAGE_VERSION,
     description='A python module for the Open Glider Network',
     long_description=long_description,
-    url='https://github.com/glidernet/ogn-python',
+    url='https://github.com/glidernet/python-ogn-client',
     author='Konstantin Gründger aka Meisterschueler, Fabian P. Schmidt aka kerel',
     author_email='kerel-fs@gmx.de',
     license='AGPLv3',
@@ -33,21 +33,12 @@ setup(
     ],
     keywords='gliding ogn',
     packages=find_packages(exclude=['tests', 'tests.*']),
-    install_requires=[
-        'SQLAlchemy==1.0.8',
-        'geopy==1.11.0',
-        'manage.py==0.2.10',
-        'celery[redis]>=3.1,<3.2',
-        'alembic==0.8.3'
-    ],
+    install_requires=[],
     extras_require={
         'dev': [
             'nose==1.3.7',
             'coveralls==0.4.4',
             'flake8==2.5.0'
-        ],
-        'postgresql': [
-            'psycopg2==2.6.1'
         ]
     },
     zip_safe=False

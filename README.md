@@ -1,36 +1,33 @@
-# ogn-python
+# python-ogn-client
 
-[![Build Status](https://travis-ci.org/glidernet/ogn-python.svg?branch=master)]
-(https://travis-ci.org/glidernet/ogn-python)
-[![Coverage Status](https://img.shields.io/coveralls/glidernet/ogn-python.svg)]
-(https://coveralls.io/r/glidernet/ogn-python)
-[![PyPi Version](https://img.shields.io/pypi/v/ogn-python.svg)]
-(https://pypi.python.org/pypi/ogn-python)
+[![Build Status](https://travis-ci.org/glidernet/python-ogn-client.svg?branch=master)]
+(https://travis-ci.org/glidernet/python-ogn-client)
+[![Coverage Status](https://img.shields.io/coveralls/glidernet/python-ogn-client.svg)]
+(https://coveralls.io/r/glidernet/python-ogn-client)
 
-A python module for the [Open Glider Network](http://wiki.glidernet.org/).
-The submodule 'ogn.gateway' is an aprs client which could be invoked via a CLI
-or used by other python projects.
-The CLI allows to save all received beacons into a database with [SQLAlchemy](http://www.sqlalchemy.org/).
-The [sqlite](https://www.sqlite.org/)-backend is sufficient for simple testing,
-but some tasks (e.g. logbook generation) require a proper backend like [postgresql](http://www.postgresql.org/).
-An external python project would instantiate ogn.gateway and register a custom callback,
-called each time a beacon is received.
+A python3 module for the [Open Glider Network](http://wiki.glidernet.org/).
+It can be used to connect to the OGN-APRS-Servers and to parse APRS-/OGN-Messages.
 
-[Examples](https://github.com/glidernet/ogn-python/wiki/Examples)
+A full featured gateway with build-in database is provided by [py-ogn-gateway](https://github.com/glidernet/ogn-python).
 
 
-## Usage
-Implement your own gateway by using ogn.gateway with a custom callback function.
-Each time a beacon is received, this function gets called and
-lets you process the incoming data.
+## Example Usage
 
-Example:
-```python
-#!/usr/bin/env python3
-from ogn.gateway.client import ognGateway
-from ogn.parser.parse import parse_aprs, parse_ogn_beacon
-from ogn.parser.exceptions import ParseError
+Parse APRS/OGN packet.
 
+```
+from ogn.parser import parse_aprs, parse_beacon
+from datetime import datetime
+
+beacon = parse_aprs("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005524 id0ADDDEAD -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5",
+                    reference_date=datetime(2016,1,1,11,46))
+```
+
+Connect to OGN and display all incoming beacons.
+
+```
+from ogn.client import ognClient
+from ogn.parser import parse_aprs, parse_beacon, ParseError
 
 def process_beacon(raw_message):
     if raw_message[0] == '#':
@@ -39,25 +36,21 @@ def process_beacon(raw_message):
 
     try:
         message = parse_aprs(raw_message)
-        message.update(parse_ogn_beacon(message['comment']))
+        message.update(parse_beacon(message['comment']))
 
         print('Received {beacon_type} from {name}'.format(**message))
     except ParseError as e:
         print('Error, {}'.format(e.message))
 
+client = ognClient(aprs_user='N0CALL')
+client.connect()
 
-if __name__ == '__main__':
-    gateway = ognGateway(aprs_user='N0CALL')
-    gateway.connect()
-
-    try:
-        gateway.run(callback=process_beacon, autoreconnect=True)
-    except KeyboardInterrupt:
-        print('\nStop ogn gateway')
-
-    gateway.disconnect()
+try:
+    client.run(callback=process_beacon, autoreconnect=True)
+except KeyboardInterrupt:
+    print('\nStop ogn gateway')
+    client.disconnect()
 ```
-
 
 ## License
 Licensed under the [AGPLv3](LICENSE).

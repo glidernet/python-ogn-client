@@ -1,6 +1,11 @@
 # CHANGELOG
 
 ## Unreleased
+- The repository ogn-python splitted up into two separate repositories:
+  - python-ogn-client (the repository this Changelog belongs to),
+    including an APRS- & OGN-Parser, APRS-Client and DDB-Client.
+  - python-ogn-gateway, including a database, CLI, logbook.
+
 - Moved exceptions from `ogn.exceptions` to `ogn.parser.exceptions`
 - Moved parsing from `ogn.model.*` to `ogn.parser`
 
