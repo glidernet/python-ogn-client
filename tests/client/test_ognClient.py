@@ -1,6 +1,7 @@
 import unittest
 import unittest.mock as mock
 
+from ogn.parser import parse_aprs, parse_ogn_beacon, ParseError
 from ogn.client.client import create_aprs_login, AprsClient
 from ogn.client.settings import APRS_APP_NAME, APRS_APP_VER
 
@@ -41,3 +42,26 @@ class OgnClientTest(unittest.TestCase):
         client.disconnect()
         client.sock.shutdown.assert_called_once_with(0)
         client.sock.close.assert_called_once_with()
+
+    def test_50_live_messages(self):
+        print("Enter")
+        self.remaining_messages = 50
+        def process_message(raw_message):
+            if raw_message[0] == '#':
+                return
+            message = parse_aprs(raw_message)
+            message.update(parse_ogn_beacon(message['comment']))
+            if self.remaining_messages > 0:
+                self.remaining_messages -= 1
+            else:
+                raise KeyboardInterrupt
+
+        client = AprsClient(aprs_user='testuser', aprs_filter='')
+        client.connect()
+        try:
+            client.run(callback=process_message, autoreconnect=True)
+        except KeyboardInterrupt:
+            pass
+        finally:
+            client.disconnect()
+        self.assert_(True)
