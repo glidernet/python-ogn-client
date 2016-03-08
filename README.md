@@ -16,18 +16,19 @@ A full featured gateway with build-in database is provided by [py-ogn-gateway](h
 Parse APRS/OGN packet.
 
 ```
-from ogn.parser import parse_aprs, parse_beacon
+from ogn.parser import parse_aprs, parse_ogn_beacon
 from datetime import datetime
 
 beacon = parse_aprs("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005524 id0ADDDEAD -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5",
                     reference_date=datetime(2016,1,1,11,46))
+beacon.update(parse_ogn_beacon(beacon['comment']))
 ```
 
 Connect to OGN and display all incoming beacons.
 
 ```
-from ogn.client import ognClient
-from ogn.parser import parse_aprs, parse_beacon, ParseError
+from ogn.client import AprsClient
+from ogn.parser import parse_aprs, parse_ogn_beacon, ParseError
 
 def process_beacon(raw_message):
     if raw_message[0] == '#':
@@ -35,14 +36,14 @@ def process_beacon(raw_message):
         return
 
     try:
-        message = parse_aprs(raw_message)
-        message.update(parse_beacon(message['comment']))
+        beacon = parse_aprs(raw_message)
+        beacon.update(parse_ogn_beacon(beacon['comment']))
 
-        print('Received {beacon_type} from {name}'.format(**message))
+        print('Received {beacon_type} from {name}'.format(**beacon))
     except ParseError as e:
         print('Error, {}'.format(e.message))
 
-client = ognClient(aprs_user='N0CALL')
+client = AprsClient(aprs_user='N0CALL')
 client.connect()
 
 try:
