@@ -1,7 +1,7 @@
 import unittest
 import unittest.mock as mock
 
-from ogn.parser import parse_aprs, parse_ogn_beacon, ParseError
+from ogn.parser import parse_aprs, parse_ogn_beacon
 from ogn.client.client import create_aprs_login, AprsClient
 from ogn.client.settings import APRS_APP_NAME, APRS_APP_VER
 
@@ -46,6 +46,7 @@ class OgnClientTest(unittest.TestCase):
     def test_50_live_messages(self):
         print("Enter")
         self.remaining_messages = 50
+
         def process_message(raw_message):
             if raw_message[0] == '#':
                 return
