@@ -22,7 +22,16 @@ class OgnClientTest(unittest.TestCase):
     def test_connect_full_feed(self, mock_socket):
         client = AprsClient(aprs_user='testuser', aprs_filter='')
         client.connect()
-        client.sock.send.assert_called_once_with('user testuser pass -1 vers {} {}\n'.format(APRS_APP_NAME, APRS_APP_VER).encode('ascii'))
+        client.sock.send.assert_called_once_with('user testuser pass -1 vers {} {}\n'.format(
+                                                 APRS_APP_NAME, APRS_APP_VER).encode('ascii'))
+        client.sock.makefile.asser_called_once_with('rw')
+
+    @mock.patch('ogn.client.client.socket')
+    def test_connect_client_defined_filter(self, mock_socket):
+        client = AprsClient(aprs_user='testuser', aprs_filter='r/50.4976/9.9495/100')
+        client.connect()
+        client.sock.send.assert_called_once_with('user testuser pass -1 vers {} {} filter r/50.4976/9.9495/100\n'.format(
+                                                 APRS_APP_NAME, APRS_APP_VER).encode('ascii'))
         client.sock.makefile.asser_called_once_with('rw')
 
     @mock.patch('ogn.client.client.socket')
