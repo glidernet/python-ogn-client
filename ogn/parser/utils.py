@@ -23,13 +23,22 @@ def dmsToDeg(dms):
 def createTimestamp(hhmmss, reference):
     packet_time = datetime.strptime(hhmmss, '%H%M%S').time()
     timestamp = datetime.combine(reference, packet_time)
+    delta = timestamp - reference
 
-    if reference.hour == 23 and timestamp.hour == 0:
-        timestamp = timestamp + timedelta(days=1)
-    elif reference.hour == 0 and timestamp.hour == 23:
-        timestamp = timestamp - timedelta(days=1)
+    # This function reconstructs the packet date from the timestamp and a reference time.
+    # delta vs. packet date:
+    # -24h                      -12h                   0                       +12h                   +24h
+    #  |-------------------------|---------------------|------------------------|----------------------|
+    #  [-] <-- tomorrow          [---------today---------]                      [-------yesterday------]
 
-    if reference - timestamp > timedelta(hours=1):
+    if timedelta(hours=-12) <= delta <= timedelta(minutes=30):
+        # Packet less than 12h from the past or 30min from the future
+        return timestamp
+    elif delta < timedelta(hours=-23, minutes=-30):
+        # Packet from next day, less than 30min from the future
+        return datetime.combine(reference + timedelta(hours=+12), packet_time)
+    elif timedelta(hours=12) < delta:
+        # Packet from previous day, less than 12h from the past
+        return datetime.combine(reference + timedelta(hours=-12), packet_time)
+    else:
         raise AmbigousTimeError(reference, packet_time)
-
-    return timestamp
