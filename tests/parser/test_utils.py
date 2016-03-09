@@ -10,17 +10,22 @@ class TestStringMethods(unittest.TestCase):
         dms = 50.4830
         self.assertAlmostEqual(dmsToDeg(dms), 50.805, 5)
 
-    def test_createTimestamp_seconds_behind(self):
-        timestamp = createTimestamp('235959', reference=datetime(2015, 10, 16, 0, 0, 1))
-        self.assertEqual(timestamp, datetime(2015, 10, 15, 23, 59, 59))
+    def test_createTimestamp(self):
+        test_data = [
+            ('000001', datetime(2015, 1, 10, 0, 0, 1), datetime(2015, 1, 10, 0, 0, 1)),      # packet from current day (on the tick)
+            ('235959', datetime(2015, 1, 10, 0, 0, 1), datetime(2015, 1, 9, 23, 59, 59)),    # packet from previous day (2 seconds old)
+            ('110000', datetime(2015, 1, 10, 0, 0, 1), None),                                # packet 11 hours from future or 13 hours old
+            ('123500', datetime(2015, 1, 10, 23, 50, 0), datetime(2015, 1, 10, 12, 35, 0)),  # packet from current day (11 hours old)
+            ('000001', datetime(2015, 1, 10, 23, 50, 0), datetime(2015, 1, 11, 0, 0, 1))     # packet from next day (11 minutes from future)
+        ]
 
-    def test_createTimestamp_seconds_before(self):
-        timestamp = createTimestamp('000001', reference=datetime(2015, 10, 15, 23, 59, 59))
-        self.assertEqual(timestamp, datetime(2015, 10, 16, 0, 0, 1))
-
-    def test_createTimestamp_big_difference(self):
-        with self.assertRaises(AmbigousTimeError):
-            createTimestamp('123456', reference=datetime(2015, 10, 15, 23, 59, 59))
+        for test in test_data:
+            if test[2]:
+                timestamp = createTimestamp(test[0], reference=test[1])
+                self.assertEqual(timestamp, test[2])
+            else:
+                with self.assertRaises(AmbigousTimeError):
+                    createTimestamp(test[0], reference=test[1])
 
 
 if __name__ == '__main__':
