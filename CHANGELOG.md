@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## 0.3.0 - 2016-03-18
 The repository ogn-python splitted up into two separate repositories:
   - python-ogn-client (the repository this Changelog belongs to),
     including an APRS- & OGN-Parser and an APRS-Client.
@@ -13,6 +13,7 @@ The repository ogn-python splitted up into two separate repositories:
 - Simplified usage of the module: Imported parse functions at package level (`ogn.parser`)
 - Refined timstamp reconstruction to accept delayed packets (fixed glidernet/ogn-python#31)
 
+# Historic ogn-python releases
 ## 0.2.1 - 2016-02-17
 First release via PyPi.
 - Added CHANGELOG.
