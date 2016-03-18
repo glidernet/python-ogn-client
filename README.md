@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/glidernet/python-ogn-client.svg?branch=master)]
 (https://travis-ci.org/glidernet/python-ogn-client)
-[![Coverage Status](https://img.shields.io/coveralls/glidernet/python-ogn-client.svg)]
-(https://coveralls.io/r/glidernet/python-ogn-client)
+[![Coverage Status](https://coveralls.io/repos/github/glidernet/python-ogn-client/badge.svg?branch=master)]
+(https://coveralls.io/github/glidernet/python-ogn-client?branch=master)
 
 A python3 module for the [Open Glider Network](http://wiki.glidernet.org/).
 It can be used to connect to the OGN-APRS-Servers and to parse APRS-/OGN-Messages.
 
-A full featured gateway with build-in database is provided by [py-ogn-gateway](https://github.com/glidernet/ogn-python).
+A full featured gateway with build-in database is provided by [ogn-python](https://github.com/glidernet/ogn-python).
 
 
 ## Example Usage
