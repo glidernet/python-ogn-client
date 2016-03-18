@@ -1,13 +1,17 @@
 # CHANGELOG
 
 ## Unreleased
-- The repository ogn-python splitted up into two separate repositories:
+The repository ogn-python splitted up into two separate repositories:
   - python-ogn-client (the repository this Changelog belongs to),
-    including an APRS- & OGN-Parser, APRS-Client and DDB-Client.
+    including an APRS- & OGN-Parser and an APRS-Client.
   - python-ogn-gateway, including a database, CLI, logbook.
 
 - Moved exceptions from `ogn.exceptions` to `ogn.parser.exceptions`
 - Moved parsing from `ogn.model.*` to `ogn.parser`
+- Renamed module `ogn.gateway` to `ogn.client`
+- Renamed class `ognGateway` to `AprsClient`
+- Simplified usage of the module: Imported parse functions at package level (`ogn.parser`)
+- Refined timstamp reconstruction to accept delayed packets (fixed glidernet/ogn-python#31)
 
 ## 0.2.1 - 2016-02-17
 First release via PyPi.
