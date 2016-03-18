@@ -13,7 +13,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='python-ogn-client',
+    name='ogn-client',
     version=PACKAGE_VERSION,
     description='A python module for the Open Glider Network',
     long_description=long_description,
