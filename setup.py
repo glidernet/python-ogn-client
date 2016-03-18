@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from os import path
-from setuptools import setup, find_packages
+from setuptools import setup
 
 from ogn.client.settings import PACKAGE_VERSION
 
@@ -32,7 +32,7 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     keywords='gliding ogn',
-    packages=find_packages(exclude=['tests', 'tests.*']),
+    packages=['ogn.parser', 'ogn.client'],
     install_requires=[],
     extras_require={
         'dev': [
