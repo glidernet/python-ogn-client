@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from os import path
-from setuptools import setup, find_packages
+from setuptools import setup
 
 from ogn.client.settings import PACKAGE_VERSION
 
@@ -13,7 +13,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='python-ogn-client',
+    name='ogn-client',
     version=PACKAGE_VERSION,
     description='A python module for the Open Glider Network',
     long_description=long_description,
@@ -32,7 +32,7 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     keywords='gliding ogn',
-    packages=find_packages(exclude=['tests', 'tests.*']),
+    packages=['ogn.parser', 'ogn.client'],
     install_requires=[],
     extras_require={
         'dev': [
