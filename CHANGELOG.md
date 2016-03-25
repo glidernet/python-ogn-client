@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Unreleased
+- aprs client: Added the possibility of a timed callback
+
 ## 0.3.0 - 2016-03-18
 The repository ogn-python splitted up into two separate repositories:
   - python-ogn-client (the repository this Changelog belongs to),

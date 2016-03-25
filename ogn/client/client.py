@@ -45,14 +45,15 @@ class AprsClient:
         except OSError:
             self.logger.error('Socket close error', exc_info=True)
 
-    def run(self, callback, autoreconnect=False):
+    def run(self, callback, timed_callback=lambda client: None, autoreconnect=False):
         while True:
             try:
                 keepalive_time = time()
                 while True:
                     if time() - keepalive_time > settings.APRS_KEEPALIVE_TIME:
                         self.logger.info('Send keepalive')
-                        self.sock.send('#keepalive'.encode())
+                        self.sock.send('#keepalive\n'.encode())
+                        timed_callback(self)
                         keepalive_time = time()
 
                     # Read packet string from socket
