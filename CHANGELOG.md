@@ -2,6 +2,7 @@
 
 ## Unreleased
 - aprs client: Added the possibility of a timed callback
+- Added ogn.ddb submodule which provides the generator `get_ddb_devices`
 
 ## 0.3.0 - 2016-03-18
 The repository ogn-python splitted up into two separate repositories:
