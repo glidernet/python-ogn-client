@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## Unreleased
+
+## 0.4.0 - 2016-03-29
 - aprs client: Added the possibility of a timed callback
 - Added ogn.ddb submodule which provides the generator `get_ddb_devices`
 
