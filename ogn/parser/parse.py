@@ -14,6 +14,7 @@ def parse_aprs(message, reference_date=None):
     if match:
         return {'name': match.group('callsign'),
                 'receiver_name': match.group('receiver'),
+                'dstcall': match.group('dstcall'),
                 'timestamp': createTimestamp(match.group('time'), reference_date),
                 'latitude': dmsToDeg(float(match.group('latitude')) / 100) *
                 (-1 if match.group('latitude_sign') == 'S' else 1) +
