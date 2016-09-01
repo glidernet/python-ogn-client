@@ -1,4 +1,3 @@
-import math
 from datetime import datetime, timedelta
 
 from ogn.parser.exceptions import AmbigousTimeError
@@ -13,11 +12,8 @@ m2feet = 1 / feet2m
 fpm2ms = 1 / ms2fpm
 
 
-def dmsToDeg(dms):
-    absDms = abs(dms)
-    d = math.floor(absDms)
-    m = (absDms - d) * 100 / 60
-    return d + m
+def parseAngle(dddmmhht):
+    return float(dddmmhht[:3]) + float(dddmmhht[3:]) / 60
 
 
 def createTimestamp(hhmmss, reference):

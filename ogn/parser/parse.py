@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from ogn.parser.utils import createTimestamp, dmsToDeg, kts2kmh, feet2m, fpm2ms
+from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m, fpm2ms
 from ogn.parser.pattern import PATTERN_APRS, PATTERN_RECEIVER_BEACON, PATTERN_AIRCRAFT_BEACON
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
@@ -16,13 +16,11 @@ def parse_aprs(message, reference_date=None):
                 'receiver_name': match.group('receiver'),
                 'dstcall': match.group('dstcall'),
                 'timestamp': createTimestamp(match.group('time'), reference_date),
-                'latitude': dmsToDeg(float(match.group('latitude')) / 100) *
-                (-1 if match.group('latitude_sign') == 'S' else 1) +
-                (int(match.group('latitude_enhancement')) / 1000 / 60 if match.group('latitude_enhancement') else 0),
+                'latitude': parseAngle('0' + match.group('latitude') + (match.group('latitude_enhancement') or '0')) *
+                (-1 if match.group('latitude_sign') == 'S' else 1),
                 'symboltable': match.group('symbol_table'),
-                'longitude': dmsToDeg(float(match.group('longitude')) / 100) *
-                (-1 if match.group('longitude_sign') == 'W' else 1) +
-                (int(match.group('longitude_enhancement')) / 1000 / 60 if match.group('longitude_enhancement') else 0),
+                'longitude': parseAngle(match.group('longitude') + (match.group('longitude_enhancement') or '0')) *
+                (-1 if match.group('longitude_sign') == 'W' else 1),
                 'symbolcode': match.group('symbol'),
                 'track': int(match.group('course')) if match.group('course_extension') else 0,
                 'ground_speed': int(match.group('ground_speed')) * kts2kmh if match.group('ground_speed') else 0,
