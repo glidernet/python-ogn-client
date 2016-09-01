@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
-- Added aprs destination callsign as `dstcall` to aprs beacon keys
+- Added aprs destination callsign as `dstcall` to aprs beacon keys (#9)
 - Changed aprs parser to allow other destination calls than `APRS`
 - Fixed parsing of APRS precision and datum option (#7)
 
