@@ -36,11 +36,9 @@ def process_beacon(raw_message):
     if raw_message[0] == '#':
         print('Server Status: {}'.format(raw_message))
         return
-
     try:
         beacon = parse_aprs(raw_message)
         beacon.update(parse_ogn_beacon(beacon['comment']))
-
         print('Received {beacon_type} from {name}'.format(**beacon))
     except ParseError as e:
         print('Error, {}'.format(e.message))
