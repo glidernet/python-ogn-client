@@ -1,14 +1,13 @@
 import unittest
 from datetime import datetime
 
-from ogn.parser.utils import dmsToDeg, createTimestamp
+from ogn.parser.utils import parseAngle, createTimestamp
 from ogn.parser.exceptions import AmbigousTimeError
 
 
 class TestStringMethods(unittest.TestCase):
-    def test_dmsToDeg(self):
-        dms = 50.4830
-        self.assertAlmostEqual(dmsToDeg(dms), 50.805, 5)
+    def test_parseAngle(self):
+        self.assertAlmostEqual(parseAngle('05048.30'), 50.805, 5)
 
     def test_createTimestamp(self):
         test_data = [
