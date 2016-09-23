@@ -9,6 +9,8 @@ from ogn.parser.exceptions import AprsParseError, OgnParseError
 def parse_aprs(message, reference_date=None):
     if reference_date is None:
         reference_date = datetime.utcnow()
+    else:
+        reference_date = datetime.strptime(reference_date, "%Y-%m-%d")
 
     match = re.search(PATTERN_APRS, message)
     if match:
