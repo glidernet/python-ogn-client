@@ -6,16 +6,18 @@ from ogn.parser.pattern import PATTERN_APRS, PATTERN_RECEIVER_BEACON, PATTERN_AI
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 
-def parse_aprs(message, reference_date=None):
+def parse_aprs(message, reference_date=None, reference_time=None):
     if reference_date is None:
-        reference_date = datetime.utcnow()
+        now = datetime.utcnow()
+        reference_date = now.date()
+        reference_time = now.time()
 
     match = re.search(PATTERN_APRS, message)
     if match:
         return {'name': match.group('callsign'),
                 'receiver_name': match.group('receiver'),
                 'dstcall': match.group('dstcall'),
-                'timestamp': createTimestamp(match.group('time'), reference_date),
+                'timestamp': createTimestamp(match.group('time'), reference_date, reference_time),
                 'latitude': parseAngle('0' + match.group('latitude') + (match.group('latitude_enhancement') or '0')) *
                 (-1 if match.group('latitude_sign') == 'S' else 1),
                 'symboltable': match.group('symbol_table'),

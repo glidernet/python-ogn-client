@@ -19,10 +19,10 @@ Parse APRS/OGN packet.
 
 ```
 from ogn.parser import parse_aprs, parse_ogn_beacon
-from datetime import datetime
+from datetime import date, time
 
 beacon = parse_aprs("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005524 id0ADDDEAD -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5",
-                    reference_date=datetime(2016,1,1,11,46))
+                    reference_date=date(2016,1,1), reference_time=time(11,46))
 beacon.update(parse_ogn_beacon(beacon['comment']))
 ```
 

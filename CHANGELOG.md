@@ -4,6 +4,8 @@
 - Added aprs destination callsign as `dstcall` to aprs beacon keys (#9)
 - Changed aprs parser to allow other destination calls than `APRS`
 - Fixed parsing of APRS precision and datum option (#7)
+- Added optional `reference_time` argument to `parse_aprs` function and disabled
+  magic date correction if this argument is missing
 
 ## 0.4.0 - 2016-03-29
 - aprs client: Added the possibility of a timed callback
