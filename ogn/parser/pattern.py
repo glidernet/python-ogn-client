@@ -1,7 +1,8 @@
 import re
 
 
-PATTERN_APRS = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):/(?P<time>\d{6})+h(?P<latitude>\d{4}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>\d{5}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<course_extension>(?P<course>\d{3})/(?P<ground_speed>\d{3}))?/A=(?P<altitude>\d{6})(?P<pos_extension>\s!W((?P<latitude_enhancement>\d)(?P<longitude_enhancement>\d))!)?\s(?P<comment>.*)$")
+PATTERN_APRS_POSITION = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):/(?P<time>\d{6})+h(?P<latitude>\d{4}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>\d{5}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<course_extension>(?P<course>\d{3})/(?P<ground_speed>\d{3}))?/A=(?P<altitude>\d{6})(?P<pos_extension>\s!W((?P<latitude_enhancement>\d)(?P<longitude_enhancement>\d))!)?\s(?P<comment>.*)$")
+PATTERN_APRS_STATUS = re.compile(r"(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):>(?P<time>\d{6})+h\s(?P<comment>.*)$")
 
 # The following regexp patterns are part of the ruby ogn-client.
 # source: https://github.com/svoop/ogn_client-ruby
@@ -37,12 +38,15 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
     RAM:(?P<ram_free>[\d.]+)\/(?P<ram_total>[\d.]+)MB\s
     NTP:(?P<ntp_offset>[\d.]+)ms\/(?P<ntp_correction>[+-][\d.]+)ppm\s?
     (?:(?P<cpu_temperature>[+-][\d.]+)C\s*)?
+    (?:(?P<aircraft_counter_visible>\d+)\/(?P<aircraft_counter_total>\d+)Acfts\[1h\]\s*)?
     (?:RF:
         (?:
             (?P<manual_correction>[+-][\d]+)
             (?P<automatic_correction>[+-][\d.]+)ppm\/
         )?
         (?P<input_noise>[+-][\d.]+)dB
+        (?:\/(?P<total_snr>[+-][\d.]+)dB\@10km\[(?P<total_fixes>\d+)\])?
+        (?:\/(?P<daily_snr_selection>[+-][\d.]+)dB\@10km\[(?P<daily_devices_selection>\d+)\/(?P<daily_devices>\d+)\])?
     )?
 """, re.VERBOSE | re.MULTILINE)
 

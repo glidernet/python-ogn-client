@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m, fpm2ms
-from ogn.parser.pattern import PATTERN_APRS, PATTERN_RECEIVER_BEACON, PATTERN_AIRCRAFT_BEACON
+from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_RECEIVER_BEACON, PATTERN_AIRCRAFT_BEACON
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 
@@ -12,22 +12,30 @@ def parse_aprs(message, reference_date=None, reference_time=None):
         reference_date = now.date()
         reference_time = now.time()
 
-    match = re.search(PATTERN_APRS, message)
-    if match:
-        return {'name': match.group('callsign'),
-                'receiver_name': match.group('receiver'),
-                'dstcall': match.group('dstcall'),
-                'timestamp': createTimestamp(match.group('time'), reference_date, reference_time),
-                'latitude': parseAngle('0' + match.group('latitude') + (match.group('latitude_enhancement') or '0')) *
-                (-1 if match.group('latitude_sign') == 'S' else 1),
-                'symboltable': match.group('symbol_table'),
-                'longitude': parseAngle(match.group('longitude') + (match.group('longitude_enhancement') or '0')) *
-                (-1 if match.group('longitude_sign') == 'W' else 1),
-                'symbolcode': match.group('symbol'),
-                'track': int(match.group('course')) if match.group('course_extension') else 0,
-                'ground_speed': int(match.group('ground_speed')) * kts2kmh if match.group('ground_speed') else 0,
-                'altitude': int(match.group('altitude')) * feet2m,
-                'comment': match.group('comment')}
+    match_position = re.search(PATTERN_APRS_POSITION, message)
+    if match_position:
+        return {'name': match_position.group('callsign'),
+                'receiver_name': match_position.group('receiver'),
+                'dstcall': match_position.group('dstcall'),
+                'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
+                'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
+                (-1 if match_position.group('latitude_sign') == 'S' else 1),
+                'symboltable': match_position.group('symbol_table'),
+                'longitude': parseAngle(match_position.group('longitude') + (match_position.group('longitude_enhancement') or '0')) *
+                (-1 if match_position.group('longitude_sign') == 'W' else 1),
+                'symbolcode': match_position.group('symbol'),
+                'track': int(match_position.group('course')) if match_position.group('course_extension') else 0,
+                'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else 0,
+                'altitude': int(match_position.group('altitude')) * feet2m,
+                'comment': match_position.group('comment')}
+
+    match_status = re.search(PATTERN_APRS_STATUS, message)
+    if match_status:
+        return {'name': match_status.group('callsign'),
+                'receiver_name': match_status.group('receiver'),
+                'dstcall': match_status.group('dstcall'),
+                'timestamp': createTimestamp(match_status.group('time'), reference_date, reference_time),
+                'comment': match_status.group('comment')}
 
     raise AprsParseError(message)
 
@@ -64,9 +72,16 @@ def parse_ogn_receiver_beacon(aprs_comment):
                 'ntp_error': float(rec_match.group('ntp_offset')),
                 'rt_crystal_correction': float(rec_match.group('ntp_correction')),
                 'cpu_temp': float(rec_match.group('cpu_temperature')) if rec_match.group('cpu_temperature') else None,
+                'aircraft_counter_visible': int(rec_match.group('aircraft_counter_visible')) if rec_match.group('aircraft_counter_visible') else None,
+                'aircraft_counter_total': int(rec_match.group('aircraft_counter_total')) if rec_match.group('aircraft_counter_total') else None,
                 'rec_crystal_correction': int(rec_match.group('manual_correction')) if rec_match.group('manual_correction') else 0,
                 'rec_crystal_correction_fine': float(rec_match.group('automatic_correction')) if rec_match.group('automatic_correction') else 0.0,
-                'rec_input_noise': float(rec_match.group('input_noise')) if rec_match.group('input_noise') else None}
+                'rec_input_noise': float(rec_match.group('input_noise')) if rec_match.group('input_noise') else None,
+                'total_snr': float(rec_match.group('total_snr')) if rec_match.group('total_snr') else None,
+                'total_fixes': float(rec_match.group('total_fixes')) if rec_match.group('total_fixes') else None,
+                'daily_snr_selection': float(rec_match.group('daily_snr_selection')) if rec_match.group('daily_snr_selection') else None,
+                'daily_devices_selection': float(rec_match.group('daily_devices_selection')) if rec_match.group('daily_devices_selection') else None,
+                'daily_devices': float(rec_match.group('daily_devices')) if rec_match.group('daily_devices') else None}
     else:
         return None
 
