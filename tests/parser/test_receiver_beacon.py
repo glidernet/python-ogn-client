@@ -28,17 +28,17 @@ class TestStringMethods(unittest.TestCase):
 
     def test_v025(self):
         receiver_beacon = parse_ogn_receiver_beacon("v0.2.5.RPI-GPU CPU:0.8 RAM:287.3/458.7MB NTP:1.0ms/-6.4ppm +51.9C RF:+55+0.4ppm/-0.67dB/+10.8dB@10km[57282]")
-        self.assertEqual(receiver_beacon['total_snr'], 10.8)
-        self.assertEqual(receiver_beacon['total_fixes'], 57282)
+        self.assertEqual(receiver_beacon['senders_signal'], 10.8)
+        self.assertEqual(receiver_beacon['senders_messages'], 57282)
 
         receiver_beacon = parse_ogn_receiver_beacon("v0.2.5.ARM CPU:0.4 RAM:638.0/970.5MB NTP:0.2ms/-1.1ppm +65.5C 14/16Acfts[1h] RF:+45+0.0ppm/+3.88dB/+24.0dB@10km[143717]/+26.7dB@10km[68/135]")
-        self.assertEqual(receiver_beacon['aircraft_counter_visible'], 14)
-        self.assertEqual(receiver_beacon['aircraft_counter_total'], 16)
-        self.assertEqual(receiver_beacon['total_snr'], 24.0)
-        self.assertEqual(receiver_beacon['total_fixes'], 143717)
-        self.assertEqual(receiver_beacon['daily_snr_selection'], 26.7)
-        self.assertEqual(receiver_beacon['daily_devices_selection'], 68)
-        self.assertEqual(receiver_beacon['daily_devices'], 135)
+        self.assertEqual(receiver_beacon['senders_visible'], 14)
+        self.assertEqual(receiver_beacon['senders_total'], 16)
+        self.assertEqual(receiver_beacon['senders_signal'], 24.0)
+        self.assertEqual(receiver_beacon['senders_messages'], 143717)
+        self.assertEqual(receiver_beacon['good_senders_signal'], 26.7)
+        self.assertEqual(receiver_beacon['good_senders'], 68)
+        self.assertEqual(receiver_beacon['good_and_bad_senders'], 135)
 
 
 if __name__ == '__main__':

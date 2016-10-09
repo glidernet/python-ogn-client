@@ -36,17 +36,19 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
     \s)?
     CPU:(?P<cpu_load>[\d.]+)\s
     RAM:(?P<ram_free>[\d.]+)\/(?P<ram_total>[\d.]+)MB\s
-    NTP:(?P<ntp_offset>[\d.]+)ms\/(?P<ntp_correction>[+-][\d.]+)ppm\s?
+    NTP:(?P<ntp_offset>[\d.]+)ms\/(?P<ntp_correction>[+-][\d.]+)ppm\s
+    (?:(?P<voltage>[\d.]+)V\s)?
+    (?:(?P<amperage>[\d.]+)A\s)?
     (?:(?P<cpu_temperature>[+-][\d.]+)C\s*)?
-    (?:(?P<aircraft_counter_visible>\d+)\/(?P<aircraft_counter_total>\d+)Acfts\[1h\]\s*)?
+    (?:(?P<visible_senders>\d+)\/(?P<senders>\d+)Acfts\[1h\]\s*)?
     (?:RF:
         (?:
-            (?P<manual_correction>[+-][\d]+)
-            (?P<automatic_correction>[+-][\d.]+)ppm\/
+            (?P<rf_correction_manual>[+-][\d]+)
+            (?P<rf_correction_automatic>[+-][\d.]+)ppm\/
         )?
-        (?P<input_noise>[+-][\d.]+)dB
-        (?:\/(?P<total_snr>[+-][\d.]+)dB\@10km\[(?P<total_fixes>\d+)\])?
-        (?:\/(?P<daily_snr_selection>[+-][\d.]+)dB\@10km\[(?P<daily_devices_selection>\d+)\/(?P<daily_devices>\d+)\])?
+        (?P<signal>[+-][\d.]+)dB
+        (?:\/(?P<senders_signal>[+-][\d.]+)dB@10km\[(?P<senders_messages>\d+)\])?
+        (?:\/(?P<good_senders_signal>[+-][\d.]+)dB@10km\[(?P<good_senders>\d+)\/(?P<good_and_bad_senders>\d+)\])?
     )?
 """, re.VERBOSE | re.MULTILINE)
 
@@ -63,5 +65,6 @@ PATTERN_AIRCRAFT_BEACON = re.compile(r"""
     (?:s(?P<flarm_software_version>[\d.]+)\s?)?
     (?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?
     (?:r(?P<flarm_id>[\dA-F]+)\s?)?
+    (?:(?P<power>[+-][\d.]+)dBm\s?)?
     (?:hear(?P<proximity>.+))?
 """, re.VERBOSE | re.MULTILINE)

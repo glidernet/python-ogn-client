@@ -56,7 +56,8 @@ def parse_ogn_aircraft_beacon(aprs_comment):
                 'gps_status': ac_match.group('gps_accuracy'),
                 'software_version': float(ac_match.group('flarm_software_version')) if ac_match.group('flarm_software_version') else None,
                 'hardware_version': int(ac_match.group('flarm_hardware_version'), 16) if ac_match.group('flarm_hardware_version') else None,
-                'real_address': ac_match.group('flarm_id')}
+                'real_address': ac_match.group('flarm_id'),
+                'power': ac_match('power')}
     else:
         return None
 
@@ -72,16 +73,16 @@ def parse_ogn_receiver_beacon(aprs_comment):
                 'ntp_error': float(rec_match.group('ntp_offset')),
                 'rt_crystal_correction': float(rec_match.group('ntp_correction')),
                 'cpu_temp': float(rec_match.group('cpu_temperature')) if rec_match.group('cpu_temperature') else None,
-                'aircraft_counter_visible': int(rec_match.group('aircraft_counter_visible')) if rec_match.group('aircraft_counter_visible') else None,
-                'aircraft_counter_total': int(rec_match.group('aircraft_counter_total')) if rec_match.group('aircraft_counter_total') else None,
-                'rec_crystal_correction': int(rec_match.group('manual_correction')) if rec_match.group('manual_correction') else 0,
-                'rec_crystal_correction_fine': float(rec_match.group('automatic_correction')) if rec_match.group('automatic_correction') else 0.0,
-                'rec_input_noise': float(rec_match.group('input_noise')) if rec_match.group('input_noise') else None,
-                'total_snr': float(rec_match.group('total_snr')) if rec_match.group('total_snr') else None,
-                'total_fixes': float(rec_match.group('total_fixes')) if rec_match.group('total_fixes') else None,
-                'daily_snr_selection': float(rec_match.group('daily_snr_selection')) if rec_match.group('daily_snr_selection') else None,
-                'daily_devices_selection': float(rec_match.group('daily_devices_selection')) if rec_match.group('daily_devices_selection') else None,
-                'daily_devices': float(rec_match.group('daily_devices')) if rec_match.group('daily_devices') else None}
+                'senders_visible': int(rec_match.group('visible_senders')) if rec_match.group('visible_senders') else None,
+                'senders_total': int(rec_match.group('senders')) if rec_match.group('senders') else None,
+                'rec_crystal_correction': int(rec_match.group('rf_correction_manual')) if rec_match.group('rf_correction_manual') else 0,
+                'rec_crystal_correction_fine': float(rec_match.group('rf_correction_automatic')) if rec_match.group('rf_correction_automatic') else 0.0,
+                'rec_input_noise': float(rec_match.group('signal')) if rec_match.group('signal') else None,
+                'senders_signal': float(rec_match.group('senders_signal')) if rec_match.group('senders_signal') else None,
+                'senders_messages': float(rec_match.group('senders_messages')) if rec_match.group('senders_messages') else None,
+                'good_senders_signal': float(rec_match.group('good_senders_signal')) if rec_match.group('good_senders_signal') else None,
+                'good_senders': float(rec_match.group('good_senders')) if rec_match.group('good_senders') else None,
+                'good_and_bad_senders': float(rec_match.group('good_and_bad_senders')) if rec_match.group('good_and_bad_senders') else None}
     else:
         return None
 
