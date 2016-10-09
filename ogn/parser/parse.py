@@ -57,7 +57,7 @@ def parse_ogn_aircraft_beacon(aprs_comment):
                 'software_version': float(ac_match.group('flarm_software_version')) if ac_match.group('flarm_software_version') else None,
                 'hardware_version': int(ac_match.group('flarm_hardware_version'), 16) if ac_match.group('flarm_hardware_version') else None,
                 'real_address': ac_match.group('flarm_id'),
-                'power': ac_match('power')}
+                'power': ac_match.group('power')}
     else:
         return None
 
