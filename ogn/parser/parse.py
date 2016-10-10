@@ -65,9 +65,6 @@ def parse_ogn_aircraft_beacon(aprs_comment):
 def parse_ogn_receiver_beacon(aprs_comment):
     rec_match = re.search(PATTERN_RECEIVER_BEACON, aprs_comment)
     if rec_match:
-        print(rec_match.group('voltage'))
-        if rec_match.group('voltage'):
-            print(aprs_comment)
         return {'version': rec_match.group('version'),
                 'platform': rec_match.group('platform'),
                 'cpu_load': float(rec_match.group('cpu_load')),
