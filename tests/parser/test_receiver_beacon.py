@@ -27,7 +27,9 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(receiver_beacon['rec_input_noise'], 0.06)
 
     def test_v025(self):
-        receiver_beacon = parse_ogn_receiver_beacon("v0.2.5.RPI-GPU CPU:0.8 RAM:287.3/458.7MB NTP:1.0ms/-6.4ppm +51.9C RF:+55+0.4ppm/-0.67dB/+10.8dB@10km[57282]")
+        receiver_beacon = parse_ogn_receiver_beacon("v0.2.5.RPI-GPU CPU:0.8 RAM:287.3/458.7MB NTP:1.0ms/-6.4ppm 5.016V 0.534A +51.9C RF:+55+0.4ppm/-0.67dB/+10.8dB@10km[57282]")
+        self.assertEqual(receiver_beacon['voltage'], 5.016)
+        self.assertEqual(receiver_beacon['amperage'], 0.534)
         self.assertEqual(receiver_beacon['senders_signal'], 10.8)
         self.assertEqual(receiver_beacon['senders_messages'], 57282)
 
