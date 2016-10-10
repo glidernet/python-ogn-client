@@ -57,7 +57,7 @@ def parse_ogn_aircraft_beacon(aprs_comment):
                 'software_version': float(ac_match.group('flarm_software_version')) if ac_match.group('flarm_software_version') else None,
                 'hardware_version': int(ac_match.group('flarm_hardware_version'), 16) if ac_match.group('flarm_hardware_version') else None,
                 'real_address': ac_match.group('flarm_id'),
-                'power': ac_match.group('power')}
+                'power': float(ac_match.group('power')) if ac_match.group('power') else None}
     else:
         return None
 
@@ -65,6 +65,9 @@ def parse_ogn_aircraft_beacon(aprs_comment):
 def parse_ogn_receiver_beacon(aprs_comment):
     rec_match = re.search(PATTERN_RECEIVER_BEACON, aprs_comment)
     if rec_match:
+        print(rec_match.group('voltage'))
+        if rec_match.group('voltage'):
+            print(aprs_comment)
         return {'version': rec_match.group('version'),
                 'platform': rec_match.group('platform'),
                 'cpu_load': float(rec_match.group('cpu_load')),
@@ -72,6 +75,8 @@ def parse_ogn_receiver_beacon(aprs_comment):
                 'total_ram': float(rec_match.group('ram_total')),
                 'ntp_error': float(rec_match.group('ntp_offset')),
                 'rt_crystal_correction': float(rec_match.group('ntp_correction')),
+                'voltage': float(rec_match.group('voltage')) if rec_match.group('voltage') else None,
+                'amperage': float(rec_match.group('amperage')) if rec_match.group('amperage') else None,
                 'cpu_temp': float(rec_match.group('cpu_temperature')) if rec_match.group('cpu_temperature') else None,
                 'senders_visible': int(rec_match.group('visible_senders')) if rec_match.group('visible_senders') else None,
                 'senders_total': int(rec_match.group('senders')) if rec_match.group('senders') else None,

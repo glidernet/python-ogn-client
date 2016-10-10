@@ -44,6 +44,11 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(aircraft_beacon['flightlevel'], 4.43)
 
+    def test_v025(self):
+        aircraft_beacon = parse_ogn_aircraft_beacon("id06DDE28D +535fpm +3.8rot 11.5dB 0e -1.0kHz gps2x3 s6.01 h0C +7.4dBm")
+
+        self.assertEqual(aircraft_beacon['power'], 7.4)
+
 
 if __name__ == '__main__':
     unittest.main()
