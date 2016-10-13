@@ -50,14 +50,14 @@ def parse_ogn_aircraft_beacon(aprs_comment):
                 'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms,
                 'turn_rate': float(ac_match.group('turn_rate')),
                 'flightlevel': float(ac_match.group('flight_level')) if ac_match.group('flight_level') else None,
-                'signal_strength': float(ac_match.group('signal')),
+                'signal_quality': float(ac_match.group('signal_quality')),
                 'error_count': float(ac_match.group('errors')),
                 'frequency_offset': float(ac_match.group('frequency_offset')),
                 'gps_status': ac_match.group('gps_accuracy'),
                 'software_version': float(ac_match.group('flarm_software_version')) if ac_match.group('flarm_software_version') else None,
                 'hardware_version': int(ac_match.group('flarm_hardware_version'), 16) if ac_match.group('flarm_hardware_version') else None,
                 'real_address': ac_match.group('flarm_id'),
-                'power': float(ac_match.group('power')) if ac_match.group('power') else None}
+                'signal_power': float(ac_match.group('signal_power')) if ac_match.group('signal_power') else None}
     else:
         return None
 
