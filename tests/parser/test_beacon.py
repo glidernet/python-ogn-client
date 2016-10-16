@@ -38,7 +38,7 @@ class TestStringMethods(unittest.TestCase):
     def test_v025(self):
         # introduced the "aprs status" format where many informations (lat, lon, alt, speed, ...) are just optional
         raw_message = "EPZR>APRS,TCPIP*,qAC,GLIDERN1:>093456h this is a comment"
-        message = parse_aprs(raw_message)
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1, 9, 35, 29))
 
         self.assertEqual(message['name'], "EPZR")
         self.assertEqual(message['receiver_name'], "GLIDERN1")
