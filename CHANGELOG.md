@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
+- updated the parser for the 0.2.5 protocol
 
 ## 0.5.0 - 2016-09-29
 - Added aprs destination callsign as `dstcall` to aprs beacon keys (#9)

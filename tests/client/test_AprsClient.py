@@ -43,7 +43,6 @@ class OgnClientTest(unittest.TestCase):
         client.sock.shutdown.assert_called_once_with(0)
         client.sock.close.assert_called_once_with()
 
-    @unittest.skip("messages from rtlsdr_ogn v0.2.5 are not supported yet")
     def test_50_live_messages(self):
         print("Enter")
         self.remaining_messages = 50

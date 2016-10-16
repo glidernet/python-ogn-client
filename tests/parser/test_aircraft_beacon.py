@@ -15,7 +15,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(aircraft_beacon['address'], "DDA5BA")
         self.assertAlmostEqual(aircraft_beacon['climb_rate'] * ms2fpm, -454, 2)
         self.assertEqual(aircraft_beacon['turn_rate'], -1.1)
-        self.assertEqual(aircraft_beacon['signal_strength'], 8.8)
+        self.assertEqual(aircraft_beacon['signal_quality'], 8.8)
         self.assertEqual(aircraft_beacon['error_count'], 0)
         self.assertEqual(aircraft_beacon['frequency_offset'], 51.2)
         self.assertEqual(aircraft_beacon['gps_status'], '4x5')
@@ -43,6 +43,11 @@ class TestStringMethods(unittest.TestCase):
         aircraft_beacon = parse_ogn_aircraft_beacon("id07353800 +020fpm -14.0rot FL004.43 38.5dB 0e -2.9kHz")
 
         self.assertEqual(aircraft_beacon['flightlevel'], 4.43)
+
+    def test_v025(self):
+        aircraft_beacon = parse_ogn_aircraft_beacon("id06DDE28D +535fpm +3.8rot 11.5dB 0e -1.0kHz gps2x3 s6.01 h0C +7.4dBm")
+
+        self.assertEqual(aircraft_beacon['signal_power'], 7.4)
 
 
 if __name__ == '__main__':
