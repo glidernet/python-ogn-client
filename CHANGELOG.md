@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## Unreleased
+
+## 0.6.0 - 2016-10-21
 - parser: Added support for OGN v0.2.5 receiver beacons
 - parser: Changed keys to adopt naming from [ogn\_client-ruby](https://github.com/svoop/ogn_client-ruby)
 
