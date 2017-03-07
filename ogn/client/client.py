@@ -1,6 +1,6 @@
 import socket
 import logging
-from time import time
+from time import time, sleep
 
 from ogn.client import settings
 
@@ -83,3 +83,35 @@ class AprsClient:
                 self.connect()
             else:
                 return
+
+
+class TelnetClient:
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        self.logger.info("Connect to local telnet server")
+
+    def connect(self):
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((settings.TELNET_SERVER_HOST, settings.TELNET_SERVER_PORT))
+
+    def run(self, callback, autoreconnect=False):
+        while True:
+            try:
+                self.sock_file = self.sock.makefile(mode='rw', encoding='iso-8859-1')
+                while True:
+                    packet_str = self.sock_file.readline().strip()
+                    callback(packet_str)
+
+            except ConnectionRefusedError:
+                self.logger.error('Telnet server not running', exc_info=True)
+
+            if autoreconnect:
+                sleep(1)
+                self.connect()
+            else:
+                return
+
+    def disconnect(self):
+        self.logger.info('Disconnect')
+        self.sock.shutdown(0)
+        self.sock.close()
