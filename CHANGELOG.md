@@ -16,6 +16,7 @@
 - parser: Added support for ddhhmm time format (eg. '312359z')
 - parser: Added support for heared aircrafts
 - client: Allow client to do sequential connect-disconnect
+- parser: Added parser for local receiver output (port 50001)
 
 ## 0.7.1 - 2017-06-05
 - parser: Bugfix, error_count in aircraft beacon is a int
