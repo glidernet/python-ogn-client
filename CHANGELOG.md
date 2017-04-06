@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
+- parser: Added support for OGN v0.2.6 receiver and aircraft beacons
 
 ## 0.6.0 - 2016-10-21
 - parser: Added support for OGN v0.2.5 receiver beacons
