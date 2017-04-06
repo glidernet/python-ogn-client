@@ -47,13 +47,13 @@ def parse_ogn_aircraft_beacon(aprs_comment):
                 'aircraft_type': (int(ac_match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(ac_match.group('details'), 16) & 0b10000000) >> 7 == 1,
                 'address': ac_match.group('id'),
-                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms,
-                'turn_rate': float(ac_match.group('turn_rate')),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
+                'turn_rate': float(ac_match.group('turn_rate')) if ac_match.group('turn_rate') else None,
                 'flightlevel': float(ac_match.group('flight_level')) if ac_match.group('flight_level') else None,
-                'signal_quality': float(ac_match.group('signal_quality')),
-                'error_count': float(ac_match.group('errors')),
-                'frequency_offset': float(ac_match.group('frequency_offset')),
-                'gps_status': ac_match.group('gps_accuracy'),
+                'signal_quality': float(ac_match.group('signal_quality')) if ac_match.group('signal_quality') else None,
+                'error_count': float(ac_match.group('errors')) if ac_match.group('errors') else None,
+                'frequency_offset': float(ac_match.group('frequency_offset')) if ac_match.group('frequency_offset') else None,
+                'gps_status': ac_match.group('gps_accuracy') if ac_match.group('gps_accuracy') else None,
                 'software_version': float(ac_match.group('flarm_software_version')) if ac_match.group('flarm_software_version') else None,
                 'hardware_version': int(ac_match.group('flarm_hardware_version'), 16) if ac_match.group('flarm_hardware_version') else None,
                 'real_address': ac_match.group('flarm_id'),
@@ -90,6 +90,9 @@ def parse_ogn_receiver_beacon(aprs_comment):
 
 
 def parse_ogn_beacon(aprs_comment):
+    if not aprs_comment:
+        return {'beacon_type': 'receiver_beacon'}
+
     ac_data = parse_ogn_aircraft_beacon(aprs_comment)
     if ac_data:
         ac_data.update({'beacon_type': 'aircraft_beacon'})
