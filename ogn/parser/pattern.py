@@ -54,8 +54,8 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
 
 PATTERN_AIRCRAFT_BEACON = re.compile(r"""
     id(?P<details>\w{2})(?P<id>\w{6}?)
-    (?:\s(?P<climb_rate>[+-]\d+?)fpm)
-    (?:\s(?P<turn_rate>[+-][\d.]+?)rot)
+    (?:\s(?P<climb_rate>[+-]\d+?)fpm)?
+    (?:\s(?P<turn_rate>[+-][\d.]+?)rot)?
     (?:\sFL(?P<flight_level>[\d.]+))?
     (?:\s(?P<signal_quality>[\d.]+?)dB)?
     (?:\s(?P<errors>\d+)e)?

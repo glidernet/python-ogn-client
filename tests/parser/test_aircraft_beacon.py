@@ -50,9 +50,12 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(aircraft_beacon['signal_power'], 7.4)
 
     def test_v026(self):
-        # from 0.2.6 it is sufficent we have only the ID, climb and turn rate
-        aircraft_beacon = parse_ogn_aircraft_beacon("id093D0930 +000fpm +0.0rot")
-        self.assertIsNotNone(aircraft_beacon)
+        # from 0.2.6 it is sufficent we have only the ID, climb and turn rate or just the ID
+        aircraft_beacon_triple = parse_ogn_aircraft_beacon("id093D0930 +000fpm +0.0rot")
+        aircraft_beacon_single = parse_ogn_aircraft_beacon("id093D0930")
+
+        self.assertIsNotNone(aircraft_beacon_triple)
+        self.assertIsNotNone(aircraft_beacon_single)
 
 if __name__ == '__main__':
     unittest.main()
