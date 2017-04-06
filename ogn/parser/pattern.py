@@ -1,7 +1,7 @@
 import re
 
 
-PATTERN_APRS_POSITION = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):/(?P<time>\d{6})+h(?P<latitude>\d{4}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>\d{5}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<course_extension>(?P<course>\d{3})/(?P<ground_speed>\d{3}))?/A=(?P<altitude>\d{6})(?P<pos_extension>\s!W((?P<latitude_enhancement>\d)(?P<longitude_enhancement>\d))!)?\s(?P<comment>.*)$")
+PATTERN_APRS_POSITION = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):/(?P<time>\d{6})+h(?P<latitude>\d{4}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>\d{5}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<course_extension>(?P<course>\d{3})/(?P<ground_speed>\d{3}))?/A=(?P<altitude>\d{6})(?P<pos_extension>\s!W((?P<latitude_enhancement>\d)(?P<longitude_enhancement>\d))!)?(?:\s(?P<comment>.*))?$")
 PATTERN_APRS_STATUS = re.compile(r"(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):>(?P<time>\d{6})+h\s(?P<comment>.*)$")
 
 # The following regexp patterns are part of the ruby ogn-client.
@@ -52,19 +52,18 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
     )?
 """, re.VERBOSE | re.MULTILINE)
 
-
 PATTERN_AIRCRAFT_BEACON = re.compile(r"""
-    id(?P<details>\w{2})(?P<id>\w+?)\s
-    (?P<climb_rate>[+-]\d+?)fpm\s
-    (?P<turn_rate>[+-][\d.]+?)rot\s
-    (?:FL(?P<flight_level>[\d.]+)\s)?
-    (?P<signal_quality>[\d.]+?)dB\s
-    (?P<errors>\d+)e\s
-    (?P<frequency_offset>[+-][\d.]+?)kHz\s?
-    (?:gps(?P<gps_accuracy>\d+x\d+)\s?)?
-    (?:s(?P<flarm_software_version>[\d.]+)\s?)?
-    (?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?
-    (?:r(?P<flarm_id>[\dA-F]+)\s?)?
-    (?:(?P<signal_power>[+-][\d.]+)dBm\s?)?
-    (?:hear(?P<proximity>.+))?
+    id(?P<details>\w{2})(?P<id>\w{6}?)
+    (?:\s(?P<climb_rate>[+-]\d+?)fpm)?
+    (?:\s(?P<turn_rate>[+-][\d.]+?)rot)?
+    (?:\sFL(?P<flight_level>[\d.]+))?
+    (?:\s(?P<signal_quality>[\d.]+?)dB)?
+    (?:\s(?P<errors>\d+)e)?
+    (?:\s(?P<frequency_offset>[+-][\d.]+?)kHz)?
+    (?:\sgps(?P<gps_accuracy>\d+x\d+))?
+    (?:\ss(?P<flarm_software_version>[\d.]+))?
+    (?:\sh(?P<flarm_hardware_version>[\dA-F]{2}))?
+    (?:\sr(?P<flarm_id>[\dA-F]+))?
+    (?:\s(?P<signal_power>[+-][\d.]+)dBm)?
+    (?:\shear(?P<proximity>[\dA-F]{4}))?
 """, re.VERBOSE | re.MULTILINE)
