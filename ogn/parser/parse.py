@@ -92,7 +92,7 @@ def parse_ogn_receiver_beacon(aprs_comment):
 def parse_ogn_beacon(aprs_comment):
     if not aprs_comment:
         return {'beacon_type': 'receiver_beacon'}
-    
+
     ac_data = parse_ogn_aircraft_beacon(aprs_comment)
     if ac_data:
         ac_data.update({'beacon_type': 'aircraft_beacon'})
