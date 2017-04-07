@@ -68,6 +68,6 @@ PATTERN_AIRCRAFT_BEACON = re.compile(r"""
     (?:\sh(?P<flarm_hardware_version>[\dA-F]{2}))?
     (?:\sr(?P<flarm_id>[\dA-F]+))?
     (?:\s(?P<signal_power>[+-][\d.]+)dBm)?
-    (?:\shear(?P<proximity>[\dA-F]{4}))?
+    (?:\shear(?P<proximity>[\dA-F]{4})(?P<further_proximities>.*))?
     $
 """, re.VERBOSE | re.MULTILINE)

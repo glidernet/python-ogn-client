@@ -26,6 +26,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['ground_speed'], 49 * kts2kmh)
         self.assertAlmostEqual(message['altitude'] * m2feet, 5524, 5)
         self.assertEqual(message['comment'], "this is a comment")
+        self.assertEqual(message['beacon_type'], 'aircraft_beacon')
 
     def test_v024(self):
         # higher precision datum format introduced
@@ -51,6 +52,7 @@ class TestStringMethods(unittest.TestCase):
         message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1, 8, 56, 0))
 
         self.assertEqual(message['comment'], None)
+        self.assertEqual(message['beacon_type'], 'receiver_beacon')
 
 if __name__ == '__main__':
     unittest.main()

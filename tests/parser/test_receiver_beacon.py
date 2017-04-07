@@ -1,18 +1,20 @@
 import unittest
 
-from ogn.parser.parse import parse_ogn_receiver_beacon
+from ogn.parser.parse import parse_ogn_receiver_beacon, OgnParseError
 
 
 class TestStringMethods(unittest.TestCase):
     def test_fail_validation(self):
-        self.assertEqual(parse_ogn_receiver_beacon("notAValidToken"), None)
+        with self.assertRaises(OgnParseError):
+            parse_ogn_receiver_beacon("notAValidToken")
 
     def test(self):
         receiver_beacon = parse_ogn_receiver_beacon("CPU:0.7 RAM:247.9/456.4MB NTP:0.7ms/-11.4ppm +44.4C RF:+53+71.9ppm/+0.4dB")
         self.assertEqual(receiver_beacon['cpu_load'], 0.7)
         self.assertEqual(receiver_beacon['free_ram'], 247.9)
         self.assertEqual(receiver_beacon['total_ram'], 456.4)
-        
+        # self.assertEqual(receiver_beacon['ntp_offset'], 0.7)
+        # self.assertEqual(receiver_beacon['ntp_correction'], -11.4)
         self.assertEqual(receiver_beacon['cpu_temp'], 44.4)
         self.assertEqual(receiver_beacon['rec_crystal_correction'], 53)
         self.assertEqual(receiver_beacon['rec_crystal_correction_fine'], 71.9)

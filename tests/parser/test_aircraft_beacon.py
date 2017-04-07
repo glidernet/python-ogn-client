@@ -1,12 +1,13 @@
 import unittest
 
 from ogn.parser.utils import ms2fpm
-from ogn.parser.parse import parse_ogn_aircraft_beacon
+from ogn.parser.parse import parse_ogn_aircraft_beacon, OgnParseError
 
 
 class TestStringMethods(unittest.TestCase):
     def test_invalid_token(self):
-        self.assertEqual(parse_ogn_aircraft_beacon("notAValidToken"), None)
+        with self.assertRaises(OgnParseError):
+            parse_ogn_aircraft_beacon("notAValidToken")
 
     def test_basic(self):
         aircraft_beacon = parse_ogn_aircraft_beacon("id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084")
