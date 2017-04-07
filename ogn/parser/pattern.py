@@ -34,7 +34,7 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
     (?:
         v(?P<version>\d+\.\d+\.\d+)
         \.?(?P<platform>.+?)?
-    \s)?
+    )?
     (?:\s?CPU:(?P<cpu_load>[\d.]+))?
     (?:\sRAM:(?P<ram_free>[\d.]+)\/(?P<ram_total>[\d.]+)MB)?
     (?:\sNTP:(?P<ntp_offset>[\d.]+)ms\/(?P<ntp_correction>[+-][\d.]+)ppm)?
@@ -55,6 +55,7 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_AIRCRAFT_BEACON = re.compile(r"""
+    ^
     id(?P<details>\w{2})(?P<id>\w{6})
     (?:\s(?P<climb_rate>[+-]\d+)fpm)?
     (?:\s(?P<turn_rate>[+-][\d.]+)rot)?
@@ -68,4 +69,5 @@ PATTERN_AIRCRAFT_BEACON = re.compile(r"""
     (?:\sr(?P<flarm_id>[\dA-F]+))?
     (?:\s(?P<signal_power>[+-][\d.]+)dBm)?
     (?:\shear(?P<proximity>[\dA-F]{4}))?
+    $
 """, re.VERBOSE | re.MULTILINE)

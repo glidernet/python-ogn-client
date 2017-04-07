@@ -9,7 +9,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(parse_ogn_aircraft_beacon("notAValidToken"), None)
 
     def test_basic(self):
-        aircraft_beacon = parse_ogn_aircraft_beacon("id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
+        aircraft_beacon = parse_ogn_aircraft_beacon("id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084")
 
         self.assertFalse(aircraft_beacon['stealth'])
         self.assertEqual(aircraft_beacon['address'], "DDA5BA")
@@ -20,16 +20,19 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(aircraft_beacon['frequency_offset'], 51.2)
         self.assertEqual(aircraft_beacon['gps_status'], '4x5')
 
-        # self.assertEqual(len(aircraft_beacon['heared_aircraft_addresses']), 3)
-        # self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][0], '1084')
-        # self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][1], 'B597')
-        # self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][2], 'B598')
+    @unittest.skip('please update the pattern for multiple matches of a named group...')
+    def test_multiple_hear(self):
+        aircraft_beacon = parse_ogn_aircraft_beacon("id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
+        self.assertEqual(len(aircraft_beacon['heared_aircraft_addresses']), 3)
+        self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][0], '1084')
+        self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][1], 'B597')
+        self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][2], 'B598')
 
     def test_stealth(self):
-        aircraft_beacon = parse_ogn_aircraft_beacon("id0ADD1234 -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
+        aircraft_beacon = parse_ogn_aircraft_beacon("id0ADD1234 -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084")
         self.assertFalse(aircraft_beacon['stealth'])
 
-        aircraft_beacon = parse_ogn_aircraft_beacon("id8ADD1234 -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
+        aircraft_beacon = parse_ogn_aircraft_beacon("id8ADD1234 -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084")
         self.assertTrue(aircraft_beacon['stealth'])
 
     def test_v024(self):

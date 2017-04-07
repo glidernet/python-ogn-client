@@ -56,7 +56,7 @@ def parse_ogn_aircraft_beacon(aprs_comment):
                 'gps_status': ac_match.group('gps_accuracy') if ac_match.group('gps_accuracy') else None,
                 'software_version': float(ac_match.group('flarm_software_version')) if ac_match.group('flarm_software_version') else None,
                 'hardware_version': int(ac_match.group('flarm_hardware_version'), 16) if ac_match.group('flarm_hardware_version') else None,
-                'real_address': ac_match.group('flarm_id'),
+                'real_address': ac_match.group('flarm_id') if ac_match.group('flarm_id') else None,
                 'signal_power': float(ac_match.group('signal_power')) if ac_match.group('signal_power') else None}
     else:
         return None
@@ -65,13 +65,13 @@ def parse_ogn_aircraft_beacon(aprs_comment):
 def parse_ogn_receiver_beacon(aprs_comment):
     rec_match = re.search(PATTERN_RECEIVER_BEACON, aprs_comment)
     if rec_match:
-        return {'version': rec_match.group('version'),
-                'platform': rec_match.group('platform'),
-                'cpu_load': float(rec_match.group('cpu_load')),
-                'free_ram': float(rec_match.group('ram_free')),
-                'total_ram': float(rec_match.group('ram_total')),
-                'ntp_error': float(rec_match.group('ntp_offset')),
-                'rt_crystal_correction': float(rec_match.group('ntp_correction')),
+        return {'version': rec_match.group('version') if rec_match.group('version') else None,
+                'platform': rec_match.group('platform') if rec_match.group('platform') else None,
+                'cpu_load': float(rec_match.group('cpu_load')) if rec_match.group('cpu_load') else None,
+                'free_ram': float(rec_match.group('ram_free')) if rec_match.group('ram_free') else None,
+                'total_ram': float(rec_match.group('ram_total')) if rec_match.group('ram_total') else None,
+                'ntp_error': float(rec_match.group('ntp_offset')) if rec_match.group('ntp_offset') else None,
+                'rt_crystal_correction': float(rec_match.group('ntp_correction')) if rec_match.group('ntp_correction') else None,
                 'voltage': float(rec_match.group('voltage')) if rec_match.group('voltage') else None,
                 'amperage': float(rec_match.group('amperage')) if rec_match.group('amperage') else None,
                 'cpu_temp': float(rec_match.group('cpu_temperature')) if rec_match.group('cpu_temperature') else None,
