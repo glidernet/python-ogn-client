@@ -1,13 +1,9 @@
 import unittest
 
-from ogn.parser.parse import parse_ogn_receiver_beacon, OgnParseError
+from ogn.parser.parse import parse_ogn_receiver_beacon
 
 
 class TestStringMethods(unittest.TestCase):
-    def test_fail_validation(self):
-        with self.assertRaises(OgnParseError):
-            parse_ogn_receiver_beacon("notAValidToken")
-
     def test(self):
         receiver_beacon = parse_ogn_receiver_beacon("CPU:0.7 RAM:247.9/456.4MB NTP:0.7ms/-11.4ppm +44.4C RF:+53+71.9ppm/+0.4dB")
         self.assertEqual(receiver_beacon['cpu_load'], 0.7)
@@ -55,6 +51,9 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(receiver_beacon['good_senders'], 68)
         self.assertEqual(receiver_beacon['good_and_bad_senders'], 135)
 
+    def test_v026_unreleased(self):
+        receiver_beacon = parse_ogn_receiver_beacon("Antenna: chinese-collinear, 9dBi, on the shack roof, LNA")
+        self.assertEqual(receiver_beacon['additional_info'], "Antenna: chinese-collinear, 9dBi, on the shack roof, LNA")
 
 if __name__ == '__main__':
     unittest.main()

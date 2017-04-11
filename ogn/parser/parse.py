@@ -24,11 +24,10 @@ def parse_aprs(message, reference_date=None, reference_time=None):
                 'longitude': parseAngle(match_position.group('longitude') + (match_position.group('longitude_enhancement') or '0')) *
                 (-1 if match_position.group('longitude_sign') == 'W' else 1),
                 'symbolcode': match_position.group('symbol'),
-                'track': int(match_position.group('course')) if match_position.group('course_extension') else 0,
-                'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else 0,
+                'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
+                'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else None,
                 'altitude': int(match_position.group('altitude')) * feet2m,
-                'comment': match_position.group('comment'),
-                'beacon_type': 'receiver_beacon' if match_position.group('symbol_table') == 'I' and match_position.group('symbol') == '&' else 'aircraft_beacon'}
+                'comment': match_position.group('comment')}
 
     match_status = re.search(PATTERN_APRS_STATUS, message)
     if match_status:
@@ -36,8 +35,7 @@ def parse_aprs(message, reference_date=None, reference_time=None):
                 'receiver_name': match_status.group('receiver'),
                 'dstcall': match_status.group('dstcall'),
                 'timestamp': createTimestamp(match_status.group('time'), reference_date, reference_time),
-                'comment': match_status.group('comment'),
-                'beacon_type': 'receiver_beacon'}
+                'comment': match_status.group('comment')}
 
     raise AprsParseError(message)
 
@@ -79,8 +77,8 @@ def parse_ogn_receiver_beacon(aprs_comment):
                 'cpu_temp': float(rec_match.group('cpu_temperature')) if rec_match.group('cpu_temperature') else None,
                 'senders_visible': int(rec_match.group('visible_senders')) if rec_match.group('visible_senders') else None,
                 'senders_total': int(rec_match.group('senders')) if rec_match.group('senders') else None,
-                'rec_crystal_correction': int(rec_match.group('rf_correction_manual')) if rec_match.group('rf_correction_manual') else 0,
-                'rec_crystal_correction_fine': float(rec_match.group('rf_correction_automatic')) if rec_match.group('rf_correction_automatic') else 0.0,
+                'rec_crystal_correction': int(rec_match.group('rf_correction_manual')) if rec_match.group('rf_correction_manual') else None,
+                'rec_crystal_correction_fine': float(rec_match.group('rf_correction_automatic')) if rec_match.group('rf_correction_automatic') else None,
                 'rec_input_noise': float(rec_match.group('signal')) if rec_match.group('signal') else None,
                 'senders_signal': float(rec_match.group('senders_signal')) if rec_match.group('senders_signal') else None,
                 'senders_messages': float(rec_match.group('senders_messages')) if rec_match.group('senders_messages') else None,
@@ -94,7 +92,8 @@ def parse_ogn_receiver_beacon(aprs_comment):
 def parse(aprs_string, reference_date=None, reference_time=None):
     beacon = parse_aprs(aprs_string, reference_date, reference_time)
     if beacon['beacon_type'] == 'receiver_beacon':
-        beacon.update(parse_ogn_receiver_beacon(beacon['comment']))
+        if beacon['comment']:
+            beacon.update(parse_ogn_receiver_beacon(beacon['comment']))
         return beacon
     elif beacon['beacon_type'] == 'aircraft_beacon':
         beacon.update(parse_ogn_aircraft_beacon(beacon['comment']))
