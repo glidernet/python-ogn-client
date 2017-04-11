@@ -1,7 +1,7 @@
 import unittest
 import unittest.mock as mock
 
-from ogn.parser import parse_aprs, parse_ogn_beacon
+from ogn.parser import parse
 from ogn.client.client import create_aprs_login, AprsClient
 from ogn.client.settings import APRS_APP_NAME, APRS_APP_VER
 
@@ -50,8 +50,7 @@ class OgnClientTest(unittest.TestCase):
         def process_message(raw_message):
             if raw_message[0] == '#':
                 return
-            message = parse_aprs(raw_message)
-            message.update(parse_ogn_beacon(message['comment']))
+            parse(raw_message)
             if self.remaining_messages > 0:
                 self.remaining_messages -= 1
             else:
