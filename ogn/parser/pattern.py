@@ -1,7 +1,7 @@
 import re
 
 
-PATTERN_APRS_POSITION = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):/(?P<time>\d{6})+h(?P<latitude>\d{4}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>\d{5}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<course_extension>(?P<course>\d{3})/(?P<ground_speed>\d{3}))?/A=(?P<altitude>\d{6})(?P<pos_extension>\s!W((?P<latitude_enhancement>\d)(?P<longitude_enhancement>\d))!)?\s(?P<comment>.*)$")
+PATTERN_APRS_POSITION = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):/(?P<time>\d{6})+h(?P<latitude>\d{4}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>\d{5}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<course_extension>(?P<course>\d{3})/(?P<ground_speed>\d{3}))?/A=(?P<altitude>\d{6})(?P<pos_extension>\s!W((?P<latitude_enhancement>\d)(?P<longitude_enhancement>\d))!)?(?:\s(?P<comment>.*))?$")
 PATTERN_APRS_STATUS = re.compile(r"(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):>(?P<time>\d{6})+h\s(?P<comment>.*)$")
 
 # The following regexp patterns are part of the ruby ogn-client.
@@ -30,18 +30,19 @@ PATTERN_APRS_STATUS = re.compile(r"(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(
 # THE SOFTWARE.
 
 PATTERN_RECEIVER_BEACON = re.compile(r"""
+    ^
     (?:
         v(?P<version>\d+\.\d+\.\d+)
         \.?(?P<platform>.+?)?
-    \s)?
-    CPU:(?P<cpu_load>[\d.]+)\s
-    RAM:(?P<ram_free>[\d.]+)\/(?P<ram_total>[\d.]+)MB\s
-    NTP:(?P<ntp_offset>[\d.]+)ms\/(?P<ntp_correction>[+-][\d.]+)ppm\s
-    (?:(?P<voltage>[\d.]+)V\s)?
-    (?:(?P<amperage>[\d.]+)A\s)?
-    (?:(?P<cpu_temperature>[+-][\d.]+)C\s*)?
-    (?:(?P<visible_senders>\d+)\/(?P<senders>\d+)Acfts\[1h\]\s*)?
-    (?:RF:
+    )?
+    (?:\s?CPU:(?P<cpu_load>[\d.]+))?
+    (?:\sRAM:(?P<ram_free>[\d.]+)\/(?P<ram_total>[\d.]+)MB)?
+    (?:\sNTP:(?P<ntp_offset>[\d.]+)ms\/(?P<ntp_correction>[+-][\d.]+)ppm)?
+    (?:\s(?P<voltage>[\d.]+)V)?
+    (?:\s(?P<amperage>[\d.]+)A)?
+    (?:\s(?P<cpu_temperature>[+-][\d.]+)C)?
+    (?:\s(?P<visible_senders>\d+)\/(?P<senders>\d+)Acfts\[1h\])?
+    (?:\sRF:
         (?:
             (?P<rf_correction_manual>[+-][\d]+)
             (?P<rf_correction_automatic>[+-][\d.]+)ppm\/
@@ -50,21 +51,23 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
         (?:\/(?P<senders_signal>[+-][\d.]+)dB@10km\[(?P<senders_messages>\d+)\])?
         (?:\/(?P<good_senders_signal>[+-][\d.]+)dB@10km\[(?P<good_senders>\d+)\/(?P<good_and_bad_senders>\d+)\])?
     )?
+    $
 """, re.VERBOSE | re.MULTILINE)
 
-
 PATTERN_AIRCRAFT_BEACON = re.compile(r"""
-    id(?P<details>\w{2})(?P<id>\w+?)\s
-    (?P<climb_rate>[+-]\d+?)fpm\s
-    (?P<turn_rate>[+-][\d.]+?)rot\s
-    (?:FL(?P<flight_level>[\d.]+)\s)?
-    (?P<signal_quality>[\d.]+?)dB\s
-    (?P<errors>\d+)e\s
-    (?P<frequency_offset>[+-][\d.]+?)kHz\s?
-    (?:gps(?P<gps_accuracy>\d+x\d+)\s?)?
-    (?:s(?P<flarm_software_version>[\d.]+)\s?)?
-    (?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?
-    (?:r(?P<flarm_id>[\dA-F]+)\s?)?
-    (?:(?P<signal_power>[+-][\d.]+)dBm\s?)?
-    (?:hear(?P<proximity>.+))?
+    ^
+    id(?P<details>\w{2})(?P<id>\w{6})
+    (?:\s(?P<climb_rate>[+-]\d+)fpm)?
+    (?:\s(?P<turn_rate>[+-][\d.]+)rot)?
+    (?:\sFL(?P<flight_level>[\d.]+))?
+    (?:\s(?P<signal_quality>[\d.]+)dB)?
+    (?:\s(?P<errors>\d+)e)?
+    (?:\s(?P<frequency_offset>[+-][\d.]+)kHz)?
+    (?:\sgps(?P<gps_accuracy>\d+x\d+))?
+    (?:\ss(?P<flarm_software_version>[\d.]+))?
+    (?:\sh(?P<flarm_hardware_version>[\dA-F]{2}))?
+    (?:\sr(?P<flarm_id>[\dA-F]+))?
+    (?:\s(?P<signal_power>[+-][\d.]+)dBm)?
+    (?:\shear(?P<proximity>[\dA-F]{4})(?P<further_proximities>.*))?
+    $
 """, re.VERBOSE | re.MULTILINE)
