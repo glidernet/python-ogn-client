@@ -87,16 +87,3 @@ def parse_ogn_receiver_beacon(aprs_comment):
                 'good_and_bad_senders': float(rec_match.group('good_and_bad_senders')) if rec_match.group('good_and_bad_senders') else None}
     else:
         raise OgnParseError(aprs_comment)
-
-
-def parse(aprs_string, reference_date=None, reference_time=None):
-    beacon = parse_aprs(aprs_string, reference_date, reference_time)
-    if beacon['beacon_type'] == 'receiver_beacon':
-        if beacon['comment']:
-            beacon.update(parse_ogn_receiver_beacon(beacon['comment']))
-        return beacon
-    elif beacon['beacon_type'] == 'aircraft_beacon':
-        beacon.update(parse_ogn_aircraft_beacon(beacon['comment']))
-        return beacon
-    else:
-        raise TypeError('This must not happen')

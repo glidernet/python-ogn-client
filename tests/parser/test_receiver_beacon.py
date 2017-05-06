@@ -31,8 +31,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(receiver_beacon['free_ram'], 669.9)
         self.assertEqual(receiver_beacon['total_ram'], 887.7)
         self.assertEqual(receiver_beacon['ntp_error'], 1.0)
-        self.assertEqual(receiver_beacon['rec_crystal_correction'], 0.0)
-        self.assertEqual(receiver_beacon['rec_crystal_correction_fine'], 0.0)
+        self.assertEqual(receiver_beacon['rec_crystal_correction'], None)
+        self.assertEqual(receiver_beacon['rec_crystal_correction_fine'], None)
         self.assertEqual(receiver_beacon['rec_input_noise'], 0.06)
 
     def test_v025(self):
@@ -51,9 +51,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(receiver_beacon['good_senders'], 68)
         self.assertEqual(receiver_beacon['good_and_bad_senders'], 135)
 
-    def test_v026_unreleased(self):
-        receiver_beacon = parse_ogn_receiver_beacon("Antenna: chinese-collinear, 9dBi, on the shack roof, LNA")
-        self.assertEqual(receiver_beacon['additional_info'], "Antenna: chinese-collinear, 9dBi, on the shack roof, LNA")
 
 if __name__ == '__main__':
     unittest.main()
