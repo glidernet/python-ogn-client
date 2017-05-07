@@ -79,10 +79,10 @@ def parse_ogn_receiver_beacon(aprs_comment):
                 'senders_total': int(rec_match.group('senders')) if rec_match.group('senders') else None,
                 'rec_crystal_correction': int(rec_match.group('rf_correction_manual')) if rec_match.group('rf_correction_manual') else None,
                 'rec_crystal_correction_fine': float(rec_match.group('rf_correction_automatic')) if rec_match.group('rf_correction_automatic') else None,
-                'rec_input_noise': float(rec_match.group('signal')) if rec_match.group('signal') else None,
-                'senders_signal': float(rec_match.group('senders_signal')) if rec_match.group('senders_signal') else None,
+                'rec_input_noise': float(rec_match.group('signal_quality')) if rec_match.group('signal_quality') else None,
+                'senders_signal': float(rec_match.group('senders_signal_quality')) if rec_match.group('senders_signal_quality') else None,
                 'senders_messages': float(rec_match.group('senders_messages')) if rec_match.group('senders_messages') else None,
-                'good_senders_signal': float(rec_match.group('good_senders_signal')) if rec_match.group('good_senders_signal') else None,
+                'good_senders_signal': float(rec_match.group('good_senders_signal_quality')) if rec_match.group('good_senders_signal_quality') else None,
                 'good_senders': float(rec_match.group('good_senders')) if rec_match.group('good_senders') else None,
                 'good_and_bad_senders': float(rec_match.group('good_and_bad_senders')) if rec_match.group('good_and_bad_senders') else None}
     else:
