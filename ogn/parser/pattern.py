@@ -9,7 +9,7 @@ PATTERN_APRS_STATUS = re.compile(r"(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(
 
 # The MIT License (MIT)
 #
-# Copyright (c) 2015 Sven Schwyn
+# Copyright (c) 2015-2017 Sven Schwyn
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
