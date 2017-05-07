@@ -14,7 +14,8 @@ class TestStringMethods(unittest.TestCase):
             for line in f:
                 if not line[0] == '#':
                     aprs = parse_aprs(line, datetime(2015, 4, 10, 17, 0))
-                    parse_ogn_beacon(aprs['comment'])
+                    if aprs['comment']:
+                        parse_ogn_beacon(aprs['comment'])
 
     def test_fail_none(self):
         with self.assertRaises(TypeError):
