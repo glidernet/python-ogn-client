@@ -20,10 +20,13 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(aircraft_beacon['frequency_offset'], 51.2)
         self.assertEqual(aircraft_beacon['gps_status'], '4x5')
 
-        # self.assertEqual(len(aircraft_beacon['heared_aircraft_addresses']), 3)
-        # self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][0], '1084')
-        # self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][1], 'B597')
-        # self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][2], 'B598')
+    @unittest.skip("heared aircrafts not supported yet")
+    def test_hear(self):
+        aircraft_beacon = parse_ogn_aircraft_beacon("id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
+        self.assertEqual(len(aircraft_beacon['heared_aircraft_addresses']), 3)
+        self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][0], '1084')
+        self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][1], 'B597')
+        self.assertEqual(aircraft_beacon['heared_aircraft_addresses'][2], 'B598')
 
     def test_stealth(self):
         aircraft_beacon = parse_ogn_aircraft_beacon("id0ADD1234 -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
@@ -49,6 +52,13 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(aircraft_beacon['signal_power'], 7.4)
 
+    def test_v026(self):
+        # from 0.2.6 it is sufficent we have only the ID, climb and turn rate or just the ID
+        aircraft_beacon_triple = parse_ogn_aircraft_beacon("id093D0930 +000fpm +0.0rot")
+        aircraft_beacon_single = parse_ogn_aircraft_beacon("id093D0930")
+
+        self.assertIsNotNone(aircraft_beacon_triple)
+        self.assertIsNotNone(aircraft_beacon_single)
 
 if __name__ == '__main__':
     unittest.main()

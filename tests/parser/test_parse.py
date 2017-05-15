@@ -5,7 +5,7 @@ from datetime import datetime
 from time import sleep
 
 from ogn.parser.parse import parse_aprs, parse_ogn_beacon
-from ogn.parser.exceptions import AprsParseError, OgnParseError
+from ogn.parser.exceptions import AprsParseError
 
 
 class TestStringMethods(unittest.TestCase):
@@ -14,7 +14,8 @@ class TestStringMethods(unittest.TestCase):
             for line in f:
                 if not line[0] == '#':
                     aprs = parse_aprs(line, datetime(2015, 4, 10, 17, 0))
-                    parse_ogn_beacon(aprs['comment'])
+                    if aprs['comment']:
+                        parse_ogn_beacon(aprs['comment'])
 
     def test_fail_none(self):
         with self.assertRaises(TypeError):
@@ -27,18 +28,6 @@ class TestStringMethods(unittest.TestCase):
     def test_fail_bad_string(self):
         with self.assertRaises(AprsParseError):
             parse_aprs("Lachens>APRS,TCPIwontbeavalidstring")
-
-    def test_incomplete_device_string(self):
-        with self.assertRaises(OgnParseError):
-            aprs = parse_aprs("ICA4B0E3A>APRS,qAS,Letzi:/072319h4711.75N\\00802.59E^327/149/A=006498 id154B0E3A -395",
-                              datetime(2015, 4, 10, 7, 24))
-            parse_ogn_beacon(aprs['comment'])
-
-    def test_incomplete_receiver_string(self):
-        with self.assertRaises(OgnParseError):
-            aprs = parse_aprs("Lachens>APRS,TCPIP*,qAC,GLIDERN2:/165334h4344.70NI00639.19E&/A=005435 v0.2.1 CPU:0.3 RAM:1764.4/21",
-                              datetime(2015, 4, 10, 16, 54))
-            parse_ogn_beacon(aprs['comment'])
 
     @mock.patch('ogn.parser.parse.createTimestamp')
     def test_default_reference_date(self, createTimestamp_mock):

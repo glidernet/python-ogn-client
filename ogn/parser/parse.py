@@ -24,8 +24,8 @@ def parse_aprs(message, reference_date=None, reference_time=None):
                 'longitude': parseAngle(match_position.group('longitude') + (match_position.group('longitude_enhancement') or '0')) *
                 (-1 if match_position.group('longitude_sign') == 'W' else 1),
                 'symbolcode': match_position.group('symbol'),
-                'track': int(match_position.group('course')) if match_position.group('course_extension') else 0,
-                'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else 0,
+                'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
+                'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else None,
                 'altitude': int(match_position.group('altitude')) * feet2m,
                 'comment': match_position.group('comment')}
 
@@ -47,16 +47,16 @@ def parse_ogn_aircraft_beacon(aprs_comment):
                 'aircraft_type': (int(ac_match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(ac_match.group('details'), 16) & 0b10000000) >> 7 == 1,
                 'address': ac_match.group('id'),
-                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms,
-                'turn_rate': float(ac_match.group('turn_rate')),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
+                'turn_rate': float(ac_match.group('turn_rate')) if ac_match.group('turn_rate') else None,
                 'flightlevel': float(ac_match.group('flight_level')) if ac_match.group('flight_level') else None,
-                'signal_quality': float(ac_match.group('signal_quality')),
-                'error_count': float(ac_match.group('errors')),
-                'frequency_offset': float(ac_match.group('frequency_offset')),
-                'gps_status': ac_match.group('gps_accuracy'),
+                'signal_quality': float(ac_match.group('signal_quality')) if ac_match.group('signal_quality') else None,
+                'error_count': float(ac_match.group('errors')) if ac_match.group('signal_quality') else None,
+                'frequency_offset': float(ac_match.group('frequency_offset')) if ac_match.group('frequency_offset') else None,
+                'gps_status': ac_match.group('gps_accuracy') if ac_match.group('gps_accuracy') else None,
                 'software_version': float(ac_match.group('flarm_software_version')) if ac_match.group('flarm_software_version') else None,
                 'hardware_version': int(ac_match.group('flarm_hardware_version'), 16) if ac_match.group('flarm_hardware_version') else None,
-                'real_address': ac_match.group('flarm_id'),
+                'real_address': ac_match.group('flarm_id') if ac_match.group('flarm_id') else None,
                 'signal_power': float(ac_match.group('signal_power')) if ac_match.group('signal_power') else None}
     else:
         return None
@@ -77,12 +77,12 @@ def parse_ogn_receiver_beacon(aprs_comment):
                 'cpu_temp': float(rec_match.group('cpu_temperature')) if rec_match.group('cpu_temperature') else None,
                 'senders_visible': int(rec_match.group('visible_senders')) if rec_match.group('visible_senders') else None,
                 'senders_total': int(rec_match.group('senders')) if rec_match.group('senders') else None,
-                'rec_crystal_correction': int(rec_match.group('rf_correction_manual')) if rec_match.group('rf_correction_manual') else 0,
-                'rec_crystal_correction_fine': float(rec_match.group('rf_correction_automatic')) if rec_match.group('rf_correction_automatic') else 0.0,
-                'rec_input_noise': float(rec_match.group('signal')) if rec_match.group('signal') else None,
-                'senders_signal': float(rec_match.group('senders_signal')) if rec_match.group('senders_signal') else None,
+                'rec_crystal_correction': int(rec_match.group('rf_correction_manual')) if rec_match.group('rf_correction_manual') else None,
+                'rec_crystal_correction_fine': float(rec_match.group('rf_correction_automatic')) if rec_match.group('rf_correction_automatic') else None,
+                'rec_input_noise': float(rec_match.group('signal_quality')) if rec_match.group('signal_quality') else None,
+                'senders_signal': float(rec_match.group('senders_signal_quality')) if rec_match.group('senders_signal_quality') else None,
                 'senders_messages': float(rec_match.group('senders_messages')) if rec_match.group('senders_messages') else None,
-                'good_senders_signal': float(rec_match.group('good_senders_signal')) if rec_match.group('good_senders_signal') else None,
+                'good_senders_signal': float(rec_match.group('good_senders_signal_quality')) if rec_match.group('good_senders_signal_quality') else None,
                 'good_senders': float(rec_match.group('good_senders')) if rec_match.group('good_senders') else None,
                 'good_and_bad_senders': float(rec_match.group('good_and_bad_senders')) if rec_match.group('good_and_bad_senders') else None}
     else:

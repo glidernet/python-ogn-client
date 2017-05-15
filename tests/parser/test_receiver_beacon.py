@@ -22,9 +22,11 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(receiver_beacon['free_ram'], 669.9)
         self.assertEqual(receiver_beacon['total_ram'], 887.7)
         self.assertEqual(receiver_beacon['ntp_error'], 1.0)
-        self.assertEqual(receiver_beacon['rec_crystal_correction'], 0.0)
-        self.assertEqual(receiver_beacon['rec_crystal_correction_fine'], 0.0)
         self.assertEqual(receiver_beacon['rec_input_noise'], 0.06)
+
+        # parts not available set to None
+        self.assertEqual(receiver_beacon['rec_crystal_correction'], None)
+        self.assertEqual(receiver_beacon['rec_crystal_correction_fine'], None)
 
     def test_v025(self):
         receiver_beacon = parse_ogn_receiver_beacon("v0.2.5.RPI-GPU CPU:0.8 RAM:287.3/458.7MB NTP:1.0ms/-6.4ppm 5.016V 0.534A +51.9C RF:+55+0.4ppm/-0.67dB/+10.8dB@10km[57282]")
