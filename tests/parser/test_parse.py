@@ -17,9 +17,12 @@ class TestStringMethods(unittest.TestCase):
                     if aprs['comment']:
                         parse_ogn_beacon(aprs['comment'])
 
-    def test_fail_none(self):
+    def test_fail_parse_aprs_none(self):
         with self.assertRaises(TypeError):
             parse_aprs(None)
+
+    def test_parse_ogn_none(self):
+        parse_ogn_beacon(None)
 
     def test_fail_empty(self):
         with self.assertRaises(AprsParseError):
