@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## Unreleased
+
+## 0.7.1 - 2017-06-05
 - parser: Bugfix, error_count in aircraft beacon is a int
 
 ## 0.7.0 - 2017-06-04

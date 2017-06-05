@@ -28,5 +28,6 @@ class TestStringMethods(unittest.TestCase):
                 with self.assertRaises(AmbigousTimeError):
                     createTimestamp(test[0], reference_date=test[1], reference_time=test[2])
 
+
 if __name__ == '__main__':
     unittest.main()

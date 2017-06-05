@@ -60,5 +60,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertIsNotNone(aircraft_beacon_triple)
         self.assertIsNotNone(aircraft_beacon_single)
 
+
 if __name__ == '__main__':
     unittest.main()
