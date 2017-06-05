@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
+- parser: Bugfix, error_count in aircraft beacon is a int
 
 ## 0.7.0 - 2017-06-04
 - parser: Added support for OGN v0.2.6 aircraft and receiver beacons
