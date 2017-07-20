@@ -38,6 +38,8 @@ class AprsClient:
         self.sock.send(login.encode())
         self.sock_file = self.sock.makefile('rw')
 
+        self._kill = False
+
     def disconnect(self):
         self.logger.info('Disconnect')
         try:

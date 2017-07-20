@@ -44,6 +44,28 @@ class OgnClientTest(unittest.TestCase):
         client.sock.close.assert_called_once_with()
         self.assertTrue(client._kill)
 
+    def test_reset_kill_reconnect(self):
+        client = AprsClient(aprs_user='testuser', aprs_filter='')
+        client.connect()
+
+        # .run() should be allowed to execute after .connect()
+        mock_callback = mock.MagicMock(
+            side_effect=lambda raw_msg: client.disconnect())
+
+        self.assertFalse(client._kill)
+        client.run(callback=mock_callback, autoreconnect=True)
+
+        # After .disconnect(), client._kill should be True
+        self.assertTrue(client._kill)
+        mock_callback.assert_called_once()
+
+        # After we reconnect, .run() should be able to run again
+        mock_callback = mock.MagicMock(
+            side_effect=lambda raw_msg: client.disconnect())
+        client.connect()
+        client.run(callback=mock_callback, autoreconnect=True)
+        mock_callback.assert_called_once()
+
     def test_50_live_messages(self):
         print("Enter")
         self.remaining_messages = 50
