@@ -57,14 +57,13 @@ class OgnClientTest(unittest.TestCase):
 
         # After .disconnect(), client._kill should be True
         self.assertTrue(client._kill)
-        mock_callback.assert_called_once()
+        self.assertEqual(mock_callback.call_count, 1)
 
         # After we reconnect, .run() should be able to run again
-        mock_callback = mock.MagicMock(
-            side_effect=lambda raw_msg: client.disconnect())
+        mock_callback.reset_mock()
         client.connect()
         client.run(callback=mock_callback, autoreconnect=True)
-        mock_callback.assert_called_once()
+        self.assertEqual(mock_callback.call_count, 1)
 
     def test_50_live_messages(self):
         print("Enter")
