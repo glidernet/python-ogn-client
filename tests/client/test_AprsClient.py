@@ -42,6 +42,7 @@ class OgnClientTest(unittest.TestCase):
         client.disconnect()
         client.sock.shutdown.assert_called_once_with(0)
         client.sock.close.assert_called_once_with()
+        self.assertTrue(client._kill)
 
     def test_50_live_messages(self):
         print("Enter")

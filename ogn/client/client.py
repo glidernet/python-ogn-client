@@ -19,6 +19,8 @@ class AprsClient:
         self.aprs_user = aprs_user
         self.aprs_filter = aprs_filter
 
+        self._kill = False
+
     def connect(self):
         # create socket, connect to server, login and make a file object associated with the socket
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -45,11 +47,13 @@ class AprsClient:
         except OSError:
             self.logger.error('Socket close error', exc_info=True)
 
+        self._kill = True
+
     def run(self, callback, timed_callback=lambda client: None, autoreconnect=False):
-        while True:
+        while not self._kill:
             try:
                 keepalive_time = time()
-                while True:
+                while not self._kill:
                     if time() - keepalive_time > settings.APRS_KEEPALIVE_TIME:
                         self.logger.info('Send keepalive')
                         self.sock.send('#keepalive\n'.encode())
@@ -71,7 +75,7 @@ class AprsClient:
             except socket.error:
                 self.logger.error('socket.error', exc_info=True)
 
-            if autoreconnect:
+            if autoreconnect and not self._kill:
                 self.connect()
             else:
                 return
