@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
+- parser: Added support for heared aircrafts
 
 ## 0.7.1 - 2017-06-05
 - parser: Bugfix, error_count in aircraft beacon is a int
