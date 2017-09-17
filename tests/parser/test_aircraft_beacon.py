@@ -11,6 +11,8 @@ class TestStringMethods(unittest.TestCase):
     def test_basic(self):
         aircraft_beacon = parse_ogn_aircraft_beacon("id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
 
+        self.assertEqual(aircraft_beacon['address_type'], 2)
+        self.assertEqual(aircraft_beacon['aircraft_type'], 2)
         self.assertFalse(aircraft_beacon['stealth'])
         self.assertEqual(aircraft_beacon['address'], "DDA5BA")
         self.assertAlmostEqual(aircraft_beacon['climb_rate'] * ms2fpm, -454, 2)
@@ -19,9 +21,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(aircraft_beacon['error_count'], 0)
         self.assertEqual(aircraft_beacon['frequency_offset'], 51.2)
         self.assertEqual(aircraft_beacon['gps_status'], '4x5')
-
-    def test_hear(self):
-        aircraft_beacon = parse_ogn_aircraft_beacon("id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
         self.assertEqual(len(aircraft_beacon['proximity']), 3)
         self.assertEqual(aircraft_beacon['proximity'][0], '1084')
         self.assertEqual(aircraft_beacon['proximity'][1], 'B597')
