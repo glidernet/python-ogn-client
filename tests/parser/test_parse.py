@@ -10,13 +10,32 @@ from ogn.parser.exceptions import AprsParseError
 
 
 class TestStringMethods(unittest.TestCase):
-    def test_valid_beacons(self):
-        with open(os.path.dirname(__file__) + '/../valid_beacons.txt') as f:
+    def parse_valid_beacon_data_file(self, filename):
+        with open(os.path.dirname(__file__) + '/valid_beacon_data/' + filename) as f:
             for line in f:
                 if not line[0] == '#':
                     aprs = parse_aprs(line, datetime(2015, 4, 10, 17, 0))
+                    self.assertFalse(aprs is None)
                     if aprs['comment']:
                         parse_ogn_beacon(aprs['comment'])
+
+    def test_aprs_beacons(self):
+        self.parse_valid_beacon_data_file('aprs.txt')
+
+    def test_lt24_beacons(self):
+        self.parse_valid_beacon_data_file('lt24.txt')
+
+    def test_naviter_beacons(self):
+        self.parse_valid_beacon_data_file('naviter.txt')
+
+    def test_skylines_beacons(self):
+        self.parse_valid_beacon_data_file('skylines.txt')
+
+    def test_spider_beacons(self):
+        self.parse_valid_beacon_data_file('spider.txt')
+
+    def test_spot_beacons(self):
+        self.parse_valid_beacon_data_file('spot.txt')
 
     def test_fail_parse_aprs_none(self):
         with self.assertRaises(TypeError):
