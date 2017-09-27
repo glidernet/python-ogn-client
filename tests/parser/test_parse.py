@@ -1,5 +1,6 @@
 import unittest
 import unittest.mock as mock
+import os
 
 from datetime import datetime
 from time import sleep
@@ -10,7 +11,7 @@ from ogn.parser.exceptions import AprsParseError
 
 class TestStringMethods(unittest.TestCase):
     def test_valid_beacons(self):
-        with open('tests/valid_beacons.txt') as f:
+        with open(os.path.dirname(__file__) + '/../valid_beacons.txt') as f:
             for line in f:
                 if not line[0] == '#':
                     aprs = parse_aprs(line, datetime(2015, 4, 10, 17, 0))
