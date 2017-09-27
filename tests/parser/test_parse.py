@@ -17,7 +17,7 @@ class TestStringMethods(unittest.TestCase):
                     aprs = parse_aprs(line, datetime(2015, 4, 10, 17, 0))
                     self.assertFalse(aprs is None)
                     if aprs['comment']:
-                        parse_ogn_beacon(aprs['comment'])
+                        parse_ogn_beacon(aprs['comment'], dstcall=aprs['dstcall'])
 
     def test_aprs_beacons(self):
         self.parse_valid_beacon_data_file('aprs.txt')
