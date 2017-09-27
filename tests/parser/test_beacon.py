@@ -16,6 +16,7 @@ class TestStringMethods(unittest.TestCase):
         message = parse_aprs("FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 this is a comment",
                              reference_date=datetime(2015, 1, 1, 16, 8, 29))
         self.assertEqual(message['name'], "FLRDDA5BA")
+        self.assertEqual(message['dstcall'], "APRS")
         self.assertEqual(message['receiver_name'], "LFMX")
         self.assertEqual(message['timestamp'].strftime('%H:%M:%S'), "16:08:29")
         self.assertAlmostEqual(message['latitude'], 44.25683, 5)

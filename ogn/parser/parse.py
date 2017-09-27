@@ -15,8 +15,8 @@ def parse_aprs(message, reference_date=None, reference_time=None):
     match_position = re.search(PATTERN_APRS_POSITION, message)
     if match_position:
         return {'name': match_position.group('callsign'),
-                'receiver_name': match_position.group('receiver'),
                 'dstcall': match_position.group('dstcall'),
+                'receiver_name': match_position.group('receiver'),
                 'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
                 'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
                 (-1 if match_position.group('latitude_sign') == 'S' else 1),
@@ -32,8 +32,8 @@ def parse_aprs(message, reference_date=None, reference_time=None):
     match_status = re.search(PATTERN_APRS_STATUS, message)
     if match_status:
         return {'name': match_status.group('callsign'),
-                'receiver_name': match_status.group('receiver'),
                 'dstcall': match_status.group('dstcall'),
+                'receiver_name': match_status.group('receiver'),
                 'timestamp': createTimestamp(match_status.group('time'), reference_date, reference_time),
                 'comment': match_status.group('comment')}
 
