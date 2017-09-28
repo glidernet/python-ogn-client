@@ -3,6 +3,7 @@ from datetime import datetime
 
 from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m, fpm2ms
 from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_RECEIVER_BEACON, PATTERN_AIRCRAFT_BEACON
+from ogn.parser.pattern import PATTERN_NAVITER_BEACON
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 
@@ -95,7 +96,18 @@ def parse_lt24_beacon(aprs_comment):
 
 
 def parse_naviter_beacon(aprs_comment):
-    raise NotImplementedError("Naviter parser not implemented")
+    ac_match = re.search(PATTERN_NAVITER_BEACON, aprs_comment)
+    if ac_match:
+        return {'stealth': (int(ac_match.group('details'), 16) & 0b1000000000000000) >> 15 == 1,
+                'do_not_track': (int(ac_match.group('details'), 16) & 0b0100000000000000) >> 14 == 1,
+                'aircraft_type': (int(ac_match.group('details'), 16) & 0b0011110000000000) >> 10,
+                'address_type': (int(ac_match.group('details'), 16) & 0b0000001111110000) >> 4,
+                'reserved': (int(ac_match.group('details'), 16) & 0b0000000000001111),
+                'address': ac_match.group('id'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
+                'turn_rate': float(ac_match.group('turn_rate')) if ac_match.group('turn_rate') else None}
+    else:
+        raise OgnParseError(aprs_comment)
 
 
 def parse_skylines_beacon(aprs_comment):
