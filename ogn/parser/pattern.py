@@ -58,6 +58,7 @@ PATTERN_AIRCRAFT_BEACON = re.compile(r"""
     (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
     (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
     (?:FL(?P<flight_level>[\d.]+)\s)?
+    (?:id(?P<deviceID>[\d.]+)\s)?
     (?:(?P<signal_quality>[\d.]+?)dB\s)?
     (?:(?P<errors>\d+)e\s)?
     (?:(?P<frequency_offset>[+-][\d.]+?)kHz\s?)?

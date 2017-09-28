@@ -91,27 +91,57 @@ def parse_ogn_receiver_beacon(aprs_comment):
 
 
 def parse_lt24_beacon(aprs_comment):
-    raise NotImplementedError("LT24 parser not implemented")
-
+    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    if ac_match:
+        return {
+                'address': ac_match.group('deviceID'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
+		}
+    else:
+        return None
 
 def parse_naviter_beacon(aprs_comment):
     raise NotImplementedError("Naviter parser not implemented")
 
 
 def parse_skylines_beacon(aprs_comment):
-    raise NotImplementedError("Skylines parser not implemented")
+    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    if ac_match:
+        return {
+                'address': ac_match.group('deviceID'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
+		}
+    else:
+        return None
 
 
 def parse_spider_beacon(aprs_comment):
-    raise NotImplementedError("Spider parser not implemented")
+    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    if ac_match:
+        return {
+                'address': ac_match.group('deviceID'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
+                'signal_quality': float(ac_match.group('signal_quality')) if ac_match.group('signal_quality') else None,
+		}
+    else:
+        return None
 
 
 def parse_spot_beacon(aprs_comment):
-    raise NotImplementedError("SPOT parser not implemented")
+    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    if ac_match:
+        return {
+                'address': ac_match.group('deviceID'),
+		}
+    else:
+        return None
 
+
+def parse_capture_beacon(aprs_comment):
+        return None
 
 def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
-    if dstcall == "APRS":
+    if dstcall == "APRS" or dstcall == "OGNFLR" or dstcall == "OGNTRK":
         if not aprs_comment:
             return {'beacon_type': 'receiver_beacon'}
 
@@ -145,6 +175,10 @@ def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
     elif dstcall == "OGSPOT":
         ac_data = parse_spot_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'spot_beacon'})
+        return ac_data
+    elif dstcall == "OGCAPT":
+        ac_data = parse_capture_beacon(aprs_comment)
+        ac_data.update({'beacon_type': 'capture_beacon'})
         return ac_data
     else:
         raise ValueError("dstcall {} unknown".format(dstcall))
