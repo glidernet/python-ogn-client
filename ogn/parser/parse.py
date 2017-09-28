@@ -140,13 +140,17 @@ def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
             return rc_data
 
         raise OgnParseError(aprs_comment)
-    elif dstcall == "OGNFLR":
+    elif dstcall == "OGFLR":
         ac_data = parse_ogn_aircraft_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'aircraft_beacon'})
         return ac_data
     elif dstcall == "OGNTRK":
         ac_data = parse_ogn_aircraft_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'aircraft_beacon'})
+        return ac_data
+    elif dstcall == "OGNSDR":
+        ac_data = parse_ogn_receiver_beacon(aprs_comment)
+        ac_data.update({'beacon_type': 'receiver_beacon'})
         return ac_data
     elif dstcall == "OGLT24":
         ac_data = parse_lt24_beacon(aprs_comment)

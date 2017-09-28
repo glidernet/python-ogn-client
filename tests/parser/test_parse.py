@@ -26,6 +26,15 @@ class TestStringMethods(unittest.TestCase):
     def test_aprs_receiver_beacons(self):
         self.parse_valid_beacon_data_file(filename='aprs_receiver.txt', beacon_type='receiver_beacon')
 
+    def test_ogn_flarm_beacons(self):
+        self.parse_valid_beacon_data_file(filename='ogn_flarm.txt', beacon_type='aircraft_beacon')
+
+    def test_ogn_receiver_beacons(self):
+        self.parse_valid_beacon_data_file(filename='ogn_receiver.txt', beacon_type='receiver_beacon')
+
+    def test_ogn_tracker_beacons(self):
+        self.parse_valid_beacon_data_file(filename='ogn_tracker.txt', beacon_type='aircraft_beacon')
+
     def test_lt24_beacons(self):
         self.parse_valid_beacon_data_file(filename='lt24.txt', beacon_type='lt24_beacon')
 
