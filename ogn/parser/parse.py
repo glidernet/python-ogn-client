@@ -97,17 +97,14 @@ def parse_lt24_beacon(aprs_comment):
 
 def parse_naviter_beacon(aprs_comment):
     ac_match = re.search(PATTERN_NAVITER_BEACON, aprs_comment)
-    if ac_match:
-        return {'stealth': (int(ac_match.group('details'), 16) & 0b1000000000000000) >> 15 == 1,
-                'do_not_track': (int(ac_match.group('details'), 16) & 0b0100000000000000) >> 14 == 1,
-                'aircraft_type': (int(ac_match.group('details'), 16) & 0b0011110000000000) >> 10,
-                'address_type': (int(ac_match.group('details'), 16) & 0b0000001111110000) >> 4,
-                'reserved': (int(ac_match.group('details'), 16) & 0b0000000000001111),
-                'address': ac_match.group('id'),
-                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
-                'turn_rate': float(ac_match.group('turn_rate')) if ac_match.group('turn_rate') else None}
-    else:
-        raise OgnParseError(aprs_comment)
+    return {'stealth': (int(ac_match.group('details'), 16) & 0b1000000000000000) >> 15 == 1,
+            'do_not_track': (int(ac_match.group('details'), 16) & 0b0100000000000000) >> 14 == 1,
+            'aircraft_type': (int(ac_match.group('details'), 16) & 0b0011110000000000) >> 10,
+            'address_type': (int(ac_match.group('details'), 16) & 0b0000001111110000) >> 4,
+            'reserved': (int(ac_match.group('details'), 16) & 0b0000000000001111),
+            'address': ac_match.group('id'),
+            'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
+            'turn_rate': float(ac_match.group('turn_rate')) if ac_match.group('turn_rate') else None}
 
 
 def parse_skylines_beacon(aprs_comment):
@@ -120,6 +117,10 @@ def parse_spider_beacon(aprs_comment):
 
 def parse_spot_beacon(aprs_comment):
     raise NotImplementedError("SPOT parser not implemented")
+
+
+def parse_capture_beacon(aprs_comment):
+    raise NotImplementedError("Capture beacon parser not yet implemented")
 
 
 def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
