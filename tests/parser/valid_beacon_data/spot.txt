@@ -1,0 +1,10 @@
+# The following beacons are example for SPOT APRS format
+# source: https://github.com/glidernet/ogn-aprs-protocol
+#
+# id0-28... is a unique ID within the SPOT system.
+# SPOT2 is the Spot model
+# GOOD is the battery status or some other help messages.
+#
+ICA3E7540>OGSPOT,qAS,SPOT:/161427h1448.35S/04610.86W'000/000/A=008677 id0-2860357 SPOT3 GOOD
+ICA3E7540>OGSPOT,qAS,SPOT:/162923h1431.99S/04604.33W'000/000/A=006797 id0-2860357 SPOT3 GOOD
+ICA3E7540>OGSPOT,qAS,SPOT:/163421h1430.38S/04604.43W'000/000/A=007693 id0-2860357 SPOT3 GOOD

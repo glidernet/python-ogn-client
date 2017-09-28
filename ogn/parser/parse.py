@@ -15,8 +15,8 @@ def parse_aprs(message, reference_date=None, reference_time=None):
     match_position = re.search(PATTERN_APRS_POSITION, message)
     if match_position:
         return {'name': match_position.group('callsign'),
-                'receiver_name': match_position.group('receiver'),
                 'dstcall': match_position.group('dstcall'),
+                'receiver_name': match_position.group('receiver'),
                 'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
                 'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
                 (-1 if match_position.group('latitude_sign') == 'S' else 1),
@@ -32,8 +32,8 @@ def parse_aprs(message, reference_date=None, reference_time=None):
     match_status = re.search(PATTERN_APRS_STATUS, message)
     if match_status:
         return {'name': match_status.group('callsign'),
-                'receiver_name': match_status.group('receiver'),
                 'dstcall': match_status.group('dstcall'),
+                'receiver_name': match_status.group('receiver'),
                 'timestamp': createTimestamp(match_status.group('time'), reference_date, reference_time),
                 'comment': match_status.group('comment')}
 
@@ -90,18 +90,89 @@ def parse_ogn_receiver_beacon(aprs_comment):
         return None
 
 
-def parse_ogn_beacon(aprs_comment):
-    if not aprs_comment:
-        return {'beacon_type': 'receiver_beacon'}
+def parse_lt24_beacon(aprs_comment):
+    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    if ac_match:
+        return {'address': ac_match.group('deviceID'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None}
+    else:
+        return None
 
-    ac_data = parse_ogn_aircraft_beacon(aprs_comment)
-    if ac_data:
-        ac_data.update({'beacon_type': 'aircraft_beacon'})
+
+def parse_naviter_beacon(aprs_comment):
+    raise NotImplementedError("Naviter parser not implemented")
+
+
+def parse_skylines_beacon(aprs_comment):
+    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    if ac_match:
+        return {'address': ac_match.group('deviceID'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None}
+    else:
+        return None
+
+
+def parse_spider_beacon(aprs_comment):
+    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    if ac_match:
+        return {'address': ac_match.group('deviceID'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
+                'signal_quality': float(ac_match.group('signal_quality')) if ac_match.group('signal_quality') else None}
+    else:
+        return None
+
+
+def parse_spot_beacon(aprs_comment):
+    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    if ac_match:
+        return {'address': ac_match.group('deviceID')}
+    else:
+        return None
+
+
+def parse_capture_beacon(aprs_comment):
+        return None
+
+
+def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
+    if dstcall == "APRS" or dstcall == "OGNFLR" or dstcall == "OGNTRK":
+        if not aprs_comment:
+            return {'beacon_type': 'receiver_beacon'}
+
+        ac_data = parse_ogn_aircraft_beacon(aprs_comment)
+        if ac_data:
+            ac_data.update({'beacon_type': 'aircraft_beacon'})
+            return ac_data
+
+        rc_data = parse_ogn_receiver_beacon(aprs_comment)
+        if rc_data:
+            rc_data.update({'beacon_type': 'receiver_beacon'})
+            return rc_data
+
+        raise OgnParseError(aprs_comment)
+    elif dstcall == "OGLT24":
+        ac_data = parse_lt24_beacon(aprs_comment)
+        ac_data.update({'beacon_type': 'lt24_beacon'})
         return ac_data
-
-    rc_data = parse_ogn_receiver_beacon(aprs_comment)
-    if rc_data:
-        rc_data.update({'beacon_type': 'receiver_beacon'})
-        return rc_data
-
-    raise OgnParseError(aprs_comment)
+    elif dstcall == "OGNAVI":
+        ac_data = parse_naviter_beacon(aprs_comment)
+        ac_data.update({'beacon_type': 'naviter_beacon'})
+        return ac_data
+    elif dstcall == "OGSKYL":
+        ac_data = parse_skylines_beacon(aprs_comment)
+        ac_data.update({'beacon_type': 'skylines_beacon'})
+        return ac_data
+    elif dstcall == "OGSPID":
+        ac_data = parse_spider_beacon(aprs_comment)
+        ac_data.update({'beacon_type': 'spider_beacon'})
+        return ac_data
+    elif dstcall == "OGSPOT":
+        ac_data = parse_spot_beacon(aprs_comment)
+        ac_data.update({'beacon_type': 'spot_beacon'})
+        return ac_data
+    elif dstcall == "OGCAPT":
+        ac_data = parse_capture_beacon(aprs_comment)
+        ac_data.update({'beacon_type': 'capture_beacon'})
+        return ac_data
+    else:
+        raise ValueError("dstcall {} unknown".format(dstcall))
