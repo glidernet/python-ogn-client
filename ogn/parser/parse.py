@@ -17,6 +17,7 @@ def parse_aprs(message, reference_date=None, reference_time=None):
     if match_position:
         return {'name': match_position.group('callsign'),
                 'dstcall': match_position.group('dstcall'),
+                'relay': match_position.group('relay') if match_position.group('relay') else None,
                 'receiver_name': match_position.group('receiver'),
                 'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
                 'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
