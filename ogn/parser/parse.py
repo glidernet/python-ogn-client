@@ -93,12 +93,11 @@ def parse_ogn_receiver_beacon(aprs_comment):
 def parse_lt24_beacon(aprs_comment):
     ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
     if ac_match:
-        return {
-                'address': ac_match.group('deviceID'),
-                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
-		}
+        return {'address': ac_match.group('deviceID'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None}
     else:
         return None
+
 
 def parse_naviter_beacon(aprs_comment):
     raise NotImplementedError("Naviter parser not implemented")
@@ -107,10 +106,8 @@ def parse_naviter_beacon(aprs_comment):
 def parse_skylines_beacon(aprs_comment):
     ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
     if ac_match:
-        return {
-                'address': ac_match.group('deviceID'),
-                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
-		}
+        return {'address': ac_match.group('deviceID'),
+                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None}
     else:
         return None
 
@@ -118,11 +115,9 @@ def parse_skylines_beacon(aprs_comment):
 def parse_spider_beacon(aprs_comment):
     ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
     if ac_match:
-        return {
-                'address': ac_match.group('deviceID'),
+        return {'address': ac_match.group('deviceID'),
                 'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
-                'signal_quality': float(ac_match.group('signal_quality')) if ac_match.group('signal_quality') else None,
-		}
+                'signal_quality': float(ac_match.group('signal_quality')) if ac_match.group('signal_quality') else None}
     else:
         return None
 
@@ -130,15 +125,14 @@ def parse_spider_beacon(aprs_comment):
 def parse_spot_beacon(aprs_comment):
     ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
     if ac_match:
-        return {
-                'address': ac_match.group('deviceID'),
-		}
+        return {'address': ac_match.group('deviceID')}
     else:
         return None
 
 
 def parse_capture_beacon(aprs_comment):
         return None
+
 
 def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
     if dstcall == "APRS" or dstcall == "OGNFLR" or dstcall == "OGNTRK":
