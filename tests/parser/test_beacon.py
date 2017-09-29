@@ -28,6 +28,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertAlmostEqual(message['altitude'] * m2feet, 5524, 5)
         self.assertEqual(message['comment'], "this is a comment")
 
+        self.assertEqual(message['aprs_type'], 'position')
+
     def test_v024(self):
         # higher precision datum format introduced
         raw_message = "FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 !W26! id21400EA9 -2454fpm +0.9rot 19.5dB 0e -6.6kHz gps1x1 s6.02 h44 rDF0C56"
@@ -45,6 +47,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['receiver_name'], "GLIDERN1")
         self.assertEqual(message['timestamp'].strftime('%H:%M:%S'), "09:34:56")
         self.assertEqual(message['comment'], "this is a comment")
+
+        self.assertEqual(message['aprs_type'], 'status')
 
     def test_v026(self):
         # from 0.2.6 the ogn comment of a receiver beacon is just optional
