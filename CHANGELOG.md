@@ -2,6 +2,7 @@
 
 ## Unreleased
 - parser: Added support for heared aircrafts
+- parser: Added support for naviter beacons
 - client: Allow client to do sequential connect-disconnect
 
 ## 0.7.1 - 2017-06-05

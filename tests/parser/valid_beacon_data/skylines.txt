@@ -1,0 +1,6 @@
+# The following beacons are example for Skylines (XCsoar) APRS format
+# source: https://github.com/glidernet/ogn-aprs-protocol
+#
+# The id2816 is the Pilot ID from Skylines (XCsoar) and it is unique within the skyline system
+#
+FLRDDDD78>OGSKYL,qAS,SKYLINES:/134403h4225.90N/00144.83E'000/000/A=008438 id2816 +000fpm

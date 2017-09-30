@@ -16,6 +16,7 @@ class TestStringMethods(unittest.TestCase):
         message = parse_aprs("FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 this is a comment",
                              reference_date=datetime(2015, 1, 1, 16, 8, 29))
         self.assertEqual(message['name'], "FLRDDA5BA")
+        self.assertEqual(message['dstcall'], "APRS")
         self.assertEqual(message['receiver_name'], "LFMX")
         self.assertEqual(message['timestamp'].strftime('%H:%M:%S'), "16:08:29")
         self.assertAlmostEqual(message['latitude'], 44.25683, 5)
@@ -26,6 +27,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['ground_speed'], 49 * kts2kmh)
         self.assertAlmostEqual(message['altitude'] * m2feet, 5524, 5)
         self.assertEqual(message['comment'], "this is a comment")
+
+        self.assertEqual(message['aprs_type'], 'position')
 
     def test_v024(self):
         # higher precision datum format introduced
@@ -45,12 +48,21 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['timestamp'].strftime('%H:%M:%S'), "09:34:56")
         self.assertEqual(message['comment'], "this is a comment")
 
+        self.assertEqual(message['aprs_type'], 'status')
+
     def test_v026(self):
         # from 0.2.6 the ogn comment of a receiver beacon is just optional
         raw_message = "Ulrichamn>APRS,TCPIP*,qAC,GLIDERN1:/085616h5747.30NI01324.77E&/A=001322"
         message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1, 8, 56, 0))
 
         self.assertEqual(message['comment'], None)
+
+    def test_v026_relay(self):
+        # beacons can be relayed
+        raw_message = "FLRFFFFFF>OGNAVI,NAV07220E*,qAS,NAVITER:/092002h1000.00S/01000.00W'000/000/A=003281 !W00! id2820FFFFFF +300fpm +1.7rot"
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1, 8, 56, 0))
+
+        self.assertEqual(message['relay'], "NAV07220E")
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import unittest
 import unittest.mock as mock
+import os
 
 from datetime import datetime
 from time import sleep
@@ -9,13 +10,45 @@ from ogn.parser.exceptions import AprsParseError
 
 
 class TestStringMethods(unittest.TestCase):
-    def test_valid_beacons(self):
-        with open('tests/valid_beacons.txt') as f:
+    def parse_valid_beacon_data_file(self, filename, beacon_type):
+        with open(os.path.dirname(__file__) + '/valid_beacon_data/' + filename) as f:
             for line in f:
                 if not line[0] == '#':
                     aprs = parse_aprs(line, datetime(2015, 4, 10, 17, 0))
+                    self.assertFalse(aprs is None)
                     if aprs['comment']:
-                        parse_ogn_beacon(aprs['comment'])
+                        message = parse_ogn_beacon(aprs['comment'], dstcall=aprs['dstcall'])
+                        self.assertEqual(message['beacon_type'], beacon_type)
+
+    def test_aprs_aircraft_beacons(self):
+        self.parse_valid_beacon_data_file(filename='aprs_aircraft.txt', beacon_type='aircraft_beacon')
+
+    def test_aprs_receiver_beacons(self):
+        self.parse_valid_beacon_data_file(filename='aprs_receiver.txt', beacon_type='receiver_beacon')
+
+    def test_ogn_flarm_beacons(self):
+        self.parse_valid_beacon_data_file(filename='ogn_flarm.txt', beacon_type='aircraft_beacon')
+
+    def test_ogn_receiver_beacons(self):
+        self.parse_valid_beacon_data_file(filename='ogn_receiver.txt', beacon_type='receiver_beacon')
+
+    def test_ogn_tracker_beacons(self):
+        self.parse_valid_beacon_data_file(filename='ogn_tracker.txt', beacon_type='aircraft_beacon')
+
+    def test_lt24_beacons(self):
+        self.parse_valid_beacon_data_file(filename='lt24.txt', beacon_type='lt24_beacon')
+
+    def test_naviter_beacons(self):
+        self.parse_valid_beacon_data_file(filename='naviter.txt', beacon_type='naviter_beacon')
+
+    def test_skylines_beacons(self):
+        self.parse_valid_beacon_data_file(filename='skylines.txt', beacon_type='skylines_beacon')
+
+    def test_spider_beacons(self):
+        self.parse_valid_beacon_data_file(filename='spider.txt', beacon_type='spider_beacon')
+
+    def test_spot_beacons(self):
+        self.parse_valid_beacon_data_file(filename='spot.txt', beacon_type='spot_beacon')
 
     def test_fail_parse_aprs_none(self):
         with self.assertRaises(TypeError):
