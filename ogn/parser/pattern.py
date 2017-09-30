@@ -10,6 +10,60 @@ PATTERN_NAVITER_BEACON = re.compile("""
     (?P<turn_rate>[+-][\d.]+)rot
 """, re.VERBOSE | re.MULTILINE)
 
+PATTERN_TRACKER_BEACON_POSITION = re.compile("""
+    id(?P<details>\w{2})(?P<id>\w{6}?)\s?
+    (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
+    (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
+    (?:FL(?P<flight_level>[\d.]+)\s)?
+    (?:(?P<signal_quality>[\d.]+?)dB\s)?
+    (?:(?P<errors>\d+)e\s)?
+    (?:(?P<frequency_offset>[+-][\d.]+?)kHz\s?)?
+    (?:gps(?P<gps_accuracy>\d+x\d+)\s?)?
+    (?:s(?P<flarm_software_version>[\d.]+)\s?)?
+    (?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?
+""", re.VERBOSE | re.MULTILINE)
+
+PATTERN_TRACKER_BEACON_STATUS = re.compile("""
+    h(?P<wtf1>[\d]{2})\s
+    v(?P<wtf2>[\d]{2})\s
+    (?P<wtf3>[\d]+)sat/(?P<wtf4>\d)\s
+    (?P<wtf5>\d+)m\s
+    (?P<air_pressure>[\d.]+)hPa\s
+    (?P<temperature>[+-][\d.]+)degC\s
+    (?P<wtf8>\d+)%\s
+    (?P<voltage>[\d.]+)V\s
+    (?P<wtf9>\d+)/(?P<wtf10>[+-][\d.]+)dBm\s
+    (?P<wtf11>\d+)/min
+""", re.VERBOSE | re.MULTILINE)
+
+PATTERN_RECEIVER_POSITION = re.compile(r"""
+    (?:(?P<user_comment>.+))?
+""", re.VERBOSE | re.MULTILINE)
+
+PATTERN_RECEIVER_STATUS = re.compile("""
+    (?:
+        v(?P<version>\d+\.\d+\.\d+)
+        (?:\.(?P<platform>.+?))?
+    \s)?
+    CPU:(?P<cpu_load>[\d.]+)\s
+    RAM:(?P<ram_free>[\d.]+)/(?P<ram_total>[\d.]+)MB\s
+    NTP:(?P<ntp_offset>[\d.]+)ms/(?P<ntp_correction>[+-][\d.]+)ppm\s
+    (?:(?P<voltage>[\d.]+)V\s)?
+    (?:(?P<amperage>[\d.]+)A\s)?
+    (?:(?P<cpu_temperature>[+-][\d.]+)C\s*)?
+    (?:(?P<visible_senders>\d+)/(?P<senders>\d+)Acfts\[1h\]\s*)?
+    (?:RF:
+        (?:
+            (?P<rf_correction_manual>[+-][\d]+)
+            (?P<rf_correction_automatic>[+-][\d.]+)ppm/
+        )?
+        (?P<signal_quality>[+-][\d.]+)dB
+        (?:/(?P<senders_signal_quality>[+-][\d.]+)dB@10km\[(?P<senders_messages>\d+)\])?
+        (?:/(?P<good_senders_signal_quality>[+-][\d.]+)dB@10km\[(?P<good_senders>\d+)/(?P<good_and_bad_senders>\d+)\])?
+    )?
+""", re.VERBOSE | re.MULTILINE)
+
+
 # The following regexp patterns are part of the ruby ogn-client.
 # source: https://github.com/svoop/ogn_client-ruby
 

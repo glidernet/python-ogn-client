@@ -11,6 +11,10 @@ from ogn.parser.parse_lt24 import parse as parse_lt24_beacon
 from ogn.parser.parse_spider import parse as parse_spider_beacon
 from ogn.parser.parse_spot import parse as parse_spot_beacon
 from ogn.parser.parse_skylines import parse as parse_skylines_beacon
+from ogn.parser.parse_tracker import parse_position as parse_tracker_position
+from ogn.parser.parse_tracker import parse_status as parse_tracker_status
+from ogn.parser.parse_receiver import parse_position as parse_receiver_position
+from ogn.parser.parse_receiver import parse_status as parse_receiver_status
 
 
 def parse_aprs(message, reference_date=None, reference_time=None):
@@ -50,7 +54,7 @@ def parse_aprs(message, reference_date=None, reference_time=None):
     raise AprsParseError(message)
 
 
-def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
+def parse_ogn_beacon(aprs_comment, dstcall="APRS", aprs_type="position"):
     if dstcall == "APRS":   # this can be a receiver or an aircraft
         if not aprs_comment:
             return {'beacon_type': 'receiver_beacon'}
@@ -71,13 +75,21 @@ def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
         ac_data.update({'beacon_type': 'aircraft_beacon'})
         return ac_data
     elif dstcall == "OGNTRK":
-        ac_data = parse_aircraft_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'aircraft_beacon'})
-        return ac_data
+        if aprs_type == "position":
+            data = parse_tracker_position(aprs_comment)
+            data.update({'beacon_type': 'aircraft_beacon'})
+        elif aprs_type == "status":
+            data = parse_tracker_status(aprs_comment)
+            data.update({'beacon_type': 'aircraft_beacon'})
+        return data
     elif dstcall == "OGNSDR":
-        ac_data = parse_receiver_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'receiver_beacon'})
-        return ac_data
+        if aprs_type == "position":
+            data = parse_receiver_position(aprs_comment)
+            data.update({'beacon_type': 'receiver_beacon'})
+        elif aprs_type == "status":
+            data = parse_receiver_status(aprs_comment)
+            data.update({'beacon_type': 'receiver_beacon'})
+        return data
     elif dstcall == "OGLT24":
         ac_data = parse_lt24_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'lt24_beacon'})
