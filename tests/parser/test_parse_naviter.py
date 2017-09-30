@@ -1,12 +1,12 @@
 import unittest
 
 from ogn.parser.utils import ms2fpm
-from ogn.parser.parse import parse_naviter_beacon
+from ogn.parser.parse_naviter import parse
 
 
 class TestStringMethods(unittest.TestCase):
     def test_OGNAVI_1(self):
-        message = parse_naviter_beacon("id0440042121 +123fpm +0.5rot")
+        message = parse("id0440042121 +123fpm +0.5rot")
 
         # id0440042121 == 0b0000 0100 0100 0000 0000 0100 0010 0001 0010 0001
         # bit 0: stealth mode

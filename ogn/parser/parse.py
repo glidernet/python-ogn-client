@@ -1,10 +1,16 @@
 import re
 from datetime import datetime
 
-from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m, fpm2ms
-from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_RECEIVER_BEACON, PATTERN_AIRCRAFT_BEACON
-from ogn.parser.pattern import PATTERN_NAVITER_BEACON
+from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m
+from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS
 from ogn.parser.exceptions import AprsParseError, OgnParseError
+
+from ogn.parser.parse_ogn import parse_aircraft_beacon, parse_receiver_beacon
+from ogn.parser.parse_naviter import parse as parse_naviter_beacon
+from ogn.parser.parse_lt24 import parse as parse_lt24_beacon
+from ogn.parser.parse_spider import parse as parse_spider_beacon
+from ogn.parser.parse_spot import parse as parse_spot_beacon
+from ogn.parser.parse_skylines import parse as parse_skylines_beacon
 
 
 def parse_aprs(message, reference_date=None, reference_time=None):
@@ -44,114 +50,32 @@ def parse_aprs(message, reference_date=None, reference_time=None):
     raise AprsParseError(message)
 
 
-def parse_ogn_aircraft_beacon(aprs_comment):
-    ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
-    if ac_match:
-        return {'address_type': int(ac_match.group('details'), 16) & 0b00000011,
-                'aircraft_type': (int(ac_match.group('details'), 16) & 0b01111100) >> 2,
-                'stealth': (int(ac_match.group('details'), 16) & 0b10000000) >> 7 == 1,
-                'address': ac_match.group('id'),
-                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
-                'turn_rate': float(ac_match.group('turn_rate')) if ac_match.group('turn_rate') else None,
-                'flightlevel': float(ac_match.group('flight_level')) if ac_match.group('flight_level') else None,
-                'signal_quality': float(ac_match.group('signal_quality')) if ac_match.group('signal_quality') else None,
-                'error_count': int(ac_match.group('errors')) if ac_match.group('errors') else None,
-                'frequency_offset': float(ac_match.group('frequency_offset')) if ac_match.group('frequency_offset') else None,
-                'gps_status': ac_match.group('gps_accuracy') if ac_match.group('gps_accuracy') else None,
-                'software_version': float(ac_match.group('flarm_software_version')) if ac_match.group('flarm_software_version') else None,
-                'hardware_version': int(ac_match.group('flarm_hardware_version'), 16) if ac_match.group('flarm_hardware_version') else None,
-                'real_address': ac_match.group('flarm_id') if ac_match.group('flarm_id') else None,
-                'signal_power': float(ac_match.group('signal_power')) if ac_match.group('signal_power') else None,
-                'proximity': [hear[4:] for hear in ac_match.group('proximity').split(" ")] if ac_match.group('proximity') else None}
-    else:
-        return None
-
-
-def parse_ogn_receiver_beacon(aprs_comment):
-    rec_match = re.search(PATTERN_RECEIVER_BEACON, aprs_comment)
-    if rec_match:
-        return {'version': rec_match.group('version'),
-                'platform': rec_match.group('platform'),
-                'cpu_load': float(rec_match.group('cpu_load')),
-                'free_ram': float(rec_match.group('ram_free')),
-                'total_ram': float(rec_match.group('ram_total')),
-                'ntp_error': float(rec_match.group('ntp_offset')),
-                'rt_crystal_correction': float(rec_match.group('ntp_correction')),
-                'voltage': float(rec_match.group('voltage')) if rec_match.group('voltage') else None,
-                'amperage': float(rec_match.group('amperage')) if rec_match.group('amperage') else None,
-                'cpu_temp': float(rec_match.group('cpu_temperature')) if rec_match.group('cpu_temperature') else None,
-                'senders_visible': int(rec_match.group('visible_senders')) if rec_match.group('visible_senders') else None,
-                'senders_total': int(rec_match.group('senders')) if rec_match.group('senders') else None,
-                'rec_crystal_correction': int(rec_match.group('rf_correction_manual')) if rec_match.group('rf_correction_manual') else None,
-                'rec_crystal_correction_fine': float(rec_match.group('rf_correction_automatic')) if rec_match.group('rf_correction_automatic') else None,
-                'rec_input_noise': float(rec_match.group('signal_quality')) if rec_match.group('signal_quality') else None,
-                'senders_signal': float(rec_match.group('senders_signal_quality')) if rec_match.group('senders_signal_quality') else None,
-                'senders_messages': float(rec_match.group('senders_messages')) if rec_match.group('senders_messages') else None,
-                'good_senders_signal': float(rec_match.group('good_senders_signal_quality')) if rec_match.group('good_senders_signal_quality') else None,
-                'good_senders': float(rec_match.group('good_senders')) if rec_match.group('good_senders') else None,
-                'good_and_bad_senders': float(rec_match.group('good_and_bad_senders')) if rec_match.group('good_and_bad_senders') else None}
-    else:
-        return None
-
-
-def parse_lt24_beacon(aprs_comment):
-    raise NotImplementedError("LT24 parser not implemented")
-
-
-def parse_naviter_beacon(aprs_comment):
-    ac_match = re.search(PATTERN_NAVITER_BEACON, aprs_comment)
-    return {'stealth': (int(ac_match.group('details'), 16) & 0b1000000000000000) >> 15 == 1,
-            'do_not_track': (int(ac_match.group('details'), 16) & 0b0100000000000000) >> 14 == 1,
-            'aircraft_type': (int(ac_match.group('details'), 16) & 0b0011110000000000) >> 10,
-            'address_type': (int(ac_match.group('details'), 16) & 0b0000001111110000) >> 4,
-            'reserved': (int(ac_match.group('details'), 16) & 0b0000000000001111),
-            'address': ac_match.group('id'),
-            'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None,
-            'turn_rate': float(ac_match.group('turn_rate')) if ac_match.group('turn_rate') else None}
-
-
-def parse_skylines_beacon(aprs_comment):
-    raise NotImplementedError("Skylines parser not implemented")
-
-
-def parse_spider_beacon(aprs_comment):
-    raise NotImplementedError("Spider parser not implemented")
-
-
-def parse_spot_beacon(aprs_comment):
-    raise NotImplementedError("SPOT parser not implemented")
-
-
-def parse_capture_beacon(aprs_comment):
-    raise NotImplementedError("Capture beacon parser not yet implemented")
-
-
 def parse_ogn_beacon(aprs_comment, dstcall="APRS"):
     if dstcall == "APRS":   # this can be a receiver or an aircraft
         if not aprs_comment:
             return {'beacon_type': 'receiver_beacon'}
 
-        ac_data = parse_ogn_aircraft_beacon(aprs_comment)
+        ac_data = parse_aircraft_beacon(aprs_comment)
         if ac_data:
             ac_data.update({'beacon_type': 'aircraft_beacon'})
             return ac_data
 
-        rc_data = parse_ogn_receiver_beacon(aprs_comment)
+        rc_data = parse_receiver_beacon(aprs_comment)
         if rc_data:
             rc_data.update({'beacon_type': 'receiver_beacon'})
             return rc_data
 
         raise OgnParseError(aprs_comment)
     elif dstcall == "OGFLR":
-        ac_data = parse_ogn_aircraft_beacon(aprs_comment)
+        ac_data = parse_aircraft_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'aircraft_beacon'})
         return ac_data
     elif dstcall == "OGNTRK":
-        ac_data = parse_ogn_aircraft_beacon(aprs_comment)
+        ac_data = parse_aircraft_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'aircraft_beacon'})
         return ac_data
     elif dstcall == "OGNSDR":
-        ac_data = parse_ogn_receiver_beacon(aprs_comment)
+        ac_data = parse_receiver_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'receiver_beacon'})
         return ac_data
     elif dstcall == "OGLT24":
