@@ -64,6 +64,13 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(message['relay'], "NAV07220E")
 
+    def test_v027_ddhhmm(self):
+        # beacons can have hhmmss or ddhhmm timestamp
+        raw_message = "ICA4B0678>APRS,qAS,LSZF:/301046z4729.50N/00812.89E'227/091/A=002854 !W01! id054B0678 +040fpm +0.0rot 19.0dB 0e +1.5kHz gps1x1"
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1, 9, 35, 29))
+
+        self.assertEqual(message['timestamp'].strftime('%d %H:%M'), "30 10:46")
+
 
 if __name__ == '__main__':
     unittest.main()
