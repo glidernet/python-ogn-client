@@ -17,26 +17,25 @@ from ogn.parser.parse_receiver import parse_position as parse_receiver_position
 from ogn.parser.parse_receiver import parse_status as parse_receiver_status
 
 
-def parse_aprs(message, reference_date=None, reference_time=None):
+def parse(aprs_message, reference_date=None, reference_time=None):
     if reference_date is None:
         now = datetime.utcnow()
         reference_date = now.date()
         reference_time = now.time()
 
+    message = parse_aprs(aprs_message, reference_date, reference_time)
+    message.update(parse_comment(message['comment'], dstcall=message['dstcall'], aprs_type=message['aprs_type']))
+    return message
+
+
+def parse_aprs(message, reference_date=None, reference_time=None):
     match_position = re.search(PATTERN_APRS_POSITION, message)
     if match_position:
-        if match_position.group('time_hhmmss'):
-            timestamp = createTimestamp(match_position.group('time_hhmmss'), reference_date, reference_time)
-        else:
-            timestamp_ddmmhh = match_position.group('time_ddmmhh')
-            reference_date = reference_date.replace(day=int(timestamp_ddmmhh[:2]))
-            timestamp = createTimestamp(timestamp_ddmmhh[2:] + '00', reference_date)
-
         return {'name': match_position.group('callsign'),
                 'dstcall': match_position.group('dstcall'),
                 'relay': match_position.group('relay') if match_position.group('relay') else None,
                 'receiver_name': match_position.group('receiver'),
-                'timestamp': timestamp,
+                'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
                 'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
                 (-1 if match_position.group('latitude_sign') == 'S' else 1),
                 'symboltable': match_position.group('symbol_table'),
@@ -61,7 +60,7 @@ def parse_aprs(message, reference_date=None, reference_time=None):
     raise AprsParseError(message)
 
 
-def parse_ogn_beacon(aprs_comment, dstcall="APRS", aprs_type="position"):
+def parse_comment(aprs_comment, dstcall="APRS", aprs_type="position"):
     if dstcall == "APRS":   # this can be a receiver or an aircraft
         if not aprs_comment:
             return {'beacon_type': 'receiver_beacon'}
