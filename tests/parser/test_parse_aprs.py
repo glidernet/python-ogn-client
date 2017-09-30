@@ -55,7 +55,7 @@ class TestStringMethods(unittest.TestCase):
         raw_message = "Ulrichamn>APRS,TCPIP*,qAC,GLIDERN1:/085616h5747.30NI01324.77E&/A=001322"
         message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1, 8, 56, 0))
 
-        self.assertEqual(message['comment'], None)
+        self.assertEqual(message['comment'], '')
 
     def test_v026_relay(self):
         # beacons can be relayed

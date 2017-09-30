@@ -45,7 +45,7 @@ def parse_aprs(message, reference_date=None, reference_time=None):
                 'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
                 'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else None,
                 'altitude': int(match_position.group('altitude')) * feet2m,
-                'comment': match_position.group('comment'),
+                'comment': match_position.group('comment') if match_position.group('comment') else "",
                 'aprs_type': 'position'}
 
     match_status = re.search(PATTERN_APRS_STATUS, message)
@@ -54,7 +54,7 @@ def parse_aprs(message, reference_date=None, reference_time=None):
                 'dstcall': match_status.group('dstcall'),
                 'receiver_name': match_status.group('receiver'),
                 'timestamp': createTimestamp(match_status.group('time'), reference_date, reference_time),
-                'comment': match_status.group('comment'),
+                'comment': match_status.group('comment') if match_status.group('comment') else "",
                 'aprs_type': 'status'}
 
     raise AprsParseError(message)
