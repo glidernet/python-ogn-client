@@ -1,2 +1,3 @@
-from ogn.parser.parse import parse_aprs, parse_ogn_beacon, parse_receiver_beacon, parse_aircraft_beacon # flake8: noqa
+from ogn.parser import parse as parse_module    # only for test functions. Without this a mock of parse would mock the function instead of the module
+from ogn.parser.parse import parse, parse_aprs, parse_comment # flake8: noqa
 from ogn.parser.exceptions import ParseError, AprsParseError, OgnParseError, AmbigousTimeError # flake8: noqa

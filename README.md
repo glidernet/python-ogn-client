@@ -15,27 +15,25 @@ A full featured gateway with build-in database is provided by [ogn-python](https
 Parse APRS/OGN packet.
 
 ```
-from ogn.parser import parse_aprs, parse_ogn_beacon
+from ogn.parser import parse
 from datetime import date, time
 
-beacon = parse_aprs("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005524 id0ADDDEAD -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5",
-                    reference_date=date(2016,1,1), reference_time=time(11,46))
-beacon.update(parse_ogn_beacon(beacon['comment']))
+beacon = parse("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005524 id0ADDDEAD -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5",
+               reference_date=date(2016,1,1), reference_time=time(11,46))
 ```
 
 Connect to OGN and display all incoming beacons.
 
 ```
 from ogn.client import AprsClient
-from ogn.parser import parse_aprs, parse_ogn_beacon, ParseError
+from ogn.parser import parse, ParseError
 
 def process_beacon(raw_message):
     if raw_message[0] == '#':
         print('Server Status: {}'.format(raw_message))
         return
     try:
-        beacon = parse_aprs(raw_message)
-        beacon.update(parse_ogn_beacon(beacon['comment']))
+        beacon = parse(raw_message)
         print('Received {beacon_type} from {name}'.format(**beacon))
     except ParseError as e:
         print('Error, {}'.format(e.message))

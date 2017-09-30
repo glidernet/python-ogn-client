@@ -4,8 +4,11 @@ from ogn.parser.pattern import PATTERN_RECEIVER_POSITION, PATTERN_RECEIVER_STATU
 
 
 def parse_position(aprs_comment):
-    match = re.search(PATTERN_RECEIVER_POSITION, aprs_comment)
-    return {'user_comment': match.group('user_comment') if match.group('user_comment') else None}
+    if aprs_comment is None:
+        return {}
+    else:
+        match = re.search(PATTERN_RECEIVER_POSITION, aprs_comment)
+        return {'user_comment': match.group('user_comment') if match.group('user_comment') else None}
 
 
 def parse_status(aprs_comment):

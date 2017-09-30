@@ -16,8 +16,25 @@ def parseAngle(dddmmhht):
     return float(dddmmhht[:3]) + float(dddmmhht[3:]) / 60
 
 
-def createTimestamp(hhmmss, reference_date, reference_time=None):
-    packet_time = datetime.strptime(hhmmss, '%H%M%S').time()
+def createTimestamp(timestamp, reference_date, reference_time=None):
+    if timestamp[-1] == "z":
+        day = int(timestamp[0:2])
+        hhmm = timestamp[2:6]
+        if reference_date.day < day:
+            if reference_date.month == 1:
+                reference_date = reference_date.replace(year=reference_date.year - 1, month=12, day=day)
+            else:
+                reference_date = reference_date.replace(month=reference_date.month - 1, day=day)
+        else:
+            reference_date = reference_date.replace(day=day)
+        packet_time = datetime.strptime(hhmm, '%H%M').time()
+        return datetime.combine(reference_date, packet_time)
+    elif timestamp[-1] == "h":
+        hhmmss = timestamp[:-1]
+        packet_time = datetime.strptime(hhmmss, '%H%M%S').time()
+    else:
+        raise ValueError()
+
     if reference_time is None:
         return datetime.combine(reference_date, packet_time)
     else:
