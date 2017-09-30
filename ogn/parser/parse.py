@@ -25,11 +25,18 @@ def parse_aprs(message, reference_date=None, reference_time=None):
 
     match_position = re.search(PATTERN_APRS_POSITION, message)
     if match_position:
+        if match_position.group('time_hhmmss'):
+            timestamp = createTimestamp(match_position.group('time_hhmmss'), reference_date, reference_time)
+        else:
+            timestamp_ddmmhh = match_position.group('time_ddmmhh')
+            reference_date = reference_date.replace(day=int(timestamp_ddmmhh[:2]))
+            timestamp = createTimestamp(timestamp_ddmmhh[2:] + '00', reference_date)
+
         return {'name': match_position.group('callsign'),
                 'dstcall': match_position.group('dstcall'),
                 'relay': match_position.group('relay') if match_position.group('relay') else None,
                 'receiver_name': match_position.group('receiver'),
-                'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
+                'timestamp': timestamp,
                 'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
                 (-1 if match_position.group('latitude_sign') == 'S' else 1),
                 'symboltable': match_position.group('symbol_table'),
