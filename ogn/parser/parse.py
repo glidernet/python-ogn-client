@@ -74,8 +74,9 @@ def parse_comment(aprs_comment, dstcall="APRS", aprs_type="position"):
         if rc_data:
             rc_data.update({'beacon_type': 'receiver_beacon'})
             return rc_data
-
-        raise OgnParseError(aprs_comment)
+        else:
+            return {'user_comment': aprs_comment,
+                    'beacon_type': 'receiver_beacon'}
     elif dstcall == "OGFLR":
         ac_data = parse_aircraft_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'aircraft_beacon'})
@@ -117,4 +118,4 @@ def parse_comment(aprs_comment, dstcall="APRS", aprs_type="position"):
         ac_data.update({'beacon_type': 'spot_beacon'})
         return ac_data
     else:
-        raise ValueError("dstcall {} unknown".format(dstcall))
+        raise OgnParseError("No parser for dstcall {} found. APRS comment: {}".format(dstcall, aprs_comment))

@@ -63,6 +63,13 @@ class TestStringMethods(unittest.TestCase):
         with self.assertRaises(AprsParseError):
             parse("Lachens>APRS,TCPIwontbeavalidstring")
 
+    def test_v026_chile(self):
+        # receiver beacons from chile have a APRS position message with a pure user comment
+        raw_message = "VITACURA1>APRS,TCPIP*,qAC,GLIDERN4:/201146h3322.79SI07034.80W&/A=002329 Vitacura Municipal Aerodrome, Club de Planeadores Vitacura"
+        message = parse(raw_message)
+
+        self.assertEqual(message['user_comment'], "Vitacura Municipal Aerodrome, Club de Planeadores Vitacura")
+
     @mock.patch('ogn.parser.parse_module.createTimestamp')
     def test_default_reference_date(self, createTimestamp_mock):
         valid_aprs_string = "Lachens>APRS,TCPIP*,qAC,GLIDERN2:/165334h4344.70NI00639.19E&/A=005435 v0.2.1 CPU:0.3 RAM:1764.4/2121.4MB NTP:2.8ms/+4.9ppm +47.0C RF:+0.70dB"
