@@ -28,7 +28,7 @@ def parse(aprs_message, reference_date=None, reference_time=None):
     return message
 
 
-def parse_aprs(message, reference_date=None, reference_time=None):
+def parse_aprs(message, reference_date, reference_time=None):
     match_position = re.search(PATTERN_APRS_POSITION, message)
     if match_position:
         return {'name': match_position.group('callsign'),
