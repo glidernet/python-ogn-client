@@ -24,16 +24,16 @@ PATTERN_TRACKER_BEACON_POSITION = re.compile("""
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_TRACKER_BEACON_STATUS = re.compile("""
-    h(?P<wtf1>[\d]{2})\s
-    v(?P<wtf2>[\d]{2})\s
-    (?P<wtf3>[\d]+)sat/(?P<wtf4>\d)\s
-    (?P<wtf5>\d+)m\s
-    (?P<air_pressure>[\d.]+)hPa\s
+    h(?P<hardware_version>[\d]{2})\s
+    v(?P<software_version>[\d]{2})\s
+    (?P<gps_satellites>[\d]+)sat/(?P<gps_quality>\d)\s
+    (?P<gps_altitude>\d+)m\s
+    (?P<pressure>[\d.]+)hPa\s
     (?P<temperature>[+-][\d.]+)degC\s
-    (?P<wtf8>\d+)%\s
+    (?P<humidity>\d+)%\s
     (?P<voltage>[\d.]+)V\s
-    (?P<wtf9>\d+)/(?P<wtf10>[+-][\d.]+)dBm\s
-    (?P<wtf11>\d+)/min
+    (?P<transmitter_power>\d+)/(?P<noise_level>[+-][\d.]+)dBm\s
+    (?P<relays>\d+)/min
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_RECEIVER_POSITION = re.compile(r"""

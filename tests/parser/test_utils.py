@@ -9,7 +9,7 @@ class TestStringMethods(unittest.TestCase):
     def test_parseAngle(self):
         self.assertAlmostEqual(parseAngle('05048.30'), 50.805, 5)
 
-    def proceed_test_data(self, test_data):
+    def proceed_test_data(self, test_data={}):
         for test in test_data:
             if test[3]:
                 timestamp = createTimestamp(test[0], reference_date=test[1], reference_time=test[2])
