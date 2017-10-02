@@ -73,7 +73,8 @@ class AprsClientTest(unittest.TestCase):
             if raw_message[0] == '#':
                 return
             try:
-                parse(raw_message)
+                message = parse(raw_message)
+                print("{}: {}".format(message['beacon_type'], raw_message))
             except NotImplementedError as e:
                 print("{}: {}".format(e, raw_message))
                 return
