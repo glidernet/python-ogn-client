@@ -6,7 +6,7 @@ from ogn.client.client import create_aprs_login, AprsClient
 from ogn.client.settings import APRS_APP_NAME, APRS_APP_VER
 
 
-class OgnClientTest(unittest.TestCase):
+class AprsClientTest(unittest.TestCase):
     def test_create_aprs_login(self):
         basic_login = create_aprs_login('klaus', -1, 'myApp', '0.1')
         self.assertEqual('user klaus pass -1 vers myApp 0.1\n', basic_login)
@@ -25,7 +25,7 @@ class OgnClientTest(unittest.TestCase):
         client.connect()
         client.sock.send.assert_called_once_with('user testuser pass -1 vers {} {}\n'.format(
                                                  APRS_APP_NAME, APRS_APP_VER).encode('ascii'))
-        client.sock.makefile.asser_called_once_with('rw')
+        client.sock.makefile.assert_called_once_with('rw')
 
     @mock.patch('ogn.client.client.socket')
     def test_connect_client_defined_filter(self, mock_socket):
@@ -33,7 +33,7 @@ class OgnClientTest(unittest.TestCase):
         client.connect()
         client.sock.send.assert_called_once_with('user testuser pass -1 vers {} {} filter r/50.4976/9.9495/100\n'.format(
                                                  APRS_APP_NAME, APRS_APP_VER).encode('ascii'))
-        client.sock.makefile.asser_called_once_with('rw')
+        client.sock.makefile.assert_called_once_with('rw')
 
     @mock.patch('ogn.client.client.socket')
     def test_disconnect(self, mock_socket):
@@ -72,7 +72,12 @@ class OgnClientTest(unittest.TestCase):
         def process_message(raw_message):
             if raw_message[0] == '#':
                 return
-            parse(raw_message)
+            try:
+                message = parse(raw_message)
+                print("{}: {}".format(message['beacon_type'], raw_message))
+            except NotImplementedError as e:
+                print("{}: {}".format(e, raw_message))
+                return
             if self.remaining_messages > 0:
                 self.remaining_messages -= 1
             else:

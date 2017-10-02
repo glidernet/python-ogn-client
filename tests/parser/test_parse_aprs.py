@@ -10,7 +10,7 @@ from ogn.parser.exceptions import AprsParseError
 class TestStringMethods(unittest.TestCase):
     def test_fail_validation(self):
         with self.assertRaises(AprsParseError):
-            parse_aprs("notAValidString")
+            parse_aprs("notAValidString", reference_date=datetime(2015, 1, 1))
 
     def test_basic(self):
         message = parse_aprs("FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 this is a comment",
@@ -70,6 +70,13 @@ class TestStringMethods(unittest.TestCase):
         message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1, 9, 35, 29))
 
         self.assertEqual(message['timestamp'].strftime('%d %H:%M'), "30 10:46")
+
+    def test_negative_altitude(self):
+        # some devices can report negative altitudes
+        raw_message = "OGNF71F40>APRS,qAS,NAVITER:/080852h4414.37N/01532.06E'253/052/A=-00013 !W73! id1EF71F40 -060fpm +0.0rot"
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1))
+
+        self.assertAlmostEqual(message['altitude'] * m2feet, -13, 5)
 
 
 if __name__ == '__main__':
