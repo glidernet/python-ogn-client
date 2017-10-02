@@ -1,8 +1,11 @@
 # CHANGELOG
 
-## Unreleased
-- parser: Added support for heared aircrafts
+## 0.8.0 - 2017-10-02
+- parser: Merged function 'parse_aprs' and 'parse_ogn_beacon' to 'parse'
 - parser: Added support for OGNSDR (receiver), OGNTRK (ogn tracker), OGNFLR (flarm) and OGNAV (Naviter) beacons
+- parser: Added support for RELAYed messages
+- parser: Added support for ddmmss time format (eg. '312359z')
+- parser: Added support for heared aircrafts
 - client: Allow client to do sequential connect-disconnect
 
 ## 0.7.1 - 2017-06-05

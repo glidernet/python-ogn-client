@@ -30,6 +30,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
     keywords='gliding ogn',
     packages=['ogn.{}'.format(package) for package in find_packages(where='ogn')],
@@ -37,8 +38,8 @@ setup(
     extras_require={
         'dev': [
             'nose==1.3.7',
-            'coveralls==1.1',
-            'flake8==3.3.0'
+            'coveralls==1.2',
+            'flake8==3.4.1'
         ]
     },
     zip_safe=False
