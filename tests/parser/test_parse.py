@@ -65,8 +65,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_v026_chile(self):
         # receiver beacons from chile have a APRS position message with a pure user comment
-        raw_message = "VITACURA1>APRS,TCPIP*,qAC,GLIDERN4:/201146h3322.79SI07034.80W&/A=002329 Vitacura Municipal Aerodrome, Club de Planeadores Vitacura"
-        message = parse(raw_message)
+        message = parse("VITACURA1>APRS,TCPIP*,qAC,GLIDERN4:/201146h3322.79SI07034.80W&/A=002329 Vitacura Municipal Aerodrome, Club de Planeadores Vitacura", reference_date=datetime(2015, 1, 1))
 
         self.assertEqual(message['user_comment'], "Vitacura Municipal Aerodrome, Club de Planeadores Vitacura")
 
