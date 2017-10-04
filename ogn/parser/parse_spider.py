@@ -1,2 +1,5 @@
-def parse(aprs_comment):
-    raise NotImplementedError("Spider beacon parser not yet implemented")
+from ogn.parser.baseparser import BaseParser
+
+
+class OGSPID(BaseParser):
+    beacon_type = 'spider_beacon'

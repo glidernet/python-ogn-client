@@ -1,2 +1,5 @@
-def parse(aprs_comment):
-    raise NotImplementedError("SPOT beacon parser not yet implemented")
+from ogn.parser.baseparser import BaseParser
+
+
+class OGSPOT(BaseParser):
+    beacon_type = 'spot_beacon'

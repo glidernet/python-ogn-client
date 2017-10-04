@@ -5,16 +5,15 @@ from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m
 from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
-from ogn.parser.parse_ogn import parse_aircraft_beacon, parse_receiver_beacon
-from ogn.parser.parse_naviter import parse as parse_naviter_beacon
-from ogn.parser.parse_lt24 import parse as parse_lt24_beacon
-from ogn.parser.parse_spider import parse as parse_spider_beacon
-from ogn.parser.parse_spot import parse as parse_spot_beacon
-from ogn.parser.parse_skylines import parse as parse_skylines_beacon
-from ogn.parser.parse_tracker import parse_position as parse_tracker_position
-from ogn.parser.parse_tracker import parse_status as parse_tracker_status
-from ogn.parser.parse_receiver import parse_position as parse_receiver_position
-from ogn.parser.parse_receiver import parse_status as parse_receiver_status
+from ogn.parser.parse_ogn import APRS
+from ogn.parser.parse_lt24 import OGLT24
+from ogn.parser.parse_naviter import OGNAVI
+from ogn.parser.parse_flarm import OGFLR
+from ogn.parser.parse_tracker import OGNTRK
+from ogn.parser.parse_receiver import OGNSDR
+from ogn.parser.parse_skylines import OGSKYL
+from ogn.parser.parse_spider import OGSPID
+from ogn.parser.parse_spot import OGSPOT
 
 
 def parse(aprs_message, reference_date=None, reference_time=None):
@@ -62,60 +61,22 @@ def parse_aprs(message, reference_date, reference_time=None):
 
 def parse_comment(aprs_comment, dstcall="APRS", aprs_type="position"):
     if dstcall == "APRS":   # this can be a receiver or an aircraft
-        if not aprs_comment:
-            return {'beacon_type': 'receiver_beacon'}
-
-        ac_data = parse_aircraft_beacon(aprs_comment)
-        if ac_data:
-            ac_data.update({'beacon_type': 'aircraft_beacon'})
-            return ac_data
-
-        rc_data = parse_receiver_beacon(aprs_comment)
-        if rc_data:
-            rc_data.update({'beacon_type': 'receiver_beacon'})
-            return rc_data
-        else:
-            return {'user_comment': aprs_comment,
-                    'beacon_type': 'receiver_beacon'}
+        return APRS.parse(aprs_comment, aprs_type)
     elif dstcall == "OGFLR":
-        ac_data = parse_aircraft_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'aircraft_beacon'})
-        return ac_data
+        return OGFLR.parse(aprs_comment, aprs_type)
     elif dstcall == "OGNTRK":
-        if aprs_type == "position":
-            data = parse_tracker_position(aprs_comment)
-            data.update({'beacon_type': 'aircraft_beacon'})
-        elif aprs_type == "status":
-            data = parse_tracker_status(aprs_comment)
-            data.update({'beacon_type': 'aircraft_beacon'})
-        return data
+        return OGNTRK.parse(aprs_comment, aprs_type)
     elif dstcall == "OGNSDR":
-        if aprs_type == "position":
-            data = parse_receiver_position(aprs_comment)
-            data.update({'beacon_type': 'receiver_beacon'})
-        elif aprs_type == "status":
-            data = parse_receiver_status(aprs_comment)
-            data.update({'beacon_type': 'receiver_beacon'})
-        return data
+        return OGNSDR.parse(aprs_comment, aprs_type)
     elif dstcall == "OGLT24":
-        ac_data = parse_lt24_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'lt24_beacon'})
-        return ac_data
+        return OGLT24.parse(aprs_comment, aprs_type)
     elif dstcall == "OGNAVI":
-        ac_data = parse_naviter_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'naviter_beacon'})
-        return ac_data
+        return OGNAVI.parse(aprs_comment, aprs_type)
     elif dstcall == "OGSKYL":
-        ac_data = parse_skylines_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'skylines_beacon'})
-        return ac_data
+        return OGSKYL.parse(aprs_comment, aprs_type)
     elif dstcall == "OGSPID":
-        ac_data = parse_spider_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'spider_beacon'})
-        return ac_data
+        return OGSPID.parse(aprs_comment, aprs_type)
     elif dstcall == "OGSPOT":
-        ac_data = parse_spot_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'spot_beacon'})
-        return ac_data
+        return OGSPOT.parse(aprs_comment, aprs_type)
     else:
         raise OgnParseError("No parser for dstcall {} found. APRS comment: {}".format(dstcall, aprs_comment))

@@ -1,2 +1,5 @@
-def parse(aprs_comment):
-    raise NotImplementedError("LT24 beacon parser not yet implemented")
+from ogn.parser.baseparser import BaseParser
+
+
+class OGLT24(BaseParser):
+    beacon_type = 'lt24_beacon'
