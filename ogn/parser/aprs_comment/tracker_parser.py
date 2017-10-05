@@ -1,12 +1,14 @@
 import re
 
-from ogn.parser.baseparser import BaseParser
 from ogn.parser.pattern import PATTERN_TRACKER_BEACON_POSITION, PATTERN_TRACKER_BEACON_STATUS
 from ogn.parser.utils import fpm2ms
 
+from .base import BaseParser
 
-class OGNTRK(BaseParser):
-    beacon_type = "aircraft_beacon"
+
+class TrackerParser(BaseParser):
+    def __init__(self):
+        self.beacon_type = "aircraft_beacon"
 
     @staticmethod
     def parse_position(aprs_comment):

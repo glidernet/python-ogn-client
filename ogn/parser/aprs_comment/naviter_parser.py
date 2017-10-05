@@ -1,12 +1,14 @@
 import re
 
-from ogn.parser.baseparser import BaseParser
 from ogn.parser.pattern import PATTERN_NAVITER_BEACON
 from ogn.parser.utils import fpm2ms
 
+from .base import BaseParser
 
-class OGNAVI(BaseParser):
-    beacon_type = 'naviter_beacon'
+
+class NaviterParser(BaseParser):
+    def __init__(self):
+        self.beacon_type = 'naviter_beacon'
 
     @staticmethod
     def parse_position(aprs_comment):

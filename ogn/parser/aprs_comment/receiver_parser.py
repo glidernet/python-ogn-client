@@ -1,10 +1,14 @@
 import re
 
-from ogn.parser.baseparser import BaseParser
 from ogn.parser.pattern import PATTERN_RECEIVER_POSITION, PATTERN_RECEIVER_STATUS
 
+from .base import BaseParser
 
-class OGNSDR(BaseParser):
+
+class ReceiverParser(BaseParser):
+    def __init__(self):
+        self.beacon_type = 'receiver_beacon'
+
     @staticmethod
     def parse_position(aprs_comment):
         if aprs_comment is None:

@@ -2,21 +2,24 @@ import re
 
 from ogn.parser.utils import fpm2ms
 from ogn.parser.pattern import PATTERN_RECEIVER_BEACON, PATTERN_AIRCRAFT_BEACON
-from ogn.parser.baseparser import BaseParser
+
+from .base import BaseParser
 
 
-class APRS(BaseParser):
-    @staticmethod
-    def parse(aprs_comment, aprs_type):
+class OgnParser(BaseParser):
+    def __init__(self):
+        self.beacon_type = 'depends...'
+
+    def parse(self, aprs_comment, aprs_type):
         if not aprs_comment:
             return {'beacon_type': 'receiver_beacon'}
 
-        ac_data = APRS.parse_aircraft_beacon(aprs_comment)
+        ac_data = self.parse_aircraft_beacon(aprs_comment)
         if ac_data:
             ac_data.update({'beacon_type': 'aircraft_beacon'})
             return ac_data
 
-        rc_data = APRS.parse_receiver_beacon(aprs_comment)
+        rc_data = self.parse_receiver_beacon(aprs_comment)
         if rc_data:
             rc_data.update({'beacon_type': 'receiver_beacon'})
             return rc_data

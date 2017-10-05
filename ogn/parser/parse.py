@@ -5,15 +5,15 @@ from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m
 from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
-from ogn.parser.parse_ogn import APRS
-from ogn.parser.parse_lt24 import OGLT24
-from ogn.parser.parse_naviter import OGNAVI
-from ogn.parser.parse_flarm import OGFLR
-from ogn.parser.parse_tracker import OGNTRK
-from ogn.parser.parse_receiver import OGNSDR
-from ogn.parser.parse_skylines import OGSKYL
-from ogn.parser.parse_spider import OGSPID
-from ogn.parser.parse_spot import OGSPOT
+from ogn.parser.aprs_comment.ogn_parser import OgnParser
+from ogn.parser.aprs_comment.lt24_parser import LT24Parser
+from ogn.parser.aprs_comment.naviter_parser import NaviterParser
+from ogn.parser.aprs_comment.flarm_parser import FlarmParser
+from ogn.parser.aprs_comment.tracker_parser import TrackerParser
+from ogn.parser.aprs_comment.receiver_parser import ReceiverParser
+from ogn.parser.aprs_comment.skylines_parser import SkylinesParser
+from ogn.parser.aprs_comment.spider_parser import SpiderParser
+from ogn.parser.aprs_comment.spot_parser import SpotParser
 
 
 def parse(aprs_message, reference_date=None, reference_time=None):
@@ -59,24 +59,21 @@ def parse_aprs(message, reference_date, reference_time=None):
     raise AprsParseError(message)
 
 
-def parse_comment(aprs_comment, dstcall="APRS", aprs_type="position"):
-    if dstcall == "APRS":   # this can be a receiver or an aircraft
-        return APRS.parse(aprs_comment, aprs_type)
-    elif dstcall == "OGFLR":
-        return OGFLR.parse(aprs_comment, aprs_type)
-    elif dstcall == "OGNTRK":
-        return OGNTRK.parse(aprs_comment, aprs_type)
-    elif dstcall == "OGNSDR":
-        return OGNSDR.parse(aprs_comment, aprs_type)
-    elif dstcall == "OGLT24":
-        return OGLT24.parse(aprs_comment, aprs_type)
-    elif dstcall == "OGNAVI":
-        return OGNAVI.parse(aprs_comment, aprs_type)
-    elif dstcall == "OGSKYL":
-        return OGSKYL.parse(aprs_comment, aprs_type)
-    elif dstcall == "OGSPID":
-        return OGSPID.parse(aprs_comment, aprs_type)
-    elif dstcall == "OGSPOT":
-        return OGSPOT.parse(aprs_comment, aprs_type)
+dstcall_parser_mapping = {'APRS': OgnParser(),
+                          'OGFLR': FlarmParser(),
+                          'OGNTRK': TrackerParser(),
+                          'OGNSDR': ReceiverParser(),
+                          'OGLT24': LT24Parser(),
+                          'OGNAVI': NaviterParser(),
+                          'OGSKYL': SkylinesParser(),
+                          'OGSPID': SpiderParser(),
+                          'OGSPOT': SpotParser(),
+                          }
+
+
+def parse_comment(aprs_comment, dstcall='APRS', aprs_type="position"):
+    parser = dstcall_parser_mapping.get(dstcall)
+    if parser:
+        return parser.parse(aprs_comment, aprs_type)
     else:
         raise OgnParseError("No parser for dstcall {} found. APRS comment: {}".format(dstcall, aprs_comment))
