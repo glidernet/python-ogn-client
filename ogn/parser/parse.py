@@ -63,7 +63,7 @@ def parse_aprs(message, reference_date, reference_time=None):
 def parse_comment(aprs_comment, dstcall="APRS", aprs_type="position"):
     if dstcall == "APRS":   # this can be a receiver or an aircraft
         if not aprs_comment:
-            return {'beacon_type': 'r sued eceiver_beacon'}
+            return {'beacon_type': 'receiver_beacon'}
 
         ac_data = parse_aircraft_beacon(aprs_comment)
         if ac_data:
