@@ -11,7 +11,7 @@ from ogn.parser.exceptions import AprsParseError
 
 class TestStringMethods(unittest.TestCase):
     def parse_valid_beacon_data_file(self, filename, beacon_type):
-        with open(os.path.dirname(__file__) + '/valid_beacon_data/' + filename) as f:
+        with open(os.path.dirname(__file__) + './valid_beacon_data/' + filename) as f:
             for line in f:
                 if not line[0] == '#':
                     try:
