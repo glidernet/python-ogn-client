@@ -118,4 +118,4 @@ def parse_comment(aprs_comment, dstcall="APRS", aprs_type="position"):
         ac_data.update({'beacon_type': 'spot_beacon'})
         return ac_data
     else:
-	    raise OgnParseError("No parser for dstcall {} found. APRS comment: {}".format(dstcall, aprs_comment))
+        raise OgnParseError("No parser for dstcall {} found. APRS comment: {}".format(dstcall, aprs_comment))
