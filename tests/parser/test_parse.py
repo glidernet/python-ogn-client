@@ -20,6 +20,11 @@ class TestStringMethods(unittest.TestCase):
                         self.assertEqual(message['beacon_type'], beacon_type)
                     except NotImplementedError as e:
                         print(e)
+                    aprs = parse_aprs(line, datetime(2015, 4, 10, 17, 0))
+                    self.assertFalse(aprs is None)
+                    if aprs['comment']:
+                        message = parse_ogn_beacon(aprs['comment'], dstcall=aprs['dstcall'])
+                        self.assertEqual(message['beacon_type'], beacon_type)
 
     def test_aprs_aircraft_beacons(self):
         self.parse_valid_beacon_data_file(filename='aprs_aircraft.txt', beacon_type='aircraft_beacon')

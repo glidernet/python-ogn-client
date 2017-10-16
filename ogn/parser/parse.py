@@ -11,7 +11,6 @@ from ogn.parser.parse_lt24 import parse as parse_lt24_beacon
 from ogn.parser.parse_spider import parse as parse_spider_beacon
 from ogn.parser.parse_spot import parse as parse_spot_beacon
 from ogn.parser.parse_skylines import parse as parse_skylines_beacon
-from ogn.parser.parse_capture import parse as parse_capture_beacon
 from ogn.parser.parse_tracker import parse_position as parse_tracker_position
 from ogn.parser.parse_tracker import parse_status as parse_tracker_status
 from ogn.parser.parse_receiver import parse_position as parse_receiver_position
@@ -118,9 +117,5 @@ def parse_comment(aprs_comment, dstcall="APRS", aprs_type="position"):
         ac_data = parse_spot_beacon(aprs_comment)
         ac_data.update({'beacon_type': 'spot_beacon'})
         return ac_data
-    elif dstcall == "OGCAPT":
-        ac_data = parse_capture_beacon(aprs_comment)
-        ac_data.update({'beacon_type': 'capture_beacon'})
-        return ac_data
     else:
-        raise OgnParseError("No parser for dstcall {} found. APRS comment: {}".format(dstcall, aprs_comment))
+	raise OgnParseError("No parser for dstcall {} found. APRS comment: {}".format(dstcall, aprs_comment))

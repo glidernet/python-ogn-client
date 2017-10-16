@@ -78,6 +78,13 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertAlmostEqual(message['altitude'] * m2feet, -13, 5)
 
+    def test_v026_relay(self):
+        # beacons can be relayed
+        raw_message = "FLRFFFFFF>OGNAVI,NAV07220E*,qAS,NAVITER:/092002h1000.00S/01000.00W'000/000/A=003281 !W00! id2820FFFFFF +300fpm +1.7rot"
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1, 8, 56, 0))
+
+        self.assertEqual(message['relay'], "NAV07220E")
+
 
 if __name__ == '__main__':
     unittest.main()
