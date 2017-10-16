@@ -1,4 +1,4 @@
-mport re
+import re
 
 from ogn.parser.utils import fpm2ms
 from ogn.parser.pattern import PATTERN_NAVITER_BEACON
