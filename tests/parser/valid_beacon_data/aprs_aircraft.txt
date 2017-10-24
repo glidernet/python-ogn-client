@@ -1,6 +1,7 @@
 # Until OGN software 0.2.6 all beacons (flarms, ogn trackers and receivers) have the dstcall "APRS"
 # These are example beacons for flarms and ogn trackers
 #
+# aprsc 2.0.14-g28c5a6a 10 Apr 2015 18:58:47 GMT GLIDERN1 37.187.40.234:14580
 FLRDDA5BA>APRS,qAS,LFMX:/165829h4415.41N/00600.03E'342/049/A=005524 id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5
 ICA4B0E3A>APRS,qAS,Letzi:/165319h4711.75N\00802.59E^327/149/A=006498 id154B0E3A -3959fpm +0.5rot 9.0dB 0e -6.3kHz gps1x3
 FLRDDB091>APRS,qAS,Letzi:/165831h4740.04N/00806.01EX152/124/A=004881 id06DD8E80 +198fpm +0.0rot 6.5dB 13e +4.0kHz gps3x4
