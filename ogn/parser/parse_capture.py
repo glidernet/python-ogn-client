@@ -1,2 +1,2 @@
 def parse(aprs_comment):
-    return {"Capture" : "YES"}
+    return {"Capture":"YES"}
