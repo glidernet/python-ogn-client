@@ -9,4 +9,4 @@ def parse(aprs_comment):
     if ac_match:
         return {'address': ac_match.group('deviceID'), 'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None}
     else:
-        return None
+        raise OgnParseError("Parser error ... wrong format")
