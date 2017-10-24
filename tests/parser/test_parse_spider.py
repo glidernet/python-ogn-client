@@ -10,5 +10,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['address'], "617040")
         self.assertEqual(message['signal_quality'], "19")
 
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,2 +1,2 @@
-def parse(aprs_comment): 
-    return {"Capture":"YES"}
+def parse(aprs_comment):
+    return {"Capture" : "YES"}

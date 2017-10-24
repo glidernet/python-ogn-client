@@ -1,6 +1,5 @@
 import unittest
 
-from ogn.parser.utils import ms2fpm
 from ogn.parser.parse_naviter import parse
 
 
