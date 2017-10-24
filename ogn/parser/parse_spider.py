@@ -2,6 +2,7 @@ import re
 
 from ogn.parser.utils import fpm2ms
 from ogn.parser.pattern import PATTERN_AIRCRAFT_BEACON
+from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 
 def parse(aprs_comment):
