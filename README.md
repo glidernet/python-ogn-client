@@ -10,6 +10,14 @@ It can be used to connect to the OGN-APRS-Servers and to parse APRS-/OGN-Message
 A full featured gateway with build-in database is provided by [ogn-python](https://github.com/glidernet/ogn-python).
 
 
+## Installation
+
+python-ogn-client is available at PyPI. So for installation simply use pip:
+
+```
+pip install ogn-client
+```
+
 ## Example Usage
 
 Parse APRS/OGN packet.
