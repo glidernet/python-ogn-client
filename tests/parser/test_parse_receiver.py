@@ -1,21 +1,21 @@
 import unittest
 
-from ogn.parser.parse_receiver import parse_position, parse_status
+from ogn.parser.aprs_comment.receiver_parser import ReceiverParser
 
 
 class TestStringMethods(unittest.TestCase):
     def test_position(self):
-        message = parse_position("Antenna: chinese, on a pylon, 20 meter above ground")
+        message = ReceiverParser.parse_position("Antenna: chinese, on a pylon, 20 meter above ground")
 
         self.assertEqual(message['user_comment'], "Antenna: chinese, on a pylon, 20 meter above ground")
 
     def test_position_empty(self):
-        message = parse_position("")
+        message = ReceiverParser.parse_position("")
 
         self.assertIsNotNone(message)
 
     def test_status(self):
-        message = parse_status("v0.2.7.RPI-GPU CPU:0.7 RAM:770.2/968.2MB NTP:1.8ms/-3.3ppm +55.7C 7/8Acfts[1h] RF:+54-1.1ppm/-0.16dB/+7.1dB@10km[19481]/+16.8dB@10km[7/13]")
+        message = ReceiverParser.parse_status("v0.2.7.RPI-GPU CPU:0.7 RAM:770.2/968.2MB NTP:1.8ms/-3.3ppm +55.7C 7/8Acfts[1h] RF:+54-1.1ppm/-0.16dB/+7.1dB@10km[19481]/+16.8dB@10km[7/13]")
 
         self.assertEqual(message['version'], "0.2.7")
         self.assertEqual(message['platform'], 'RPI-GPU')
