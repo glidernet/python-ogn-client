@@ -61,6 +61,8 @@ class AprsClientTest(unittest.TestCase):
                                                  '... and on',
                                                  socket.error(),
                                                  '... and on',
+                                                 '',
+                                                 '... and on',
                                                  KeyboardInterrupt()]
 
         try:
