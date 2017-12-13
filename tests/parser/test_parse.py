@@ -6,7 +6,7 @@ from datetime import datetime
 from time import sleep
 
 from ogn.parser.parse import parse
-from ogn.parser.exceptions import AprsParseError
+from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 
 class TestStringMethods(unittest.TestCase):
@@ -62,6 +62,10 @@ class TestStringMethods(unittest.TestCase):
     def test_fail_bad_string(self):
         with self.assertRaises(AprsParseError):
             parse("Lachens>APRS,TCPIwontbeavalidstring")
+
+    def test_fail_bad_dstcall(self):
+        with self.assertRaises(OgnParseError):
+            parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment")
 
     def test_v026_chile(self):
         # receiver beacons from chile have a APRS position message with a pure user comment
