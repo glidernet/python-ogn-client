@@ -76,6 +76,8 @@ class AprsClient:
                 self.logger.error('BrokenPipeError', exc_info=True)
             except socket.error:
                 self.logger.error('socket.error', exc_info=True)
+            except UnicodeDecodeError:
+                self.logger.error('UnicodeDecodeError', exc_info=True)
 
             if autoreconnect and not self._kill:
                 self.connect()

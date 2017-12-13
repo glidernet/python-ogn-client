@@ -44,6 +44,32 @@ class AprsClientTest(unittest.TestCase):
         client.sock.close.assert_called_once_with()
         self.assertTrue(client._kill)
 
+    @mock.patch('ogn.client.client.socket')
+    def test_run(self, mock_socket):
+        import socket
+        mock_socket.error = socket.error
+
+        client = AprsClient(aprs_user='testuser', aprs_filter='')
+        client.connect()
+
+        client.sock_file.readline = mock.MagicMock()
+        client.sock_file.readline.side_effect = ['Normal text blabla',
+                                                 'my weird character ¥',
+                                                 UnicodeDecodeError('funnycodec', b'\x00\x00', 1, 2, 'This is just a fake reason!'),
+                                                 '... show must go on',
+                                                 BrokenPipeError(),
+                                                 '... and on',
+                                                 socket.error(),
+                                                 '... and on',
+                                                 KeyboardInterrupt()]
+
+        try:
+            client.run(callback=lambda msg: print("got: {}".format(msg)), autoreconnect=True)
+        except KeyboardInterrupt:
+            pass
+        finally:
+            client.disconnect()
+
     def test_reset_kill_reconnect(self):
         client = AprsClient(aprs_user='testuser', aprs_filter='')
         client.connect()
