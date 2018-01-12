@@ -25,3 +25,6 @@ VITACURA2>APRS,TCPIP*,qAC,GLIDERN3:>042136h v0.2.5.ARM CPU:0.3 RAM:695.0/970.5MB
 # since 0.2.6 the ogn comment of a receiver beacon is just optional, it also can be a user comment
 Ulrichamn>APRS,TCPIP*,qAC,GLIDERN1:/085616h5747.30NI01324.77E&/A=001322
 ROBLE3>APRS,TCPIP*,qAC,GLIDERN4:/200022h3258.58SI07100.78W&/A=007229 Contact: achanes@manquehue.net, brito.felipe@gmail.com
+#
+# ... and user comment can include a 'id'
+ALFALFAL>APRS,TCPIP*,qAC,GLIDERN4:/221830h3330.40SI07007.88W&/A=008659 Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs
