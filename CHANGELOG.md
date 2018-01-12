@@ -2,6 +2,7 @@
 
 ## Unreleased
 - client: Ignore messages other than UTF-8
+- parser: Allow IDs only with hexadecimal values
 
 ## 0.8.0 - 2017-10-02
 - parser: Merged function 'parse_aprs' and 'parse_ogn_beacon' to 'parse'
