@@ -65,13 +65,17 @@ class TestStringMethods(unittest.TestCase):
 
     def test_fail_bad_dstcall(self):
         with self.assertRaises(OgnParseError):
-            parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment")
+            parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment", reference_date=datetime(2015, 1, 1))
 
     def test_v026_chile(self):
         # receiver beacons from chile have a APRS position message with a pure user comment
         message = parse("VITACURA1>APRS,TCPIP*,qAC,GLIDERN4:/201146h3322.79SI07034.80W&/A=002329 Vitacura Municipal Aerodrome, Club de Planeadores Vitacura", reference_date=datetime(2015, 1, 1))
 
         self.assertEqual(message['user_comment'], "Vitacura Municipal Aerodrome, Club de Planeadores Vitacura")
+
+        message_with_id = parse("ALFALFAL>APRS,TCPIP*,qAC,GLIDERN4:/221830h3330.40SI07007.88W&/A=008659 Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs", reference_date=datetime(2015, 1, 1))
+
+        self.assertEqual(message_with_id['user_comment'], "Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs")
 
     @mock.patch('ogn.parser.parse_module.createTimestamp')
     def test_default_reference_date(self, createTimestamp_mock):
