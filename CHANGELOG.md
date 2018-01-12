@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## 0.8.1: - 2018-01-12
 - client: Ignore messages other than UTF-8
 - parser: Allow IDs only with hexadecimal values
 

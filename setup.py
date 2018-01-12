@@ -27,13 +27,14 @@ setup(
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering :: GIS',
         'License :: OSI Approved :: GNU Affero General Public License v3',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
     keywords='gliding ogn',
     packages=['ogn.{}'.format(package) for package in find_packages(where='ogn')],
+    python_requires='>=3',
     install_requires=[],
     extras_require={
         'dev': [
