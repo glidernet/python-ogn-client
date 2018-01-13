@@ -78,6 +78,14 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertAlmostEqual(message['altitude'] * m2feet, -13, 5)
 
+    def test_invalid_coordinates(self):
+        # sometimes the coordinates leave their valid range: -90<=latitude<=90 or -180<=longitude<=180
+        with self.assertRaises(AprsParseError):
+            parse_aprs("RND000000>APRS,qAS,TROCALAN1:/210042h6505.31S/18136.75W^054/325/A=002591 !W31! idA4000000 +099fpm +1.8rot FL029.04 12.0dB 5e -6.3kHz gps11x17", reference_date=datetime(2015, 1, 1))
+
+        with self.assertRaises(AprsParseError):
+            parse_aprs("RND000000>APRS,qAS,TROCALAN1:/210042h9505.31S/17136.75W^054/325/A=002591 !W31! idA4000000 +099fpm +1.8rot FL029.04 12.0dB 5e -6.3kHz gps11x17", reference_date=datetime(2015, 1, 1))
+
 
 if __name__ == '__main__':
     unittest.main()

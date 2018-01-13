@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Unreleased
+- parser: Allow valid lat/lon only
+
 ## 0.8.1: - 2018-01-12
 - client: Ignore messages other than UTF-8
 - parser: Allow IDs only with hexadecimal values
@@ -8,7 +11,7 @@
 - parser: Merged function 'parse_aprs' and 'parse_ogn_beacon' to 'parse'
 - parser: Added support for OGNSDR (receiver), OGNTRK (ogn tracker), OGNFLR (flarm) and OGNAV (Naviter) beacons
 - parser: Added support for RELAYed messages
-- parser: Added support for ddmmss time format (eg. '312359z')
+- parser: Added support for ddhhmm time format (eg. '312359z')
 - parser: Added support for heared aircrafts
 - client: Allow client to do sequential connect-disconnect
 
