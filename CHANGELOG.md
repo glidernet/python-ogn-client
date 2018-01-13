@@ -1,8 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
-- parser: Allow valid timestamp only (ddhhmm or hhmmss)
-- parser: Allow valid lat/lon only
+- parser: Better validation of timestamp, lat/lon and altitude
 
 ## 0.8.1: - 2018-01-12
 - client: Ignore messages other than UTF-8
