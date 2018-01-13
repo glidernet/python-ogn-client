@@ -86,6 +86,10 @@ class TestStringMethods(unittest.TestCase):
         with self.assertRaises(AprsParseError):
             parse_aprs("RND000000>APRS,qAS,TROCALAN1:/210042h9505.31S/17136.75W^054/325/A=002591 !W31! idA4000000 +099fpm +1.8rot FL029.04 12.0dB 5e -6.3kHz gps11x17", reference_date=datetime(2015, 1, 1))
 
+    def test_invalid_timestamp(self):
+        with self.assertRaises(AprsParseError):
+            parse_aprs("OGND4362A>APRS,qAS,Eternoz:/194490h4700.25N/00601.47E'003/063/A=000000 !W22! id07D4362A 0fpm +0.0rot FL000.00 2.0dB 3e -2.8kHz gps3x4 +12.2dBm", reference_date=datetime(2015, 1, 1))
+
 
 if __name__ == '__main__':
     unittest.main()
