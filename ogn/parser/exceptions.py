@@ -33,5 +33,5 @@ class AmbigousTimeError(ParseError):
         self.packet_time = packet_time
         self.timedelta = reference - datetime.combine(reference, packet_time)
 
-        self.message = "Can't reconstruct timstamp, {:.0f}s from past.".format(self.timedelta.total_seconds())
+        self.message = "Can't reconstruct timestamp, {:.0f}s from past.".format(self.timedelta.total_seconds())
         super(AmbigousTimeError, self).__init__(self.message)
