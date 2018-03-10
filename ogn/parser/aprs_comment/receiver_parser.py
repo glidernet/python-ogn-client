@@ -7,7 +7,7 @@ from .base import BaseParser
 
 class ReceiverParser(BaseParser):
     def __init__(self):
-        self.beacon_type = 'receiver_beacon'
+        self.beacon_type = 'receiver'
 
     @staticmethod
     def parse_position(aprs_comment):

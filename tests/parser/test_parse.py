@@ -22,34 +22,34 @@ class TestStringMethods(unittest.TestCase):
                         print(e)
 
     def test_aprs_aircraft_beacons(self):
-        self.parse_valid_beacon_data_file(filename='aprs_aircraft.txt', beacon_type='aircraft_beacon')
+        self.parse_valid_beacon_data_file(filename='aprs_aircraft.txt', beacon_type='aircraft')
 
     def test_aprs_receiver_beacons(self):
-        self.parse_valid_beacon_data_file(filename='aprs_receiver.txt', beacon_type='receiver_beacon')
+        self.parse_valid_beacon_data_file(filename='aprs_receiver.txt', beacon_type='receiver')
 
     def test_ogn_flarm_beacons(self):
-        self.parse_valid_beacon_data_file(filename='ogn_flarm.txt', beacon_type='aircraft_beacon')
+        self.parse_valid_beacon_data_file(filename='ogn_flarm.txt', beacon_type='flarm')
 
     def test_ogn_receiver_beacons(self):
-        self.parse_valid_beacon_data_file(filename='ogn_receiver.txt', beacon_type='receiver_beacon')
+        self.parse_valid_beacon_data_file(filename='ogn_receiver.txt', beacon_type='receiver')
 
     def test_ogn_tracker_beacons(self):
-        self.parse_valid_beacon_data_file(filename='ogn_tracker.txt', beacon_type='aircraft_beacon')
+        self.parse_valid_beacon_data_file(filename='ogn_tracker.txt', beacon_type='tracker')
 
     def test_lt24_beacons(self):
-        self.parse_valid_beacon_data_file(filename='lt24.txt', beacon_type='lt24_beacon')
+        self.parse_valid_beacon_data_file(filename='lt24.txt', beacon_type='lt24')
 
     def test_naviter_beacons(self):
-        self.parse_valid_beacon_data_file(filename='naviter.txt', beacon_type='naviter_beacon')
+        self.parse_valid_beacon_data_file(filename='naviter.txt', beacon_type='naviter')
 
     def test_skylines_beacons(self):
-        self.parse_valid_beacon_data_file(filename='skylines.txt', beacon_type='skylines_beacon')
+        self.parse_valid_beacon_data_file(filename='skylines.txt', beacon_type='skylines')
 
     def test_spider_beacons(self):
-        self.parse_valid_beacon_data_file(filename='spider.txt', beacon_type='spider_beacon')
+        self.parse_valid_beacon_data_file(filename='spider.txt', beacon_type='spider')
 
     def test_spot_beacons(self):
-        self.parse_valid_beacon_data_file(filename='spot.txt', beacon_type='spot_beacon')
+        self.parse_valid_beacon_data_file(filename='spot.txt', beacon_type='spot')
 
     def test_fail_parse_aprs_none(self):
         with self.assertRaises(TypeError):

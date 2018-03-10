@@ -8,7 +8,7 @@ from .base import BaseParser
 
 class NaviterParser(BaseParser):
     def __init__(self):
-        self.beacon_type = 'naviter_beacon'
+        self.beacon_type = 'naviter'
 
     @staticmethod
     def parse_position(aprs_comment):

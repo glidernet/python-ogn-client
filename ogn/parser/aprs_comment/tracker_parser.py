@@ -8,7 +8,7 @@ from .base import BaseParser
 
 class TrackerParser(BaseParser):
     def __init__(self):
-        self.beacon_type = "aircraft_beacon"
+        self.beacon_type = 'tracker'
 
     @staticmethod
     def parse_position(aprs_comment):

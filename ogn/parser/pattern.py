@@ -4,10 +4,29 @@ import re
 PATTERN_APRS_POSITION = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),((?P<relay>[A-Za-z0-9]+)\*)?.*,(?P<receiver>.+?):/(?P<time>(([0-1]\d|2[0-3])[0-5]\d[0-5]\dh|([0-2]\d|3[0-1])([0-1]\d|2[0-3])[0-5]\dz))(?P<latitude>9000\.00|[0-8]\d{3}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>18000\.00|1[0-7]\d{3}\.\d{2}|0\d{4}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<course_extension>(?P<course>\d{3})/(?P<ground_speed>\d{3}))?/A=(?P<altitude>(-\d{5}|\d{6}))(?P<pos_extension>\s!W((?P<latitude_enhancement>\d)(?P<longitude_enhancement>\d))!)?(?:\s(?P<comment>.*))?$")
 PATTERN_APRS_STATUS = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),.+,(?P<receiver>.+?):>(?P<time>\d{6}(h|z))\s(?P<comment>.*)$")
 
+PATTERN_LT24_BEACON = re.compile("""
+    id(?P<id>\d+)\s
+    (?P<climb_rate>[+-]\d+)fpm\s
+    (?P<source>.+)
+""", re.VERBOSE | re.MULTILINE)
+
 PATTERN_NAVITER_BEACON = re.compile("""
     id(?P<details>[\dA-F]{4})(?P<id>[\dA-F]{6})\s
     (?P<climb_rate>[+-]\d+)fpm\s
     (?P<turn_rate>[+-][\d.]+)rot
+""", re.VERBOSE | re.MULTILINE)
+
+PATTERN_SPIDER_BEACON = re.compile("""
+    id(?P<id>[\d-]+)\s
+    (?P<signal_strength>[+-]\d+)dB\s
+    (?P<spider_id>[A-Z]+)\s
+    (?P<gps_status>.+)
+""", re.VERBOSE | re.MULTILINE)
+
+PATTERN_SPOT_BEACON = re.compile("""
+    id(?P<id>[\d-]+)\s
+    SPOT(?P<model>\d)\s
+    (?P<status>[A-Z]+)
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_TRACKER_BEACON_POSITION = re.compile("""

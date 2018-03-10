@@ -8,24 +8,24 @@ from .base import BaseParser
 
 class OgnParser(BaseParser):
     def __init__(self):
-        self.beacon_type = 'depends...'
+        self.beacon_type = None
 
     def parse(self, aprs_comment, aprs_type):
         if not aprs_comment:
-            return {'beacon_type': 'receiver_beacon'}
+            return {'beacon_type': 'receiver'}
 
         ac_data = self.parse_aircraft_beacon(aprs_comment)
         if ac_data:
-            ac_data.update({'beacon_type': 'aircraft_beacon'})
+            ac_data.update({'beacon_type': 'aircraft'})
             return ac_data
 
         rc_data = self.parse_receiver_beacon(aprs_comment)
         if rc_data:
-            rc_data.update({'beacon_type': 'receiver_beacon'})
+            rc_data.update({'beacon_type': 'receiver'})
             return rc_data
         else:
             return {'user_comment': aprs_comment,
-                    'beacon_type': 'receiver_beacon'}
+                    'beacon_type': 'receiver'}
 
     @staticmethod
     def parse_aircraft_beacon(aprs_comment):
