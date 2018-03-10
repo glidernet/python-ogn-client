@@ -1,6 +1,6 @@
 import re
 
-from ogn.parser.pattern import PATTERN_TRACKER_BEACON_POSITION, PATTERN_TRACKER_BEACON_STATUS
+from ogn.parser.pattern import PATTERN_TRACKER_POSITION_COMMENT, PATTERN_TRACKER_STATUS_COMMENT
 from ogn.parser.utils import fpm2ms
 
 from .base import BaseParser
@@ -12,7 +12,7 @@ class TrackerParser(BaseParser):
 
     @staticmethod
     def parse_position(aprs_comment):
-        match = re.search(PATTERN_TRACKER_BEACON_POSITION, aprs_comment)
+        match = re.search(PATTERN_TRACKER_POSITION_COMMENT, aprs_comment)
         return {'address_type': int(match.group('details'), 16) & 0b00000011,
                 'aircraft_type': (int(match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(match.group('details'), 16) & 0b10000000) >> 7 == 1,
@@ -29,7 +29,7 @@ class TrackerParser(BaseParser):
 
     @staticmethod
     def parse_status(aprs_comment):
-        match = re.search(PATTERN_TRACKER_BEACON_STATUS, aprs_comment)
+        match = re.search(PATTERN_TRACKER_STATUS_COMMENT, aprs_comment)
         return {'hardware_version': int(match.group('hardware_version')) if match.group('hardware_version') else None,
                 'software_version': int(match.group('software_version')) if match.group('software_version') else None,
                 'gps_satellites': int(match.group('gps_satellites')) if match.group('gps_satellites') else None,

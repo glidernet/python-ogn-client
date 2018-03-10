@@ -1,6 +1,6 @@
 import re
 
-from ogn.parser.pattern import PATTERN_RECEIVER_POSITION, PATTERN_RECEIVER_STATUS
+from ogn.parser.pattern import PATTERN_RECEIVER_POSITION_COMMENT, PATTERN_RECEIVER_STATUS_COMMENT
 
 from .base import BaseParser
 
@@ -14,12 +14,12 @@ class ReceiverParser(BaseParser):
         if aprs_comment is None:
             return {}
         else:
-            match = re.search(PATTERN_RECEIVER_POSITION, aprs_comment)
+            match = re.search(PATTERN_RECEIVER_POSITION_COMMENT, aprs_comment)
             return {'user_comment': match.group('user_comment') if match.group('user_comment') else None}
 
     @staticmethod
     def parse_status(aprs_comment):
-        match = re.search(PATTERN_RECEIVER_STATUS, aprs_comment)
+        match = re.search(PATTERN_RECEIVER_STATUS_COMMENT, aprs_comment)
         return {'version': match.group('version'),
                 'platform': match.group('platform'),
                 'cpu_load': float(match.group('cpu_load')),

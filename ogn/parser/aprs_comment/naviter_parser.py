@@ -1,6 +1,6 @@
 import re
 
-from ogn.parser.pattern import PATTERN_NAVITER_BEACON
+from ogn.parser.pattern import PATTERN_NAVITER_POSITION_COMMENT
 from ogn.parser.utils import fpm2ms
 
 from .base import BaseParser
@@ -12,7 +12,7 @@ class NaviterParser(BaseParser):
 
     @staticmethod
     def parse_position(aprs_comment):
-        match = re.search(PATTERN_NAVITER_BEACON, aprs_comment)
+        match = re.search(PATTERN_NAVITER_POSITION_COMMENT, aprs_comment)
         return {'stealth': (int(match.group('details'), 16) & 0b1000000000000000) >> 15 == 1,
                 'do_not_track': (int(match.group('details'), 16) & 0b0100000000000000) >> 14 == 1,
                 'aircraft_type': (int(match.group('details'), 16) & 0b0011110000000000) >> 10,
