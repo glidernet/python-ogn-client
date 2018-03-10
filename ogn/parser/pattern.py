@@ -16,6 +16,11 @@ PATTERN_NAVITER_BEACON = re.compile("""
     (?P<turn_rate>[+-][\d.]+)rot
 """, re.VERBOSE | re.MULTILINE)
 
+PATTERN_SKYLINES_BEACON = re.compile("""
+    id(?P<id>\d+)\s
+    (?P<climb_rate>[+-]\d+)fpm
+""", re.VERBOSE | re.MULTILINE)
+
 PATTERN_SPIDER_BEACON = re.compile("""
     id(?P<id>[\d-]+)\s
     (?P<signal_strength>[+-]\d+)dB\s
