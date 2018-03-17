@@ -94,6 +94,24 @@ class TestStringMethods(unittest.TestCase):
         with self.assertRaises(AprsParseError):
             parse_aprs("Ulrichamn>APRS,TCPIP*,qAC,GLIDERN1:/085616h5747.30NI01324.77E&/A=12-345", reference_date=datetime(2015, 1, 1))
 
+    def test_bad_comment(self):
+        raw_message = "# bad configured ogn receiver"
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1))
+
+        self.assertEqual(message['comment'], raw_message)
+        self.assertEqual(message['aprs_type'], 'comment')
+
+    def test_server_comment(self):
+        raw_message = "# aprsc 2.1.4-g408ed49 17 Mar 2018 09:30:36 GMT GLIDERN1 37.187.40.234:10152"
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1))
+
+        self.assertEqual(message['version'], '2.1.4-g408ed49')
+        self.assertEqual(message['timestamp'], datetime(2018, 3, 17, 9, 30, 36))
+        self.assertEqual(message['server'], 'GLIDERN1')
+        self.assertEqual(message['ip_address'], '37.187.40.234')
+        self.assertEqual(message['port'], '10152')
+        self.assertEqual(message['aprs_type'], 'server')
+
 
 if __name__ == '__main__':
     unittest.main()

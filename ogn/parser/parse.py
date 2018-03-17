@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m
-from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS
+from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_APRS_SERVER
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 from ogn.parser.aprs_comment.ogn_parser import OgnParser
@@ -28,6 +28,19 @@ def parse(aprs_message, reference_date=None, reference_time=None):
 
 
 def parse_aprs(message, reference_date, reference_time=None):
+    if message and message[0] == '#':
+        match_server = re.search(PATTERN_APRS_SERVER, message)
+        if match_server:
+            return {'version': match_server.group('version'),
+                    'timestamp': datetime.strptime(match_server.group('timestamp'), "%d %b %Y %H:%M:%S %Z"),
+                    'server': match_server.group('server'),
+                    'ip_address': match_server.group('ip_address'),
+                    'port': match_server.group('port'),
+                    'aprs_type': 'server'}
+        else:
+            return {'comment': message,
+                    'aprs_type': 'comment'}
+
     match_position = re.search(PATTERN_APRS_POSITION, message)
     if match_position:
         return {'name': match_position.group('callsign'),
