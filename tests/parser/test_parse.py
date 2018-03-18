@@ -13,13 +13,13 @@ class TestStringMethods(unittest.TestCase):
     def parse_valid_beacon_data_file(self, filename, beacon_type):
         with open(os.path.dirname(__file__) + '/valid_beacon_data/' + filename) as f:
             for line in f:
-                if not line[0] == '#':
-                    try:
-                        message = parse(line, datetime(2015, 4, 10, 17, 0))
-                        self.assertFalse(message is None)
+                try:
+                    message = parse(line, datetime(2015, 4, 10, 17, 0))
+                    self.assertFalse(message is None)
+                    if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
                         self.assertEqual(message['beacon_type'], beacon_type)
-                    except NotImplementedError as e:
-                        print(e)
+                except NotImplementedError as e:
+                    print(e)
 
     def test_aprs_aircraft_beacons(self):
         self.parse_valid_beacon_data_file(filename='aprs_aircraft.txt', beacon_type='aircraft')

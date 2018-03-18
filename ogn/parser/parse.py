@@ -23,7 +23,10 @@ def parse(aprs_message, reference_date=None, reference_time=None):
         reference_time = now.time()
 
     message = parse_aprs(aprs_message, reference_date, reference_time)
-    message.update(parse_comment(message['comment'], dstcall=message['dstcall'], aprs_type=message['aprs_type']))
+    if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
+        message.update(parse_comment(message['comment'],
+                                     dstcall=message['dstcall'],
+                                     aprs_type=message['aprs_type']))
     return message
 
 
