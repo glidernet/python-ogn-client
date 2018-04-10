@@ -9,11 +9,11 @@ class TelnetClientTest(unittest.TestCase):
     def test_connect_disconnect(self, socket_mock):
         client = TelnetClient()
         client.connect()
-        client.sock.connect.assert_called_once()
+        client.sock.connect.assert_called_once_with(('localhost', 50001))
 
         client.disconnect()
-        client.sock.shutdown.assert_called_once()
-        client.sock.close.assert_called_once()
+        client.sock.shutdown.assert_called_once_with(0)
+        client.sock.close.assert_called_once_with()
 
     @mock.patch('ogn.client.client.socket')
     def test_run(self, socket_mock):
