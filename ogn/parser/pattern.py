@@ -5,6 +5,11 @@ PATTERN_APRS_POSITION = re.compile(r"^(?P<time>(([0-1]\d|2[0-3])[0-5]\d[0-5]\dh|
 PATTERN_APRS_STATUS = re.compile(r"^(?P<time>(([0-1]\d|2[0-3])[0-5]\d[0-5]\dh|([0-2]\d|3[0-1])([0-1]\d|2[0-3])[0-5]\dz))\s(?P<comment>.*)$")
 PATTERN_APRS_SERVER = re.compile(r"^# aprsc (?P<version>[a-z0-9\.\-]+) (?P<timestamp>\d+ [A-Za-z]+ \d+ \d{2}:\d{2}:\d{2} GMT) (?P<server>[A-Z0-9]+) (?P<ip_address>\d+\.\d+\.\d+\.\d+):(?P<port>\d+)$")
 
+PATTERN_FANET_POSITION_COMMENT = re.compile("""
+    (?:id(?P<id>[\dA-F]+)\s)?
+    (?:(?P<climb_rate>[+-]\d+)fpm)?
+""", re.VERBOSE | re.MULTILINE)
+
 PATTERN_LT24_POSITION_COMMENT = re.compile("""
     id(?P<id>\d+)\s
     (?P<climb_rate>[+-]\d+)fpm\s

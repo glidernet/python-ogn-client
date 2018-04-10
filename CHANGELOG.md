@@ -1,6 +1,6 @@
 # CHANGELOG
 ## Unreleased
-- parser: Added support for OGNLT24 (LT24), OGSKYL (Skylines), OGSPID (Spider) and OGSPOT (Spot)
+- parser: Added support for OGNLT24 (LT24), OGSKYL (Skylines), OGSPID (Spider), OGSPOT (Spot) and OGNFNT (Fanet)
 - parser: Added support for (server) comments
 
 ## 0.8.2: - 2018-01-20

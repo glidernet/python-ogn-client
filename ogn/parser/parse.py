@@ -6,6 +6,7 @@ from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 from ogn.parser.aprs_comment.ogn_parser import OgnParser
+from ogn.parser.aprs_comment.fanet_parser import FanetParser
 from ogn.parser.aprs_comment.lt24_parser import LT24Parser
 from ogn.parser.aprs_comment.naviter_parser import NaviterParser
 from ogn.parser.aprs_comment.flarm_parser import FlarmParser
@@ -81,6 +82,7 @@ def parse_aprs(message, reference_date, reference_time=None):
 
 
 dstcall_parser_mapping = {'APRS': OgnParser(),
+                          'OGNFNT': FanetParser(),
                           'OGFLR': FlarmParser(),
                           'OGNTRK': TrackerParser(),
                           'OGNSDR': ReceiverParser(),
