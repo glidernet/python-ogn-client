@@ -1,6 +1,7 @@
 # CHANGELOG
 ## Unreleased
 - parser: Added support for OGNLT24 (LT24), OGSKYL (Skylines), OGSPID (Spider) and OGSPOT (Spot)
+- parser: Added parser for local receiver output (port 50001)
 
 ## 0.8.2: - 2018-01-20
 - parser: Better validation of timestamp, lat/lon and altitude
@@ -16,7 +17,6 @@
 - parser: Added support for ddhhmm time format (eg. '312359z')
 - parser: Added support for heared aircrafts
 - client: Allow client to do sequential connect-disconnect
-- parser: Added parser for local receiver output (port 50001)
 
 ## 0.7.1 - 2017-06-05
 - parser: Bugfix, error_count in aircraft beacon is a int
