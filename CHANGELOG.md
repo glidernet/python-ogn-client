@@ -2,6 +2,7 @@
 ## Unreleased
 - parser: Added support for OGNLT24 (LT24), OGSKYL (Skylines), OGSPID (Spider), OGSPOT (Spot) and OGNFNT (Fanet)
 - parser: Added support for (server) comments
+- parser: Added parser for local receiver output (port 50001)
 
 ## 0.8.2: - 2018-01-20
 - parser: Better validation of timestamp, lat/lon and altitude
