@@ -90,9 +90,30 @@ class TestStringMethods(unittest.TestCase):
         with self.assertRaises(AprsParseError):
             parse_aprs("OGND4362A>APRS,qAS,Eternoz:/194490h4700.25N/00601.47E'003/063/A=000000 !W22! id07D4362A 0fpm +0.0rot FL000.00 2.0dB 3e -2.8kHz gps3x4 +12.2dBm", reference_date=datetime(2015, 1, 1))
 
+        with self.assertRaises(AprsParseError):
+            parse_aprs("Ulrichamn>APRS,TCPIP*,qAC,GLIDERN1:/194490h5747.30NI01324.77E&/A=001322", reference_date=datetime(2015, 1, 1))
+
     def test_invalid_altitude(self):
         with self.assertRaises(AprsParseError):
             parse_aprs("Ulrichamn>APRS,TCPIP*,qAC,GLIDERN1:/085616h5747.30NI01324.77E&/A=12-345", reference_date=datetime(2015, 1, 1))
+
+    def test_bad_comment(self):
+        raw_message = "# bad configured ogn receiver"
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1))
+
+        self.assertEqual(message['comment'], raw_message)
+        self.assertEqual(message['aprs_type'], 'comment')
+
+    def test_server_comment(self):
+        raw_message = "# aprsc 2.1.4-g408ed49 17 Mar 2018 09:30:36 GMT GLIDERN1 37.187.40.234:10152"
+        message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1))
+
+        self.assertEqual(message['version'], '2.1.4-g408ed49')
+        self.assertEqual(message['timestamp'], datetime(2018, 3, 17, 9, 30, 36))
+        self.assertEqual(message['server'], 'GLIDERN1')
+        self.assertEqual(message['ip_address'], '37.187.40.234')
+        self.assertEqual(message['port'], '10152')
+        self.assertEqual(message['aprs_type'], 'server')
 
 
 if __name__ == '__main__':
