@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m
-from ogn.parser.pattern import PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_APRS_SERVER
+from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_APRS_SERVER
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 from ogn.parser.aprs_comment.ogn_parser import OgnParser
@@ -44,33 +44,38 @@ def parse_aprs(message, reference_date, reference_time=None):
             return {'comment': message,
                     'aprs_type': 'comment'}
 
-    match_position = re.search(PATTERN_APRS_POSITION, message)
-    if match_position:
-        return {'name': match_position.group('callsign'),
-                'dstcall': match_position.group('dstcall'),
-                'relay': match_position.group('relay') if match_position.group('relay') else None,
-                'receiver_name': match_position.group('receiver'),
-                'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
-                'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
-                (-1 if match_position.group('latitude_sign') == 'S' else 1),
-                'symboltable': match_position.group('symbol_table'),
-                'longitude': parseAngle(match_position.group('longitude') + (match_position.group('longitude_enhancement') or '0')) *
-                (-1 if match_position.group('longitude_sign') == 'W' else 1),
-                'symbolcode': match_position.group('symbol'),
-                'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
-                'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else None,
-                'altitude': int(match_position.group('altitude')) * feet2m,
-                'comment': match_position.group('comment') if match_position.group('comment') else "",
-                'aprs_type': 'position'}
-
-    match_status = re.search(PATTERN_APRS_STATUS, message)
-    if match_status:
-        return {'name': match_status.group('callsign'),
-                'dstcall': match_status.group('dstcall'),
-                'receiver_name': match_status.group('receiver'),
-                'timestamp': createTimestamp(match_status.group('time'), reference_date, reference_time),
-                'comment': match_status.group('comment') if match_status.group('comment') else "",
-                'aprs_type': 'status'}
+    match = re.search(PATTERN_APRS, message)
+    if match:
+        aprs_type = 'position' if match.group('aprs_type') == '/' else 'status'
+        aprs_body = match.group('aprs_body')
+        if aprs_type == 'position':
+            match_position = re.search(PATTERN_APRS_POSITION, aprs_body)
+            if match_position:
+                return {'name': match.group('callsign'),
+                        'dstcall': match.group('dstcall'),
+                        'relay': match.group('relay') if match.group('relay') else None,
+                        'receiver_name': match.group('receiver'),
+                        'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
+                        'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
+                        (-1 if match_position.group('latitude_sign') == 'S' else 1),
+                        'symboltable': match_position.group('symbol_table'),
+                        'longitude': parseAngle(match_position.group('longitude') + (match_position.group('longitude_enhancement') or '0')) *
+                        (-1 if match_position.group('longitude_sign') == 'W' else 1),
+                        'symbolcode': match_position.group('symbol'),
+                        'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
+                        'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else None,
+                        'altitude': int(match_position.group('altitude')) * feet2m,
+                        'comment': match_position.group('comment') if match_position.group('comment') else "",
+                        'aprs_type': aprs_type}
+        elif aprs_type == 'status':
+            match_status = re.search(PATTERN_APRS_STATUS, aprs_body)
+            if match_status:
+                return {'name': match.group('callsign'),
+                        'dstcall': match.group('dstcall'),
+                        'receiver_name': match.group('receiver'),
+                        'timestamp': createTimestamp(match_status.group('time'), reference_date, reference_time),
+                        'comment': match_status.group('comment') if match_status.group('comment') else "",
+                        'aprs_type': aprs_type}
 
     raise AprsParseError(message)
 
