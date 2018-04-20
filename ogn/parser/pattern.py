@@ -11,6 +11,20 @@ PATTERN_FANET_POSITION_COMMENT = re.compile("""
     (?:(?P<climb_rate>[+-]\d+)fpm)?
 """, re.VERBOSE | re.MULTILINE)
 
+PATTERN_FLARM_POSITION_COMMENT = re.compile(r"""
+    id(?P<details>[\dA-F]{2})(?P<id>[\dA-F]{6}?)\s?
+    (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
+    (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
+    (?:(?P<signal_quality>[\d.]+?)dB\s)?
+    (?:(?P<errors>\d+)e\s)?
+    (?:(?P<frequency_offset>[+-][\d.]+?)kHz\s?)?
+    (?:gps(?P<gps_accuracy>\d+x\d+)\s?)?
+    (?:s(?P<flarm_software_version>[\d.]+)\s?)?
+    (?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?
+    (?:r(?P<flarm_id>[\dA-F]+)\s?)?
+    (?:(?P<signal_power>[+-][\d.]+)dBm\s?)?
+""", re.VERBOSE | re.MULTILINE)
+
 PATTERN_LT24_POSITION_COMMENT = re.compile("""
     id(?P<id>\d+)\s
     (?P<climb_rate>[+-]\d+)fpm\s
