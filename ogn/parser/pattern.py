@@ -16,12 +16,12 @@ PATTERN_FLARM_POSITION_COMMENT = re.compile(r"""
     (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
     (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
     (?:(?P<signal_quality>[\d.]+?)dB\s)?
-    (?:(?P<errors>\d+)e\s)?
+    (?:(?P<error_count>\d+)e\s)?
     (?:(?P<frequency_offset>[+-][\d.]+?)kHz\s?)?
-    (?:gps(?P<gps_accuracy>\d+x\d+)\s?)?
-    (?:s(?P<flarm_software_version>[\d.]+)\s?)?
-    (?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?
-    (?:r(?P<flarm_id>[\dA-F]+)\s?)?
+    (?:gps(?P<gps_quality>(?P<gps_quality_horizontal>(\d+))x(?P<gps_quality_vertical>(\d+)))\s?)?
+    (?:s(?P<software_version>[\d.]+)\s?)?
+    (?:h(?P<hardware_version>[\dA-F]{2})\s?)?
+    (?:r(?P<real_address>[\dA-F]+)\s?)?
     (?:(?P<signal_power>[+-][\d.]+)dBm\s?)?
 """, re.VERBOSE | re.MULTILINE)
 
@@ -61,7 +61,7 @@ PATTERN_TRACKER_POSITION_COMMENT = re.compile("""
     (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
     (?:FL(?P<flight_level>[\d.]+)\s)?
     (?:(?P<signal_quality>[\d.]+?)dB\s)?
-    (?:(?P<errors>\d+)e\s)?
+    (?:(?P<error_count>\d+)e\s)?
     (?:(?P<frequency_offset>[+-][\d.]+?)kHz\s?)?
     (?:gps(?P<gps_accuracy>\d+x\d+)\s?)?
     (?:s(?P<flarm_software_version>[\d.]+)\s?)?
@@ -166,7 +166,7 @@ PATTERN_AIRCRAFT_BEACON = re.compile(r"""
     (?:(?P<signal_quality>[\d.]+?)dB\s)?
     (?:(?P<errors>\d+)e\s)?
     (?:(?P<frequency_offset>[+-][\d.]+?)kHz\s?)?
-    (?:gps(?P<gps_accuracy>\d+x\d+)\s?)?
+    (?:gps(?P<gps_quality>(?P<gps_quality_horizontal>(\d+))x(?P<gps_quality_vertical>(\d+)))\s?)?
     (?:s(?P<flarm_software_version>[\d.]+)\s?)?
     (?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?
     (?:r(?P<flarm_id>[\dA-F]+)\s?)?

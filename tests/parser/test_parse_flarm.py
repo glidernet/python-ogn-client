@@ -17,7 +17,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['signal_quality'], 3.5)
         self.assertEqual(message['error_count'], 2)
         self.assertEqual(message['frequency_offset'], -8.7)
-        self.assertEqual(message['gps_status'], '1x2')
+        self.assertEqual(message['gps_quality'], {'horizontal': 1, 'vertical': 2})
         self.assertEqual(message['software_version'], 6.09)
         self.assertEqual(message['hardware_version'], 67)
         self.assertEqual(message['real_address'], "DF0267")

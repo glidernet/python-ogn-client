@@ -21,7 +21,7 @@ class TrackerParser(BaseParser):
                 'turn_rate': float(match.group('turn_rate')) if match.group('turn_rate') else None,
                 'flightlevel': float(match.group('flight_level')) if match.group('flight_level') else None,
                 'signal_quality': float(match.group('signal_quality')) if match.group('signal_quality') else None,
-                'error_count': int(match.group('errors')) if match.group('errors') else None,
+                'error_count': int(match.group('error_count')) if match.group('error_count') else None,
                 'frequency_offset': float(match.group('frequency_offset')) if match.group('frequency_offset') else None,
                 'gps_status': match.group('gps_accuracy') if match.group('gps_accuracy') else None,
                 'software_version': float(match.group('flarm_software_version')) if match.group('flarm_software_version') else None,

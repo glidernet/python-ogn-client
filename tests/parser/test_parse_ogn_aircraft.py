@@ -20,7 +20,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['signal_quality'], 8.8)
         self.assertEqual(message['error_count'], 0)
         self.assertEqual(message['frequency_offset'], 51.2)
-        self.assertEqual(message['gps_status'], '4x5')
+        self.assertEqual(message['gps_quality'], {'horizontal': 4, 'vertical': 5})
         self.assertEqual(len(message['proximity']), 3)
         self.assertEqual(message['proximity'][0], '1084')
         self.assertEqual(message['proximity'][1], 'B597')
