@@ -6,7 +6,7 @@ from ogn.parser.aprs_comment.tracker_parser import TrackerParser
 
 class TestStringMethods(unittest.TestCase):
     def test_position_comment(self):
-        message = TrackerParser.parse_position("id072FD00F -058fpm +1.1rot FL003.12 32.8dB 0e -0.8kHz gps3x5")
+        message = TrackerParser.parse_position("id072FD00F -058fpm +1.1rot FL003.12 32.8dB 0e -0.8kHz gps3x5 +12.7dBm")
 
         self.assertEqual(message['address_type'], 3)
         self.assertEqual(message['aircraft_type'], 1)
@@ -18,7 +18,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['signal_quality'], 32.8)
         self.assertEqual(message['error_count'], 0)
         self.assertEqual(message['frequency_offset'], -0.8)
-        self.assertEqual(message['gps_status'], '3x5')
+        self.assertEqual(message['gps_quality'], {'horizontal': 3, 'vertical': 5})
+        self.assertEqual(message['signal_power'], 12.7)
 
     def test_status_comment(self):
         message = TrackerParser.parse_status("h00 v00 9sat/1 164m 1002.6hPa +20.2degC 0% 3.34V 14/-110.5dBm 1/min")

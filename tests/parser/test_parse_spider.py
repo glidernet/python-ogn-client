@@ -10,7 +10,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['id'], "300234010617040")
         self.assertEqual(message['signal_strength'], 19)
         self.assertEqual(message['spider_id'], "LWE")
-        self.assertEqual(message['gps_status'], "3D")
+        self.assertEqual(message['gps_quality'], "3D")
 
 
 if __name__ == '__main__':

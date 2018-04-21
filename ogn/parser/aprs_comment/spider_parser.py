@@ -15,4 +15,4 @@ class SpiderParser(BaseParser):
         return {'id': ac_match.group('id'),
                 'signal_strength': int(ac_match.group('signal_strength')) if ac_match.group('signal_strength') else None,
                 'spider_id': ac_match.group('spider_id') if ac_match.group('spider_id') else None,
-                'gps_status': ac_match.group('gps_status') if ac_match.group('gps_status') else None}
+                'gps_quality': ac_match.group('gps_quality') if ac_match.group('gps_quality') else None}

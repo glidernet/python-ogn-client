@@ -22,22 +22,22 @@ class TestStringMethods(unittest.TestCase):
                     print(e)
 
     def test_aprs_aircraft_beacons(self):
-        self.parse_valid_beacon_data_file(filename='aprs_aircraft.txt', beacon_type='aircraft')
+        self.parse_valid_beacon_data_file(filename='aprs_aircraft.txt', beacon_type='aprs_aircraft')
 
     def test_aprs_receiver_beacons(self):
-        self.parse_valid_beacon_data_file(filename='aprs_receiver.txt', beacon_type='receiver')
+        self.parse_valid_beacon_data_file(filename='aprs_receiver.txt', beacon_type='aprs_receiver')
 
     def test_aprs_fanet_beacons(self):
         self.parse_valid_beacon_data_file(filename='fanet.txt', beacon_type='fanet')
 
-    def test_ogn_flarm_beacons(self):
-        self.parse_valid_beacon_data_file(filename='ogn_flarm.txt', beacon_type='flarm')
+    def test_flarm_beacons(self):
+        self.parse_valid_beacon_data_file(filename='flarm.txt', beacon_type='flarm')
 
-    def test_ogn_receiver_beacons(self):
-        self.parse_valid_beacon_data_file(filename='ogn_receiver.txt', beacon_type='receiver')
+    def test_receiver_beacons(self):
+        self.parse_valid_beacon_data_file(filename='receiver.txt', beacon_type='receiver')
 
-    def test_ogn_tracker_beacons(self):
-        self.parse_valid_beacon_data_file(filename='ogn_tracker.txt', beacon_type='tracker')
+    def test_tracker_beacons(self):
+        self.parse_valid_beacon_data_file(filename='tracker.txt', beacon_type='tracker')
 
     def test_lt24_beacons(self):
         self.parse_valid_beacon_data_file(filename='lt24.txt', beacon_type='lt24')

@@ -12,20 +12,20 @@ class OgnParser(BaseParser):
 
     def parse(self, aprs_comment, aprs_type):
         if not aprs_comment:
-            return {'beacon_type': 'receiver'}
+            return {'beacon_type': 'aprs_receiver'}
 
         ac_data = self.parse_aircraft_beacon(aprs_comment)
         if ac_data:
-            ac_data.update({'beacon_type': 'aircraft'})
+            ac_data.update({'beacon_type': 'aprs_aircraft'})
             return ac_data
 
         rc_data = self.parse_receiver_beacon(aprs_comment)
         if rc_data:
-            rc_data.update({'beacon_type': 'receiver'})
+            rc_data.update({'beacon_type': 'aprs_receiver'})
             return rc_data
         else:
             return {'user_comment': aprs_comment,
-                    'beacon_type': 'receiver'}
+                    'beacon_type': 'aprs_receiver'}
 
     @staticmethod
     def parse_aircraft_beacon(aprs_comment):

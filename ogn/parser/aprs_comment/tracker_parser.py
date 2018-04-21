@@ -23,9 +23,9 @@ class TrackerParser(BaseParser):
                 'signal_quality': float(match.group('signal_quality')) if match.group('signal_quality') else None,
                 'error_count': int(match.group('error_count')) if match.group('error_count') else None,
                 'frequency_offset': float(match.group('frequency_offset')) if match.group('frequency_offset') else None,
-                'gps_status': match.group('gps_accuracy') if match.group('gps_accuracy') else None,
-                'software_version': float(match.group('flarm_software_version')) if match.group('flarm_software_version') else None,
-                'hardware_version': int(match.group('flarm_hardware_version'), 16) if match.group('flarm_hardware_version') else None}
+                'gps_quality': {'horizontal': int(match.group('gps_quality_horizontal')),
+                                'vertical': int(match.group('gps_quality_vertical'))} if match.group('gps_quality') else None,
+                'signal_power': float(match.group('signal_power')) if match.group('signal_power') else None}
 
     @staticmethod
     def parse_status(aprs_comment):

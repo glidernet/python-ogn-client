@@ -46,7 +46,7 @@ PATTERN_SPIDER_POSITION_COMMENT = re.compile("""
     id(?P<id>[\d-]+)\s
     (?P<signal_strength>[+-]\d+)dB\s
     (?P<spider_id>[A-Z]+)\s
-    (?P<gps_status>.+)
+    (?P<gps_quality>.+)
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_SPOT_POSITION_COMMENT = re.compile("""
@@ -63,9 +63,8 @@ PATTERN_TRACKER_POSITION_COMMENT = re.compile("""
     (?:(?P<signal_quality>[\d.]+?)dB\s)?
     (?:(?P<error_count>\d+)e\s)?
     (?:(?P<frequency_offset>[+-][\d.]+?)kHz\s?)?
-    (?:gps(?P<gps_accuracy>\d+x\d+)\s?)?
-    (?:s(?P<flarm_software_version>[\d.]+)\s?)?
-    (?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?
+    (?:gps(?P<gps_quality>(?P<gps_quality_horizontal>(\d+))x(?P<gps_quality_vertical>(\d+)))\s?)?
+    (?:(?P<signal_power>[+-][\d.]+)dBm\s?)?
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_TRACKER_STATUS_COMMENT = re.compile("""
