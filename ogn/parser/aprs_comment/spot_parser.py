@@ -12,6 +12,6 @@ class SpotParser(BaseParser):
     @staticmethod
     def parse_position(aprs_comment):
         ac_match = re.search(PATTERN_SPOT_POSITION_COMMENT, aprs_comment)
-        return {'id': ac_match.group('id'),
+        return {'address': ac_match.group('id'),
                 'model': int(ac_match.group('model')) if ac_match.group('model') else None,
                 'status': ac_match.group('status') if ac_match.group('status') else None}
