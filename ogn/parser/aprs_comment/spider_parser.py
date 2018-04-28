@@ -13,6 +13,6 @@ class SpiderParser(BaseParser):
     def parse_position(aprs_comment):
         ac_match = re.search(PATTERN_SPIDER_POSITION_COMMENT, aprs_comment)
         return {'id': ac_match.group('id'),
-                'signal_strength': int(ac_match.group('signal_strength')) if ac_match.group('signal_strength') else None,
+                'signal_power': int(ac_match.group('signal_power')) if ac_match.group('signal_power') else None,
                 'spider_id': ac_match.group('spider_id') if ac_match.group('spider_id') else None,
                 'gps_quality': ac_match.group('gps_quality') if ac_match.group('gps_quality') else None}

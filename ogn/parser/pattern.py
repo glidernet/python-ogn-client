@@ -44,7 +44,7 @@ PATTERN_SKYLINES_POSITION_COMMENT = re.compile("""
 
 PATTERN_SPIDER_POSITION_COMMENT = re.compile("""
     id(?P<id>[\d-]+)\s
-    (?P<signal_strength>[+-]\d+)dB\s
+    (?P<signal_power>[+-]\d+)dB\s
     (?P<spider_id>[A-Z]+)\s
     (?P<gps_quality>.+)
 """, re.VERBOSE | re.MULTILINE)
