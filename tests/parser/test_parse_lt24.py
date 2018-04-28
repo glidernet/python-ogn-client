@@ -8,7 +8,7 @@ class TestStringMethods(unittest.TestCase):
     def test_position_comment(self):
         message = LT24Parser.parse_position("id25387 +000fpm GPS")
 
-        self.assertEqual(message['id'], "25387")
+        self.assertEqual(message['address'], "25387")
         self.assertAlmostEqual(message['climb_rate'] * ms2fpm, 0, 2)
         self.assertEqual(message['source'], 'GPS')
 

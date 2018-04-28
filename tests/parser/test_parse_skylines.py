@@ -8,7 +8,7 @@ class TestStringMethods(unittest.TestCase):
     def test_position_comment(self):
         message = SkylinesParser.parse_position("id2816 -015fpm")
 
-        self.assertEqual(message['id'], "2816")
+        self.assertEqual(message['address'], "2816")
         self.assertAlmostEqual(message['climb_rate'] * ms2fpm, -15, 2)
 
 

@@ -13,5 +13,5 @@ class SkylinesParser(BaseParser):
     @staticmethod
     def parse_position(aprs_comment):
         ac_match = re.search(PATTERN_SKYLINES_POSITION_COMMENT, aprs_comment)
-        return {'id': ac_match.group('id'),
+        return {'address': ac_match.group('id'),
                 'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms if ac_match.group('climb_rate') else None}
