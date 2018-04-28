@@ -16,7 +16,7 @@ class FlarmParser(BaseParser):
         return {'address_type': int(ac_match.group('details'), 16) & 0b00000011,
                 'aircraft_type': (int(ac_match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(ac_match.group('details'), 16) & 0b10000000) >> 7 == 1,
-                'address': ac_match.group('id'),
+                'address': ac_match.group('address'),
                 'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms,
                 'turn_rate': float(ac_match.group('turn_rate')),
                 'signal_quality': float(ac_match.group('signal_quality')),

@@ -7,12 +7,12 @@ PATTERN_APRS_STATUS = re.compile(r"^(?P<time>(([0-1]\d|2[0-3])[0-5]\d[0-5]\dh|([
 PATTERN_SERVER = re.compile(r"^# aprsc (?P<version>[a-z0-9\.\-]+) (?P<timestamp>\d+ [A-Za-z]+ \d+ \d{2}:\d{2}:\d{2} GMT) (?P<server>[A-Z0-9]+) (?P<ip_address>\d+\.\d+\.\d+\.\d+):(?P<port>\d+)$")
 
 PATTERN_FANET_POSITION_COMMENT = re.compile("""
-    (?:id(?P<id>[\dA-F]+)\s)?
+    (id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?)?
     (?:(?P<climb_rate>[+-]\d+)fpm)?
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_FLARM_POSITION_COMMENT = re.compile(r"""
-    id(?P<details>[\dA-F]{2})(?P<id>[\dA-F]{6}?)\s?
+    id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?
     (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
     (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
     (?:(?P<signal_quality>[\d.]+?)dB\s)?
@@ -32,7 +32,7 @@ PATTERN_LT24_POSITION_COMMENT = re.compile("""
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_NAVITER_POSITION_COMMENT = re.compile("""
-    id(?P<details>[\dA-F]{4})(?P<id>[\dA-F]{6})\s
+    id(?P<details>[\dA-F]{4})(?P<address>[\dA-F]{6})\s
     (?P<climb_rate>[+-]\d+)fpm\s
     (?P<turn_rate>[+-][\d.]+)rot
 """, re.VERBOSE | re.MULTILINE)
@@ -56,7 +56,7 @@ PATTERN_SPOT_POSITION_COMMENT = re.compile("""
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_TRACKER_POSITION_COMMENT = re.compile("""
-    id(?P<details>[\dA-F]{2})(?P<id>[\dA-F]{6}?)\s?
+    id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?
     (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
     (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
     (?:FL(?P<flight_level>[\d.]+)\s)?
@@ -158,7 +158,7 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
 
 
 PATTERN_AIRCRAFT_BEACON = re.compile(r"""
-    id(?P<details>[\dA-F]{2})(?P<id>[\dA-F]{6}?)\s?
+    id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?
     (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
     (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
     (?:FL(?P<flight_level>[\d.]+)\s)?

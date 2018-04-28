@@ -16,7 +16,7 @@ class TrackerParser(BaseParser):
         return {'address_type': int(match.group('details'), 16) & 0b00000011,
                 'aircraft_type': (int(match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(match.group('details'), 16) & 0b10000000) >> 7 == 1,
-                'address': match.group('id'),
+                'address': match.group('address'),
                 'climb_rate': int(match.group('climb_rate')) * fpm2ms if match.group('climb_rate') else None,
                 'turn_rate': float(match.group('turn_rate')) if match.group('turn_rate') else None,
                 'flightlevel': float(match.group('flight_level')) if match.group('flight_level') else None,
