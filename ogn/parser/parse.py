@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from ogn.parser.utils import createTimestamp, parseAngle, kts2kmh, feet2m
+from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER
 from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_SERVER
 from ogn.parser.exceptions import AprsParseError, OgnParseError
 
@@ -64,8 +64,8 @@ def parse_aprs(message, reference_date, reference_time=None):
                         (-1 if match_position.group('longitude_sign') == 'W' else 1),
                         'symbolcode': match_position.group('symbol'),
                         'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
-                        'ground_speed': int(match_position.group('ground_speed')) * kts2kmh if match_position.group('ground_speed') else None,
-                        'altitude': int(match_position.group('altitude')) * feet2m,
+                        'ground_speed': int(match_position.group('ground_speed')) * KNOTS_TO_MS / KPH_TO_MS if match_position.group('ground_speed') else None,
+                        'altitude': int(match_position.group('altitude')) * FEETS_TO_METER,
                         'comment': match_position.group('comment') if match_position.group('comment') else "",
                         'aprs_type': aprs_type}
         elif aprs_type == 'status':

@@ -1,7 +1,7 @@
 import re
 
 from ogn.parser.pattern import PATTERN_NAVITER_POSITION_COMMENT
-from ogn.parser.utils import fpm2ms
+from ogn.parser.utils import FPM_TO_MS
 
 from .base import BaseParser
 
@@ -19,5 +19,5 @@ class NaviterParser(BaseParser):
                 'address_type': (int(match.group('details'), 16) & 0b0000001111110000) >> 4,
                 'reserved': (int(match.group('details'), 16) & 0b0000000000001111),
                 'address': match.group('address'),
-                'climb_rate': int(match.group('climb_rate')) * fpm2ms if match.group('climb_rate') else None,
+                'climb_rate': int(match.group('climb_rate')) * FPM_TO_MS if match.group('climb_rate') else None,
                 'turn_rate': float(match.group('turn_rate')) if match.group('turn_rate') else None}

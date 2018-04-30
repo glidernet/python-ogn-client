@@ -3,13 +3,10 @@ from datetime import datetime, timedelta
 from ogn.parser.exceptions import AmbigousTimeError
 
 
-kmh2kts = 0.539957
-feet2m = 0.3048
-ms2fpm = 196.85
-
-kts2kmh = 1 / kmh2kts
-m2feet = 1 / feet2m
-fpm2ms = 1 / ms2fpm
+FEETS_TO_METER = 0.3048             # ratio feets to meter
+FPM_TO_MS = FEETS_TO_METER / 60     # ratio fpm to m/s
+KNOTS_TO_MS = 0.5144                # ratio knots to m/s
+KPH_TO_MS = 2.7778                  # ratio kph to m/s
 
 
 def parseAngle(dddmmhht):

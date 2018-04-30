@@ -1,6 +1,6 @@
 import unittest
 
-from ogn.parser.utils import ms2fpm
+from ogn.parser.utils import FPM_TO_MS
 from ogn.parser.aprs_comment.skylines_parser import SkylinesParser
 
 
@@ -9,7 +9,7 @@ class TestStringMethods(unittest.TestCase):
         message = SkylinesParser.parse_position("id2816 -015fpm")
 
         self.assertEqual(message['address'], "2816")
-        self.assertAlmostEqual(message['climb_rate'] * ms2fpm, -15, 2)
+        self.assertAlmostEqual(message['climb_rate'], -15 * FPM_TO_MS, 2)
 
 
 if __name__ == '__main__':

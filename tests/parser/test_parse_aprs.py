@@ -2,7 +2,7 @@ import unittest
 
 from datetime import datetime
 
-from ogn.parser.utils import kts2kmh, m2feet
+from ogn.parser.utils import KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER
 from ogn.parser.parse import parse_aprs
 from ogn.parser.exceptions import AprsParseError
 
@@ -24,8 +24,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertAlmostEqual(message['longitude'], 6.0005, 5)
         self.assertEqual(message['symbolcode'], '\'')
         self.assertEqual(message['track'], 342)
-        self.assertEqual(message['ground_speed'], 49 * kts2kmh)
-        self.assertAlmostEqual(message['altitude'] * m2feet, 5524, 5)
+        self.assertEqual(message['ground_speed'], 49 * KNOTS_TO_MS / KPH_TO_MS)
+        self.assertAlmostEqual(message['altitude'], 5524 * FEETS_TO_METER, 5)
         self.assertEqual(message['comment'], "this is a comment")
 
         self.assertEqual(message['aprs_type'], 'position')
@@ -76,7 +76,7 @@ class TestStringMethods(unittest.TestCase):
         raw_message = "OGNF71F40>APRS,qAS,NAVITER:/080852h4414.37N/01532.06E'253/052/A=-00013 !W73! id1EF71F40 -060fpm +0.0rot"
         message = parse_aprs(raw_message, reference_date=datetime(2015, 1, 1))
 
-        self.assertAlmostEqual(message['altitude'] * m2feet, -13, 5)
+        self.assertAlmostEqual(message['altitude'], -13 * FEETS_TO_METER, 5)
 
     def test_invalid_coordinates(self):
         # sometimes the coordinates leave their valid range: -90<=latitude<=90 or -180<=longitude<=180

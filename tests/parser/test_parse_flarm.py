@@ -1,6 +1,6 @@
 import unittest
 
-from ogn.parser.utils import ms2fpm
+from ogn.parser.utils import FPM_TO_MS
 from ogn.parser.aprs_comment.flarm_parser import FlarmParser
 
 
@@ -12,7 +12,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['aircraft_type'], 8)
         self.assertFalse(message['stealth'])
         self.assertEqual(message['address'], "A8CBA8")
-        self.assertAlmostEqual(message['climb_rate'] * ms2fpm, -39, 2)
+        self.assertAlmostEqual(message['climb_rate'], -39 * FPM_TO_MS, 2)
         self.assertEqual(message['turn_rate'], 0.1)
         self.assertEqual(message['signal_quality'], 3.5)
         self.assertEqual(message['error_count'], 2)

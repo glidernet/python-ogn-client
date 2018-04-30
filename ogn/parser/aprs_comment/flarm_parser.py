@@ -1,7 +1,7 @@
 import re
 
 from ogn.parser.pattern import PATTERN_FLARM_POSITION_COMMENT
-from ogn.parser.utils import fpm2ms
+from ogn.parser.utils import FPM_TO_MS
 
 from .base import BaseParser
 
@@ -17,7 +17,7 @@ class FlarmParser(BaseParser):
                 'aircraft_type': (int(ac_match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(ac_match.group('details'), 16) & 0b10000000) >> 7 == 1,
                 'address': ac_match.group('address'),
-                'climb_rate': int(ac_match.group('climb_rate')) * fpm2ms,
+                'climb_rate': int(ac_match.group('climb_rate')) * FPM_TO_MS,
                 'turn_rate': float(ac_match.group('turn_rate')),
                 'signal_quality': float(ac_match.group('signal_quality')),
                 'error_count': int(ac_match.group('error_count')),

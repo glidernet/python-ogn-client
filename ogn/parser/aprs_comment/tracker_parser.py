@@ -1,7 +1,7 @@
 import re
 
 from ogn.parser.pattern import PATTERN_TRACKER_POSITION_COMMENT, PATTERN_TRACKER_STATUS_COMMENT
-from ogn.parser.utils import fpm2ms
+from ogn.parser.utils import FPM_TO_MS
 
 from .base import BaseParser
 
@@ -17,7 +17,7 @@ class TrackerParser(BaseParser):
                 'aircraft_type': (int(match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(match.group('details'), 16) & 0b10000000) >> 7 == 1,
                 'address': match.group('address'),
-                'climb_rate': int(match.group('climb_rate')) * fpm2ms if match.group('climb_rate') else None,
+                'climb_rate': int(match.group('climb_rate')) * FPM_TO_MS if match.group('climb_rate') else None,
                 'turn_rate': float(match.group('turn_rate')) if match.group('turn_rate') else None,
                 'flightlevel': float(match.group('flight_level')) if match.group('flight_level') else None,
                 'signal_quality': float(match.group('signal_quality')) if match.group('signal_quality') else None,

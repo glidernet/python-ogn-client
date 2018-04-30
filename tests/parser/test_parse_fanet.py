@@ -1,6 +1,6 @@
 import unittest
 
-from ogn.parser.utils import ms2fpm
+from ogn.parser.utils import FPM_TO_MS
 from ogn.parser.aprs_comment.fanet_parser import FanetParser
 
 
@@ -12,7 +12,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['aircraft_type'], 7)
         self.assertFalse(message['stealth'])
         self.assertEqual(message['address'], "1103CE")
-        self.assertAlmostEqual(message['climb_rate'] * ms2fpm, -2, 0.1)
+        self.assertAlmostEqual(message['climb_rate'], -2 * FPM_TO_MS, 0.1)
 
     def test_pseudo_status_comment(self):
         message = FanetParser.parse_position("")
