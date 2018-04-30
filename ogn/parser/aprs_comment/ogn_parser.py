@@ -1,6 +1,6 @@
 import re
 
-from ogn.parser.utils import FPM_TO_MS
+from ogn.parser.utils import FPM_TO_MS, HPM_TO_DEGS
 from ogn.parser.pattern import PATTERN_RECEIVER_BEACON, PATTERN_AIRCRAFT_BEACON
 
 from .base import BaseParser
@@ -36,7 +36,7 @@ class OgnParser(BaseParser):
                     'stealth': (int(ac_match.group('details'), 16) & 0b10000000) >> 7 == 1,
                     'address': ac_match.group('address'),
                     'climb_rate': int(ac_match.group('climb_rate')) * FPM_TO_MS if ac_match.group('climb_rate') else None,
-                    'turn_rate': float(ac_match.group('turn_rate')) if ac_match.group('turn_rate') else None,
+                    'turn_rate': float(ac_match.group('turn_rate')) * HPM_TO_DEGS if ac_match.group('turn_rate') else None,
                     'flightlevel': float(ac_match.group('flight_level')) if ac_match.group('flight_level') else None,
                     'signal_quality': float(ac_match.group('signal_quality')) if ac_match.group('signal_quality') else None,
                     'error_count': int(ac_match.group('errors')) if ac_match.group('errors') else None,

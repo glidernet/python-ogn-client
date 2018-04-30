@@ -7,6 +7,7 @@ FEETS_TO_METER = 0.3048             # ratio feets to meter
 FPM_TO_MS = FEETS_TO_METER / 60     # ratio fpm to m/s
 KNOTS_TO_MS = 0.5144                # ratio knots to m/s
 KPH_TO_MS = 2.7778                  # ratio kph to m/s
+HPM_TO_DEGS = 180 / 60              # ratio between half turn per minute and degrees/s
 
 
 def parseAngle(dddmmhht):

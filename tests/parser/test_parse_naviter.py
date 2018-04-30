@@ -1,6 +1,6 @@
 import unittest
 
-from ogn.parser.utils import FPM_TO_MS
+from ogn.parser.utils import FPM_TO_MS, HPM_TO_DEGS
 from ogn.parser.aprs_comment.naviter_parser import NaviterParser
 
 
@@ -23,7 +23,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['address'], "042121")
 
         self.assertAlmostEqual(message['climb_rate'], 123 * FPM_TO_MS, 2)
-        self.assertEqual(message['turn_rate'], 0.5)
+        self.assertEqual(message['turn_rate'], 0.5 * HPM_TO_DEGS)
 
 
 if __name__ == '__main__':

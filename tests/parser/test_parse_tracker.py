@@ -1,6 +1,6 @@
 import unittest
 
-from ogn.parser.utils import FPM_TO_MS
+from ogn.parser.utils import FPM_TO_MS, HPM_TO_DEGS
 from ogn.parser.aprs_comment.tracker_parser import TrackerParser
 
 
@@ -13,7 +13,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertFalse(message['stealth'])
         self.assertEqual(message['address'], "2FD00F")
         self.assertAlmostEqual(message['climb_rate'], -58 * FPM_TO_MS, 2)
-        self.assertEqual(message['turn_rate'], 1.1)
+        self.assertEqual(message['turn_rate'], 1.1 * HPM_TO_DEGS)
         self.assertEqual(message['flightlevel'], 3.12)
         self.assertEqual(message['signal_quality'], 32.8)
         self.assertEqual(message['error_count'], 0)
