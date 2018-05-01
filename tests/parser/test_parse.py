@@ -68,15 +68,15 @@ class TestStringMethods(unittest.TestCase):
 
     def test_fail_bad_dstcall(self):
         with self.assertRaises(OgnParseError):
-            parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment", reference_date=datetime(2015, 1, 1))
+            parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment")
 
     def test_v026_chile(self):
         # receiver beacons from chile have a APRS position message with a pure user comment
-        message = parse("VITACURA1>APRS,TCPIP*,qAC,GLIDERN4:/201146h3322.79SI07034.80W&/A=002329 Vitacura Municipal Aerodrome, Club de Planeadores Vitacura", reference_date=datetime(2015, 1, 1))
+        message = parse("VITACURA1>APRS,TCPIP*,qAC,GLIDERN4:/201146h3322.79SI07034.80W&/A=002329 Vitacura Municipal Aerodrome, Club de Planeadores Vitacura")
 
         self.assertEqual(message['user_comment'], "Vitacura Municipal Aerodrome, Club de Planeadores Vitacura")
 
-        message_with_id = parse("ALFALFAL>APRS,TCPIP*,qAC,GLIDERN4:/221830h3330.40SI07007.88W&/A=008659 Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs", reference_date=datetime(2015, 1, 1))
+        message_with_id = parse("ALFALFAL>APRS,TCPIP*,qAC,GLIDERN4:/221830h3330.40SI07007.88W&/A=008659 Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs")
 
         self.assertEqual(message_with_id['user_comment'], "Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs")
 
@@ -96,7 +96,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_copy_constructor(self):
         valid_aprs_string = "FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5"
-        message = parse(valid_aprs_string, reference_date=datetime(2015, 1, 1, 16, 8, 29))
+        message = parse(valid_aprs_string)
 
         self.assertEqual(message['name'], 'FLRDDA5BA')
         self.assertEqual(message['address'], 'DDA5BA')

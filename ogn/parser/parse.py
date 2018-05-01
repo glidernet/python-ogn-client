@@ -17,13 +17,11 @@ from ogn.parser.aprs_comment.spider_parser import SpiderParser
 from ogn.parser.aprs_comment.spot_parser import SpotParser
 
 
-def parse(aprs_message, reference_date=None, reference_time=None):
-    if reference_date is None:
-        now = datetime.utcnow()
-        reference_date = now.date()
-        reference_time = now.time()
+def parse(aprs_message, reference_timestamp=None):
+    if reference_timestamp is None:
+        reference_timestamp = datetime.utcnow()
 
-    message = parse_aprs(aprs_message, reference_date, reference_time)
+    message = parse_aprs(aprs_message, reference_timestamp)
     if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
         message.update(parse_comment(message['comment'],
                                      dstcall=message['dstcall'],
@@ -31,7 +29,10 @@ def parse(aprs_message, reference_date=None, reference_time=None):
     return message
 
 
-def parse_aprs(message, reference_date, reference_time=None):
+def parse_aprs(message, reference_timestamp=None):
+    if reference_timestamp is None:
+        reference_timestamp = datetime.utcnow()
+
     if message and message[0] == '#':
         match_server = re.search(PATTERN_SERVER, message)
         if match_server:
@@ -56,7 +57,7 @@ def parse_aprs(message, reference_date, reference_time=None):
                         'dstcall': match.group('dstcall'),
                         'relay': match.group('relay') if match.group('relay') else None,
                         'receiver_name': match.group('receiver'),
-                        'timestamp': createTimestamp(match_position.group('time'), reference_date, reference_time),
+                        'timestamp': createTimestamp(match_position.group('time'), reference_timestamp),
                         'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
                         (-1 if match_position.group('latitude_sign') == 'S' else 1),
                         'symboltable': match_position.group('symbol_table'),
@@ -74,7 +75,7 @@ def parse_aprs(message, reference_date, reference_time=None):
                 return {'name': match.group('callsign'),
                         'dstcall': match.group('dstcall'),
                         'receiver_name': match.group('receiver'),
-                        'timestamp': createTimestamp(match_status.group('time'), reference_date, reference_time),
+                        'timestamp': createTimestamp(match_status.group('time'), reference_timestamp),
                         'comment': match_status.group('comment') if match_status.group('comment') else "",
                         'aprs_type': aprs_type}
 

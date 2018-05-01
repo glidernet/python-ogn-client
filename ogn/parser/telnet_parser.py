@@ -5,9 +5,7 @@ from ogn.parser.utils import createTimestamp
 
 
 def parse(telnet_data):
-    now = datetime.utcnow()
-    reference_date = now.date()
-    reference_time = now.time()
+    reference_timestamp = datetime.utcnow()
 
     try:
         return {'pps_offset': float(telnet_data[0:5]),
@@ -15,7 +13,7 @@ def parse(telnet_data):
                 'aircraft_type': int(telnet_data[20:24]),
                 'address_type': int(telnet_data[25]),
                 'address': telnet_data[27:33],
-                'timestamp': createTimestamp(telnet_data[34:40] + 'h', reference_date, reference_time),
+                'timestamp': createTimestamp(telnet_data[34:40] + 'h', reference_timestamp),
                 'latitude': float(telnet_data[43:53]),
                 'longitude': float(telnet_data[54:64]),
                 'altitude': int(telnet_data[68:73]),

@@ -1,7 +1,6 @@
 """
 exception definitions
 """
-from datetime import datetime
 
 
 class ParseError(Exception):
@@ -24,14 +23,3 @@ class OgnParseError(ParseError):
 
         self.message = "This is not a valid OGN message: {}".format(aprs_comment)
         super(OgnParseError, self).__init__(self.message)
-
-
-class AmbigousTimeError(ParseError):
-    """Timstamp from the past/future, can't fully reconstruct datetime from timestamp."""
-    def __init__(self, reference, packet_time):
-        self.reference = reference
-        self.packet_time = packet_time
-        self.timedelta = reference - datetime.combine(reference, packet_time)
-
-        self.message = "Can't reconstruct timestamp, {:.0f}s from past.".format(self.timedelta.total_seconds())
-        super(AmbigousTimeError, self).__init__(self.message)
