@@ -24,10 +24,10 @@ Parse APRS/OGN packet.
 
 ```
 from ogn.parser import parse
-from datetime import date, time
+from datetime import datetime
 
 beacon = parse("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005524 id0ADDDEAD -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5",
-               reference_date=date(2016,1,1), reference_time=time(11,46))
+				reference_timestamp=datetime(2015, 07, 31, 12, 34, 56))
 ```
 
 Connect to OGN and display all incoming beacons.
@@ -37,12 +37,9 @@ from ogn.client import AprsClient
 from ogn.parser import parse, ParseError
 
 def process_beacon(raw_message):
-    if raw_message[0] == '#':
-        print('Server Status: {}'.format(raw_message))
-        return
     try:
         beacon = parse(raw_message)
-        print('Received {beacon_type} from {name}'.format(**beacon))
+        print('Received {beacon_type}: {raw_message}'.format(**beacon))
     except ParseError as e:
         print('Error, {}'.format(e.message))
 

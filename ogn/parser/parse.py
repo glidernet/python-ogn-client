@@ -33,27 +33,35 @@ def parse_aprs(message, reference_timestamp=None):
     if reference_timestamp is None:
         reference_timestamp = datetime.utcnow()
 
+    result = {'raw_message': message,
+              'reference_timestamp': reference_timestamp}
+
     if message and message[0] == '#':
         match_server = re.search(PATTERN_SERVER, message)
         if match_server:
-            return {'version': match_server.group('version'),
-                    'timestamp': datetime.strptime(match_server.group('timestamp'), "%d %b %Y %H:%M:%S %Z"),
-                    'server': match_server.group('server'),
-                    'ip_address': match_server.group('ip_address'),
-                    'port': match_server.group('port'),
-                    'aprs_type': 'server'}
+            result.update({
+                'version': match_server.group('version'),
+                'timestamp': datetime.strptime(match_server.group('timestamp'), "%d %b %Y %H:%M:%S %Z"),
+                'server': match_server.group('server'),
+                'ip_address': match_server.group('ip_address'),
+                'port': match_server.group('port'),
+                'aprs_type': 'server'})
         else:
-            return {'comment': message,
-                    'aprs_type': 'comment'}
+            result.update({
+                'comment': message,
+                'aprs_type': 'comment'})
 
-    match = re.search(PATTERN_APRS, message)
-    if match:
-        aprs_type = 'position' if match.group('aprs_type') == '/' else 'status'
-        aprs_body = match.group('aprs_body')
-        if aprs_type == 'position':
-            match_position = re.search(PATTERN_APRS_POSITION, aprs_body)
-            if match_position:
-                return {'name': match.group('callsign'),
+    else:
+        match = re.search(PATTERN_APRS, message)
+        if match:
+            aprs_type = 'position' if match.group('aprs_type') == '/' else 'status'
+            result.update({'aprs_type': aprs_type})
+            aprs_body = match.group('aprs_body')
+            if aprs_type == 'position':
+                match_position = re.search(PATTERN_APRS_POSITION, aprs_body)
+                if match_position:
+                    result.update({
+                        'name': match.group('callsign'),
                         'dstcall': match.group('dstcall'),
                         'relay': match.group('relay') if match.group('relay') else None,
                         'receiver_name': match.group('receiver'),
@@ -67,19 +75,24 @@ def parse_aprs(message, reference_timestamp=None):
                         'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
                         'ground_speed': int(match_position.group('ground_speed')) * KNOTS_TO_MS / KPH_TO_MS if match_position.group('ground_speed') else None,
                         'altitude': int(match_position.group('altitude')) * FEETS_TO_METER,
-                        'comment': match_position.group('comment') if match_position.group('comment') else "",
-                        'aprs_type': aprs_type}
-        elif aprs_type == 'status':
-            match_status = re.search(PATTERN_APRS_STATUS, aprs_body)
-            if match_status:
-                return {'name': match.group('callsign'),
+                        'comment': match_position.group('comment') if match_position.group('comment') else ""})
+                else:
+                    raise AprsParseError(message)
+            elif aprs_type == 'status':
+                match_status = re.search(PATTERN_APRS_STATUS, aprs_body)
+                if match_status:
+                    result.update({
+                        'name': match.group('callsign'),
                         'dstcall': match.group('dstcall'),
                         'receiver_name': match.group('receiver'),
                         'timestamp': createTimestamp(match_status.group('time'), reference_timestamp),
-                        'comment': match_status.group('comment') if match_status.group('comment') else "",
-                        'aprs_type': aprs_type}
+                        'comment': match_status.group('comment') if match_status.group('comment') else ""})
+                else:
+                    raise AprsParseError(message)
+        else:
+            raise AprsParseError(message)
 
-    raise AprsParseError(message)
+    return result
 
 
 dstcall_parser_mapping = {'APRS': OgnParser(),
