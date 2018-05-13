@@ -1,5 +1,5 @@
 # CHANGELOG
-## Unreleased
+## 0.9.0: - 2018-05-14
 - parser: Added support for OGNLT24 (LT24), OGSKYL (Skylines), OGSPID (Spider), OGSPOT (Spot) and OGNFNT (Fanet)
 - parser: Added support for (server) comments
 - parser: Added parser for local receiver output (port 50001)
