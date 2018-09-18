@@ -72,8 +72,8 @@ class AprsClient:
                         break
 
                     callback(packet_str)
-            except BrokenPipeError:
-                self.logger.error('BrokenPipeError', exc_info=True)
+            except ConnectionError:
+                self.logger.error('ConnectionError', exc_info=True)
             except socket.error:
                 self.logger.error('socket.error', exc_info=True)
             except UnicodeDecodeError:

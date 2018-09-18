@@ -59,6 +59,8 @@ class AprsClientTest(unittest.TestCase):
                                                  '... show must go on',
                                                  BrokenPipeError(),
                                                  '... and on',
+                                                 ConnectionResetError(),
+                                                 '... and on',
                                                  socket.error(),
                                                  '... and on',
                                                  '',
