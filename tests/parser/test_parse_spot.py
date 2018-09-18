@@ -8,7 +8,7 @@ class TestStringMethods(unittest.TestCase):
         message = SpotParser.parse_position("id0-2860357 SPOT3 GOOD")
 
         self.assertEqual(message['address'], "0-2860357")
-        self.assertEqual(message['model'], 3)
+        self.assertEqual(message['model'], 'SPOT3')
         self.assertEqual(message['status'], "GOOD")
 
 

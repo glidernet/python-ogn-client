@@ -51,7 +51,7 @@ PATTERN_SPIDER_POSITION_COMMENT = re.compile("""
 
 PATTERN_SPOT_POSITION_COMMENT = re.compile("""
     id(?P<id>[\d-]+)\s
-    SPOT(?P<model>\d)\s
+    (?P<model>SPOT[A-Z\d]+)\s
     (?P<status>[A-Z]+)
 """, re.VERBOSE | re.MULTILINE)
 
@@ -69,15 +69,15 @@ PATTERN_TRACKER_POSITION_COMMENT = re.compile("""
 
 PATTERN_TRACKER_STATUS_COMMENT = re.compile("""
     h(?P<hardware_version>[\d]{2})\s
-    v(?P<software_version>[\d]{2})\s
-    (?P<gps_satellites>[\d]+)sat/(?P<gps_quality>\d)\s
-    (?P<gps_altitude>\d+)m\s
-    (?P<pressure>[\d.]+)hPa\s
-    (?P<temperature>[+-][\d.]+)degC\s
-    (?P<humidity>\d+)%\s
-    (?P<voltage>[\d.]+)V\s
-    (?P<transmitter_power>\d+)/(?P<noise_level>[+-][\d.]+)dBm\s
-    (?P<relays>\d+)/min
+    v(?P<software_version>[\d]{2})\s?
+    (?:(?P<gps_satellites>[\d]+)sat/(?P<gps_quality>\d)\s?)?
+    (?:(?P<gps_altitude>\d+)m\s?)?
+    (?:(?P<pressure>[\d.]+)hPa\s?)?
+    (?:(?P<temperature>[+-][\d.]+)degC\s?)?
+    (?:(?P<humidity>\d+)%\s?)?
+    (?:(?P<voltage>[\d.]+)V\s?)?
+    (?:(?P<transmitter_power>\d+)/(?P<noise_level>[+-][\d.]+)dBm\s?)?
+    (?:(?P<relays>\d+)/min)?
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_RECEIVER_POSITION_COMMENT = re.compile(r"""
