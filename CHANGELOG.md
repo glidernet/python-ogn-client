@@ -1,4 +1,9 @@
 # CHANGELOG
+## Unreleased
+- parser: Fixed SPOT beacons and Tracker beacons
+- parser: Fixed kph to ms conversion
+- client: Catch ConnectionResetError
+
 ## 0.9.0: - 2018-05-14
 - parser: Added support for OGNLT24 (LT24), OGSKYL (Skylines), OGSPID (Spider), OGSPOT (Spot) and OGNFNT (Fanet)
 - parser: Added support for (server) comments
