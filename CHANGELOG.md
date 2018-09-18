@@ -1,5 +1,5 @@
 # CHANGELOG
-## Unreleased
+## 0.9.1: - 2018-09-18
 - parser: Fixed SPOT beacons and Tracker beacons
 - parser: Fixed kph to ms conversion
 - client: Catch ConnectionResetError
