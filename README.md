@@ -39,7 +39,7 @@ from ogn.parser import parse, ParseError
 def process_beacon(raw_message):
     try:
         beacon = parse(raw_message)
-        print('Received {beacon_type}: {raw_message}'.format(**beacon))
+        print('Received {aprs_type}: {raw_message}'.format(**beacon))
     except ParseError as e:
         print('Error, {}'.format(e.message))
 
