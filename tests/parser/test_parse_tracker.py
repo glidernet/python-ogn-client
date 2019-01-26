@@ -52,5 +52,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['frequency_offset'], -8.0)
         self.assertEqual(message['gps_quality'], {'horizontal': 1, 'vertical': 1})
 
+
 if __name__ == '__main__':
     unittest.main()
