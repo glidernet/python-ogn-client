@@ -37,6 +37,20 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['noise_level'], -110.5)
         self.assertEqual(message['relays'], 1)
 
+    def test_no_hw_version(self):
+        # Full live message without hardware version:
+        # "ICA38C6FB>APRS,qAS,LFNZ:/101313h4346.25N/00453.67E'355/042/A=001161 !W15! id0538C6FB +1723fpm +0.1rot 20.0dB 0e -8.0kHz gps1x1"
+        message = TrackerParser.parse_position("id0538C6FB +1723fpm +0.1rot 20.0dB 0e -8.0kHz gps1x1")
+        self.assertEqual(message['address_type'], 1)
+        self.assertEqual(message['aircraft_type'], 1)
+        self.assertFalse(message['stealth'])
+        self.assertEqual(message['address'], "38C6FB")
+        self.assertAlmostEqual(message['climb_rate'], 1723 * FPM_TO_MS, 2)
+        self.assertEqual(message['turn_rate'], 0.1 * HPM_TO_DEGS)
+        self.assertEqual(message['signal_quality'], 20.0)
+        self.assertEqual(message['error_count'], 0)
+        self.assertEqual(message['frequency_offset'], -8.0)
+        self.assertEqual(message['gps_quality'], {'horizontal': 1, 'vertical': 1})
 
 if __name__ == '__main__':
     unittest.main()

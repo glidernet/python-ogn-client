@@ -68,8 +68,8 @@ PATTERN_TRACKER_POSITION_COMMENT = re.compile("""
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_TRACKER_STATUS_COMMENT = re.compile("""
-    h(?P<hardware_version>[\d]{2})\s
-    v(?P<software_version>[\d]{2})\s?
+    (?:h(?P<hardware_version>[\d]{2})\s)?
+    (?:v(?P<software_version>[\d]{2})\s?)?
     (?:(?P<gps_satellites>[\d]+)sat/(?P<gps_quality>\d)\s?)?
     (?:(?P<gps_altitude>\d+)m\s?)?
     (?:(?P<pressure>[\d.]+)hPa\s?)?
