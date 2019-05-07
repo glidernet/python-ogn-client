@@ -1,4 +1,7 @@
 # CHANGELOG
+## 0.9.2: - 2019-05-07
+- parser: Exception handling for bad OGNTRK beacons
+
 ## 0.9.1: - 2018-09-18
 - parser: Fixed SPOT beacons and Tracker beacons
 - parser: Fixed kph to ms conversion
