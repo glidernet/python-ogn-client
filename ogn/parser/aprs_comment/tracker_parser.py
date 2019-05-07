@@ -2,6 +2,7 @@ import re
 
 from ogn.parser.pattern import PATTERN_TRACKER_POSITION_COMMENT, PATTERN_TRACKER_STATUS_COMMENT
 from ogn.parser.utils import FPM_TO_MS, HPM_TO_DEGS
+from ogn.parser.exceptions import OgnParseError
 
 from .base import BaseParser
 
@@ -30,15 +31,18 @@ class TrackerParser(BaseParser):
     @staticmethod
     def parse_status(aprs_comment):
         match = re.search(PATTERN_TRACKER_STATUS_COMMENT, aprs_comment)
-        return {'hardware_version': int(match.group('hardware_version')) if match.group('hardware_version') else None,
-                'software_version': int(match.group('software_version')) if match.group('software_version') else None,
-                'gps_satellites': int(match.group('gps_satellites')) if match.group('gps_satellites') else None,
-                'gps_quality': int(match.group('gps_quality')) if match.group('gps_quality') else None,
-                'gps_altitude': int(match.group('gps_altitude')) if match.group('gps_altitude') else None,
-                'pressure': float(match.group('pressure')) if match.group('pressure') else None,
-                'temperature': float(match.group('temperature')) if match.group('temperature') else None,
-                'humidity': int(match.group('humidity')) if match.group('humidity') else None,
-                'voltage': float(match.group('voltage')) if match.group('voltage') else None,
-                'transmitter_power': int(match.group('transmitter_power')) if match.group('transmitter_power') else None,
-                'noise_level': float(match.group('noise_level')) if match.group('noise_level') else None,
-                'relays': int(match.group('relays')) if match.group('relays') else None}
+        if match:
+            return {'hardware_version': int(match.group('hardware_version')) if match.group('hardware_version') else None,
+                    'software_version': int(match.group('software_version')) if match.group('software_version') else None,
+                    'gps_satellites': int(match.group('gps_satellites')) if match.group('gps_satellites') else None,
+                    'gps_quality': int(match.group('gps_quality')) if match.group('gps_quality') else None,
+                    'gps_altitude': int(match.group('gps_altitude')) if match.group('gps_altitude') else None,
+                    'pressure': float(match.group('pressure')) if match.group('pressure') else None,
+                    'temperature': float(match.group('temperature')) if match.group('temperature') else None,
+                    'humidity': int(match.group('humidity')) if match.group('humidity') else None,
+                    'voltage': float(match.group('voltage')) if match.group('voltage') else None,
+                    'transmitter_power': int(match.group('transmitter_power')) if match.group('transmitter_power') else None,
+                    'noise_level': float(match.group('noise_level')) if match.group('noise_level') else None,
+                    'relays': int(match.group('relays')) if match.group('relays') else None}
+        else:
+            raise OgnParseError("OGNTRK status message invalid: {}".format(aprs_comment))
