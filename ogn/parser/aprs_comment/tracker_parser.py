@@ -45,4 +45,4 @@ class TrackerParser(BaseParser):
                     'noise_level': float(match.group('noise_level')) if match.group('noise_level') else None,
                     'relays': int(match.group('relays')) if match.group('relays') else None}
         else:
-            raise ParseError("OGNTRK status message invalid: {}".format(aprs_comment))
+            raise OgnParseError("OGNTRK status message invalid: {}".format(aprs_comment))
