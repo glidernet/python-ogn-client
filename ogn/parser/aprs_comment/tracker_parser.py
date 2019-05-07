@@ -2,7 +2,7 @@ import re
 
 from ogn.parser.pattern import PATTERN_TRACKER_POSITION_COMMENT, PATTERN_TRACKER_STATUS_COMMENT
 from ogn.parser.utils import FPM_TO_MS, HPM_TO_DEGS
-from ..exceptions import ParseError
+from ogn.parser.exceptions import OgnParseError
 
 from .base import BaseParser
 
