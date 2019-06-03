@@ -9,10 +9,10 @@ from .base import BaseParser
 class NaviterParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'naviter'
+        self.position_pattern = re.compile(PATTERN_NAVITER_POSITION_COMMENT)
 
-    @staticmethod
-    def parse_position(aprs_comment):
-        match = re.search(PATTERN_NAVITER_POSITION_COMMENT, aprs_comment)
+    def parse_position(self, aprs_comment):
+        match = self.position_pattern.match(aprs_comment)
         return {'stealth': (int(match.group('details'), 16) & 0b1000000000000000) >> 15 == 1,
                 'do_not_track': (int(match.group('details'), 16) & 0b0100000000000000) >> 14 == 1,
                 'aircraft_type': (int(match.group('details'), 16) & 0b0011110000000000) >> 10,

@@ -6,7 +6,7 @@ from ogn.parser.aprs_comment.naviter_parser import NaviterParser
 
 class TestStringMethods(unittest.TestCase):
     def test_OGNAVI_1(self):
-        message = NaviterParser.parse_position("id0440042121 +123fpm +0.5rot")
+        message = NaviterParser().parse_position("id0440042121 +123fpm +0.5rot")
 
         # id0440042121 == 0b0000 0100 0100 0000 0000 0100 0010 0001 0010 0001
         # bit 0: stealth mode

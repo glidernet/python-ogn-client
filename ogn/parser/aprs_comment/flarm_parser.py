@@ -9,10 +9,10 @@ from .base import BaseParser
 class FlarmParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'flarm'
+        self.position_pattern = re.compile(PATTERN_FLARM_POSITION_COMMENT)
 
-    @staticmethod
-    def parse_position(aprs_comment):
-        ac_match = re.search(PATTERN_FLARM_POSITION_COMMENT, aprs_comment)
+    def parse_position(self, aprs_comment):
+        ac_match = self.position_pattern.match(aprs_comment)
         return {'address_type': int(ac_match.group('details'), 16) & 0b00000011,
                 'aircraft_type': (int(ac_match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(ac_match.group('details'), 16) & 0b10000000) >> 7 == 1,

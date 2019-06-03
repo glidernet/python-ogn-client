@@ -8,10 +8,10 @@ from .base import BaseParser
 class SpotParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'spot'
+        self.position_pattern = re.compile(PATTERN_SPOT_POSITION_COMMENT)
 
-    @staticmethod
-    def parse_position(aprs_comment):
-        ac_match = re.search(PATTERN_SPOT_POSITION_COMMENT, aprs_comment)
+    def parse_position(self, aprs_comment):
+        ac_match = self.position_pattern.match(aprs_comment)
         return {'address': ac_match.group('id'),
                 'model': ac_match.group('model') if ac_match.group('model') else None,
                 'status': ac_match.group('status') if ac_match.group('status') else None}

@@ -6,7 +6,7 @@ from ogn.parser.aprs_comment.flarm_parser import FlarmParser
 
 class TestStringMethods(unittest.TestCase):
     def test_position_comment(self):
-        message = FlarmParser.parse_position("id21A8CBA8 -039fpm +0.1rot 3.5dB 2e -8.7kHz gps1x2 s6.09 h43 rDF0267")
+        message = FlarmParser().parse_position("id21A8CBA8 -039fpm +0.1rot 3.5dB 2e -8.7kHz gps1x2 s6.09 h43 rDF0267")
 
         self.assertEqual(message['address_type'], 1)
         self.assertEqual(message['aircraft_type'], 8)

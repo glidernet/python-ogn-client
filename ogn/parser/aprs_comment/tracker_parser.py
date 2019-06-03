@@ -10,10 +10,11 @@ from .base import BaseParser
 class TrackerParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'tracker'
+        self.position_pattern = re.compile(PATTERN_TRACKER_POSITION_COMMENT)
+        self.status_pattern = re.compile(PATTERN_TRACKER_STATUS_COMMENT)
 
-    @staticmethod
-    def parse_position(aprs_comment):
-        match = re.search(PATTERN_TRACKER_POSITION_COMMENT, aprs_comment)
+    def parse_position(self, aprs_comment):
+        match = self.position_pattern.match(aprs_comment)
         return {'address_type': int(match.group('details'), 16) & 0b00000011,
                 'aircraft_type': (int(match.group('details'), 16) & 0b01111100) >> 2,
                 'stealth': (int(match.group('details'), 16) & 0b10000000) >> 7 == 1,
@@ -28,9 +29,8 @@ class TrackerParser(BaseParser):
                                 'vertical': int(match.group('gps_quality_vertical'))} if match.group('gps_quality') else None,
                 'signal_power': float(match.group('signal_power')) if match.group('signal_power') else None}
 
-    @staticmethod
-    def parse_status(aprs_comment):
-        match = re.search(PATTERN_TRACKER_STATUS_COMMENT, aprs_comment)
+    def parse_status(self, aprs_comment):
+        match = self.status_pattern.match(aprs_comment)
         if match:
             return {'hardware_version': int(match.group('hardware_version')) if match.group('hardware_version') else None,
                     'software_version': int(match.group('software_version')) if match.group('software_version') else None,

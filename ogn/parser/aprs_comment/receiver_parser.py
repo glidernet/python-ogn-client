@@ -8,18 +8,18 @@ from .base import BaseParser
 class ReceiverParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'receiver'
+        self.position_pattern = re.compile(PATTERN_RECEIVER_POSITION_COMMENT)
+        self.status_pattern = re.compile(PATTERN_RECEIVER_STATUS_COMMENT)
 
-    @staticmethod
-    def parse_position(aprs_comment):
+    def parse_position(self, aprs_comment):
         if aprs_comment is None:
             return {}
         else:
-            match = re.search(PATTERN_RECEIVER_POSITION_COMMENT, aprs_comment)
+            match = self.position_pattern.match(aprs_comment)
             return {'user_comment': match.group('user_comment') if match.group('user_comment') else None}
 
-    @staticmethod
-    def parse_status(aprs_comment):
-        match = re.search(PATTERN_RECEIVER_STATUS_COMMENT, aprs_comment)
+    def parse_status(self, aprs_comment):
+        match = self.status_pattern.match(aprs_comment)
         return {'version': match.group('version'),
                 'platform': match.group('platform'),
                 'cpu_load': float(match.group('cpu_load')),

@@ -9,6 +9,8 @@ from .base import BaseParser
 class OgnParser(BaseParser):
     def __init__(self):
         self.beacon_type = None
+        self.aircraft_pattern = re.compile(PATTERN_AIRCRAFT_BEACON)
+        self.receiver_pattern = re.compile(PATTERN_RECEIVER_BEACON)
 
     def parse(self, aprs_comment, aprs_type):
         if not aprs_comment:
@@ -27,9 +29,8 @@ class OgnParser(BaseParser):
             return {'user_comment': aprs_comment,
                     'beacon_type': 'aprs_receiver'}
 
-    @staticmethod
-    def parse_aircraft_beacon(aprs_comment):
-        ac_match = re.search(PATTERN_AIRCRAFT_BEACON, aprs_comment)
+    def parse_aircraft_beacon(self, aprs_comment):
+        ac_match = self.aircraft_pattern.match(aprs_comment)
         if ac_match:
             return {'address_type': int(ac_match.group('details'), 16) & 0b00000011,
                     'aircraft_type': (int(ac_match.group('details'), 16) & 0b01111100) >> 2,
@@ -51,9 +52,8 @@ class OgnParser(BaseParser):
         else:
             return None
 
-    @staticmethod
-    def parse_receiver_beacon(aprs_comment):
-        rec_match = re.search(PATTERN_RECEIVER_BEACON, aprs_comment)
+    def parse_receiver_beacon(self, aprs_comment):
+        rec_match = self.receiver_pattern.match(aprs_comment)
         if rec_match:
             return {'version': rec_match.group('version'),
                     'platform': rec_match.group('platform'),
