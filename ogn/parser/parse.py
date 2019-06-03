@@ -3,7 +3,7 @@ from datetime import datetime
 
 from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER
 from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_SERVER
-from ogn.parser.exceptions import AprsParseError, OgnParseError
+from ogn.parser.exceptions import AprsParseError
 
 from ogn.parser.aprs_comment.ogn_parser import OgnParser
 from ogn.parser.aprs_comment.fanet_parser import FanetParser
@@ -15,6 +15,7 @@ from ogn.parser.aprs_comment.receiver_parser import ReceiverParser
 from ogn.parser.aprs_comment.skylines_parser import SkylinesParser
 from ogn.parser.aprs_comment.spider_parser import SpiderParser
 from ogn.parser.aprs_comment.spot_parser import SpotParser
+from ogn.parser.aprs_comment.generic_parser import GenericParser
 
 
 def parse(aprs_message, reference_timestamp=None):
@@ -105,6 +106,7 @@ dstcall_parser_mapping = {'APRS': OgnParser(),
                           'OGSKYL': SkylinesParser(),
                           'OGSPID': SpiderParser(),
                           'OGSPOT': SpotParser(),
+                          'GENERIC': GenericParser(),
                           }
 
 
@@ -113,4 +115,4 @@ def parse_comment(aprs_comment, dstcall='APRS', aprs_type="position"):
     if parser:
         return parser.parse(aprs_comment, aprs_type)
     else:
-        raise OgnParseError("No parser for dstcall {} found. APRS comment: {}".format(dstcall, aprs_comment))
+        return dstcall_parser_mapping.get('GENERIC').parse(aprs_comment, aprs_type)
