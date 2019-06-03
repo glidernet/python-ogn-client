@@ -1,4 +1,7 @@
 # CHANGELOG
+## 0.9.3: - 2019-06-03
+- parser: Added Generic parser for unknown formats
+
 ## 0.9.2: - 2019-05-07
 - parser: Exception handling for bad OGNTRK beacons
 
