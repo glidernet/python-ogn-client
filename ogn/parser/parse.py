@@ -15,6 +15,7 @@ from ogn.parser.aprs_comment.receiver_parser import ReceiverParser
 from ogn.parser.aprs_comment.skylines_parser import SkylinesParser
 from ogn.parser.aprs_comment.spider_parser import SpiderParser
 from ogn.parser.aprs_comment.spot_parser import SpotParser
+from ogn.parser.aprs_comment.inreach_parser import InreachParser
 from ogn.parser.aprs_comment.generic_parser import GenericParser
 
 
@@ -106,6 +107,7 @@ dstcall_parser_mapping = {'APRS': OgnParser(),
                           'OGSKYL': SkylinesParser(),
                           'OGSPID': SpiderParser(),
                           'OGSPOT': SpotParser(),
+                          'OGINREACH': InreachParser(),
                           'GENERIC': GenericParser(),
                           }
 

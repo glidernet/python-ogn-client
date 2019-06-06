@@ -55,6 +55,13 @@ PATTERN_SPOT_POSITION_COMMENT = re.compile("""
     (?P<status>[A-Z]+)
 """, re.VERBOSE | re.MULTILINE)
 
+PATTERN_INREACH_POSITION_COMMENT = re.compile("""
+    id(?P<id>[\d]+)\s
+    (?P<model>inReac[A-Za-z\d]*)\s
+    (?P<status>[A-Za-z]+)\s?
+    (?P<pilot_name>.+)?
+""", re.VERBOSE | re.MULTILINE)
+
 PATTERN_TRACKER_POSITION_COMMENT = re.compile("""
     id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?
     (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
