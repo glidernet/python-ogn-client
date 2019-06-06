@@ -1,6 +1,7 @@
 import unittest
 from ogn.parser.aprs_comment.inreach_parser import InreachParser
 
+
 class TestStringMethods(unittest.TestCase):
     def test_position_comment(self):
         message = InreachParser().parse_position("id300434060496190 inReac True")
