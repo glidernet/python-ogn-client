@@ -1,1 +1,1 @@
-from ogn.ddb.utils import get_ddb_devices  # flake8: noqa
+from ogn.ddb.utils import get_ddb_devices   # noqa: F401

@@ -1,1 +1,1 @@
-from ogn.client.client import AprsClient # flake8: noqa
+from ogn.client.client import AprsClient    # noqa: F401

@@ -68,10 +68,10 @@ def parse_aprs(message, reference_timestamp=None):
                         'relay': match.group('relay') if match.group('relay') else None,
                         'receiver_name': match.group('receiver'),
                         'timestamp': createTimestamp(match_position.group('time'), reference_timestamp),
-                        'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *
+                        'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *   # noqa: W504
                         (-1 if match_position.group('latitude_sign') == 'S' else 1),
                         'symboltable': match_position.group('symbol_table'),
-                        'longitude': parseAngle(match_position.group('longitude') + (match_position.group('longitude_enhancement') or '0')) *
+                        'longitude': parseAngle(match_position.group('longitude') + (match_position.group('longitude_enhancement') or '0')) *   # noqa: W504
                         (-1 if match_position.group('longitude_sign') == 'W' else 1),
                         'symbolcode': match_position.group('symbol'),
                         'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
