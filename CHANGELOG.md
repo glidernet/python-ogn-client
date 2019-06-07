@@ -1,4 +1,7 @@
 # CHANGELOG
+## 0.9.4: unreleased
+- parser: Added support for OGINREACH (Garmin inReach) beacons
+
 ## 0.9.3: - 2019-06-03
 - parser: Added Generic parser for unknown formats
 

@@ -39,6 +39,9 @@ class TestStringMethods(unittest.TestCase):
     def test_tracker_beacons(self):
         self.parse_valid_beacon_data_file(filename='tracker.txt', beacon_type='tracker')
 
+    def test_inreach_beacons(self):
+        self.parse_valid_beacon_data_file(filename='inreach.txt', beacon_type='inreach')
+
     def test_lt24_beacons(self):
         self.parse_valid_beacon_data_file(filename='lt24.txt', beacon_type='lt24')
 

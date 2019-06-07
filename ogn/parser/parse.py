@@ -102,12 +102,12 @@ dstcall_parser_mapping = {'APRS': OgnParser(),
                           'OGFLR': FlarmParser(),
                           'OGNTRK': TrackerParser(),
                           'OGNSDR': ReceiverParser(),
+                          'OGINREACH': InreachParser(),
                           'OGLT24': LT24Parser(),
                           'OGNAVI': NaviterParser(),
                           'OGSKYL': SkylinesParser(),
                           'OGSPID': SpiderParser(),
                           'OGSPOT': SpotParser(),
-                          'OGINREACH': InreachParser(),
                           'GENERIC': GenericParser(),
                           }
 
