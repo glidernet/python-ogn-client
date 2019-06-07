@@ -29,5 +29,5 @@ def parse(telnet_data):
                 'distance': float(telnet_data[143:150]),
                 'bearing': float(telnet_data[152:158]),
                 'phi': float(telnet_data[161:167])}
-    except:
+    except Exception:
         raise ParseError

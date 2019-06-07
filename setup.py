@@ -17,6 +17,7 @@ setup(
     version=PACKAGE_VERSION,
     description='A python module for the Open Glider Network',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/glidernet/python-ogn-client',
     author='Konstantin Gründger aka Meisterschueler, Fabian P. Schmidt aka kerel',
     author_email='kerel-fs@gmx.de',

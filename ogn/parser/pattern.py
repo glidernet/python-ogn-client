@@ -6,7 +6,7 @@ PATTERN_APRS_STATUS = re.compile(r"^(?P<time>(([0-1]\d|2[0-3])[0-5]\d[0-5]\dh|([
 
 PATTERN_SERVER = re.compile(r"^# aprsc (?P<version>[a-z0-9\.\-]+) (?P<timestamp>\d+ [A-Za-z]+ \d+ \d{2}:\d{2}:\d{2} GMT) (?P<server>[A-Z0-9]+) (?P<ip_address>\d+\.\d+\.\d+\.\d+):(?P<port>\d+)$")
 
-PATTERN_FANET_POSITION_COMMENT = re.compile("""
+PATTERN_FANET_POSITION_COMMENT = re.compile(r"""
     (id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?)?
     (?:(?P<climb_rate>[+-]\d+)fpm)?
 """, re.VERBOSE | re.MULTILINE)
@@ -25,44 +25,44 @@ PATTERN_FLARM_POSITION_COMMENT = re.compile(r"""
     (?:(?P<signal_power>[+-][\d.]+)dBm\s?)?
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_LT24_POSITION_COMMENT = re.compile("""
+PATTERN_LT24_POSITION_COMMENT = re.compile(r"""
     id(?P<id>\d+)\s
     (?P<climb_rate>[+-]\d+)fpm\s
     (?P<source>.+)
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_NAVITER_POSITION_COMMENT = re.compile("""
+PATTERN_NAVITER_POSITION_COMMENT = re.compile(r"""
     id(?P<details>[\dA-F]{4})(?P<address>[\dA-F]{6})\s
     (?P<climb_rate>[+-]\d+)fpm\s
     (?P<turn_rate>[+-][\d.]+)rot
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_SKYLINES_POSITION_COMMENT = re.compile("""
+PATTERN_SKYLINES_POSITION_COMMENT = re.compile(r"""
     id(?P<id>\d+)\s
     (?P<climb_rate>[+-]\d+)fpm
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_SPIDER_POSITION_COMMENT = re.compile("""
+PATTERN_SPIDER_POSITION_COMMENT = re.compile(r"""
     id(?P<id>[\d-]+)\s
     (?P<signal_power>[+-]\d+)dB\s
     (?P<spider_id>[A-Z]+)\s
     (?P<gps_quality>.+)
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_SPOT_POSITION_COMMENT = re.compile("""
+PATTERN_SPOT_POSITION_COMMENT = re.compile(r"""
     id(?P<id>[\d-]+)\s
     (?P<model>SPOT[A-Z\d]+)\s
     (?P<status>[A-Z]+)
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_INREACH_POSITION_COMMENT = re.compile("""
+PATTERN_INREACH_POSITION_COMMENT = re.compile(r"""
     id(?P<id>[\d]+)\s
     (?P<model>inReac[A-Za-z\d]*)\s
     (?P<status>[A-Za-z]+)\s?
     (?P<pilot_name>.+)?
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_TRACKER_POSITION_COMMENT = re.compile("""
+PATTERN_TRACKER_POSITION_COMMENT = re.compile(r"""
     id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?
     (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
     (?:(?P<turn_rate>[+-][\d.]+?)rot\s)?
@@ -74,7 +74,7 @@ PATTERN_TRACKER_POSITION_COMMENT = re.compile("""
     (?:(?P<signal_power>[+-][\d.]+)dBm\s?)?
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_TRACKER_STATUS_COMMENT = re.compile("""
+PATTERN_TRACKER_STATUS_COMMENT = re.compile(r"""
     h(?P<hardware_version>[\d]{2})\s
     v(?P<software_version>[\d]{2})\s?
     (?:(?P<gps_satellites>[\d]+)sat/(?P<gps_quality>\d)\s?)?
@@ -91,7 +91,7 @@ PATTERN_RECEIVER_POSITION_COMMENT = re.compile(r"""
     (?:(?P<user_comment>.+))?
 """, re.VERBOSE | re.MULTILINE)
 
-PATTERN_RECEIVER_STATUS_COMMENT = re.compile("""
+PATTERN_RECEIVER_STATUS_COMMENT = re.compile(r"""
     (?:
         v(?P<version>\d+\.\d+\.\d+)
         (?:\.(?P<platform>.+?))?
