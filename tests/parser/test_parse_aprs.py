@@ -77,6 +77,13 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertAlmostEqual(message['altitude'], -13 * FEETS_TO_METER, 5)
 
+    def test_no_altitude(self):
+        # altitude is not a 'must have'
+        raw_message = "FLRDDEEF1>OGCAPT,qAS,CAPTURS:/065511h4837.63N/00233.79E'000/000/"
+        message = parse_aprs(raw_message)
+
+        self.assertEqual(message['altitude'], None)
+
     def test_invalid_coordinates(self):
         # sometimes the coordinates leave their valid range: -90<=latitude<=90 or -180<=longitude<=180
         with self.assertRaises(AprsParseError):

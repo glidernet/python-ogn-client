@@ -3,6 +3,7 @@
 - parser: Added support for OGINREACH (Garmin inReach) beacons
 - parser: Added support for OGFLYM (Flymaster) beacons
 - parser: Added support for comments in tracker beacons (OGNTRK)
+- parser: Added support for OGCAPT (Capturs) beacons
 
 ## 0.9.3: - 2019-06-03
 - parser: Added Generic parser for unknown formats

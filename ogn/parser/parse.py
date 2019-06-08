@@ -76,7 +76,7 @@ def parse_aprs(message, reference_timestamp=None):
                         'symbolcode': match_position.group('symbol'),
                         'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
                         'ground_speed': int(match_position.group('ground_speed')) * KNOTS_TO_MS / KPH_TO_MS if match_position.group('ground_speed') else None,
-                        'altitude': int(match_position.group('altitude')) * FEETS_TO_METER,
+                        'altitude': int(match_position.group('altitude')) * FEETS_TO_METER if match_position.group('altitude') else None,
                         'comment': match_position.group('comment') if match_position.group('comment') else ""})
                 else:
                     raise AprsParseError(message)
@@ -102,6 +102,7 @@ dstcall_parser_mapping = {'APRS': OgnParser(),
                           'OGFLR': FlarmParser(),
                           'OGNTRK': TrackerParser(),
                           'OGNSDR': ReceiverParser(),
+                          'OGCAPT': GenericParser(beacon_type='capturs'),
                           'OGFLYM': GenericParser(beacon_type='flymaster'),
                           'OGINREACH': InreachParser(),
                           'OGLT24': LT24Parser(),
