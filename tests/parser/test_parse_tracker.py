@@ -37,6 +37,11 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['noise_level'], -110.5)
         self.assertEqual(message['relays'], 1)
 
+    def test_status_comment_comment(self):
+        message = TrackerParser().parse_status("Pilot=Pawel Hard=DIY/STM32")
+
+        self.assertEqual(message['comment'], "Pilot=Pawel Hard=DIY/STM32")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -2,7 +2,6 @@ import re
 
 from ogn.parser.pattern import PATTERN_TRACKER_POSITION_COMMENT, PATTERN_TRACKER_STATUS_COMMENT
 from ogn.parser.utils import FPM_TO_MS, HPM_TO_DEGS
-from ogn.parser.exceptions import OgnParseError
 
 from .base import BaseParser
 
@@ -45,4 +44,4 @@ class TrackerParser(BaseParser):
                     'noise_level': float(match.group('noise_level')) if match.group('noise_level') else None,
                     'relays': int(match.group('relays')) if match.group('relays') else None}
         else:
-            raise OgnParseError("OGNTRK status message invalid: {}".format(aprs_comment))
+            return {'comment': aprs_comment}
