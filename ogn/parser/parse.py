@@ -56,7 +56,7 @@ def parse_aprs(message, reference_timestamp=None):
     else:
         match = re.search(PATTERN_APRS, message)
         if match:
-            aprs_type = 'position' if match.group('aprs_type') == '/' else 'status'
+            aprs_type = 'position' if match.group('aprs_type') == '/' else 'status' if match.group('aprs_type') == '>' else 'unknown'
             result.update({'aprs_type': aprs_type})
             aprs_body = match.group('aprs_body')
             if aprs_type == 'position':
@@ -90,7 +90,7 @@ def parse_aprs(message, reference_timestamp=None):
                         'timestamp': createTimestamp(match_status.group('time'), reference_timestamp),
                         'comment': match_status.group('comment') if match_status.group('comment') else ""})
                 else:
-                    raise AprsParseError(message)
+                    raise NotImplementedError(message)
         else:
             raise AprsParseError(message)
 
@@ -102,13 +102,14 @@ dstcall_parser_mapping = {'APRS': OgnParser(),
                           'OGFLR': FlarmParser(),
                           'OGNTRK': TrackerParser(),
                           'OGNSDR': ReceiverParser(),
+                          'OGFLYM': GenericParser(beacon_type='flymaster'),
                           'OGINREACH': InreachParser(),
                           'OGLT24': LT24Parser(),
                           'OGNAVI': NaviterParser(),
                           'OGSKYL': SkylinesParser(),
                           'OGSPID': SpiderParser(),
                           'OGSPOT': SpotParser(),
-                          'GENERIC': GenericParser(),
+                          'GENERIC': GenericParser(beacon_type='unknown'),
                           }
 
 

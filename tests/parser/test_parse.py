@@ -39,6 +39,9 @@ class TestStringMethods(unittest.TestCase):
     def test_tracker_beacons(self):
         self.parse_valid_beacon_data_file(filename='tracker.txt', beacon_type='tracker')
 
+    def test_flymaster_beacons(self):
+        self.parse_valid_beacon_data_file(filename='flymaster.txt', beacon_type='flymaster')
+
     def test_inreach_beacons(self):
         self.parse_valid_beacon_data_file(filename='inreach.txt', beacon_type='inreach')
 
@@ -59,7 +62,8 @@ class TestStringMethods(unittest.TestCase):
 
     def test_generic_beacons(self):
         message = parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment")
-        self.assertEqual(message['beacon_type'], 'generic')
+        self.assertEqual(message['beacon_type'], 'unknown')
+        self.assertEqual(message['comment'], "this is a comment")
 
     def test_fail_parse_aprs_none(self):
         with self.assertRaises(TypeError):

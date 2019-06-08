@@ -1,6 +1,8 @@
 # CHANGELOG
 ## 0.9.4: unreleased
 - parser: Added support for OGINREACH (Garmin inReach) beacons
+- parser: Added support for OGFLYM (Flymaster) beacons
+- parser: Added support for comments in tracker beacons (OGNTRK)
 
 ## 0.9.3: - 2019-06-03
 - parser: Added Generic parser for unknown formats
