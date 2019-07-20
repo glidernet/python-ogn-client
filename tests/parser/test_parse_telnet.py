@@ -14,11 +14,11 @@ class TestStringMethods(unittest.TestCase):
             parse('This is rubbish')
 
     @mock.patch('ogn.parser.telnet_parser.datetime')
-    def test_telnet_parse(self, datetime_mock):
+    def test_telnet_parse_complete(self, datetime_mock):
         # set the utcnow-mock near to the time in the test string
         datetime_mock.utcnow.return_value = datetime(2015, 1, 1, 10, 0, 55)
 
-        message = parse('0.181sec:868.394MHz:   1:2:DDA411 103010: [ +50.86800, +12.15279]deg  988m  +0.1m/s  25.7m/s 085.4deg  -3.5deg/sec 5 03x04m 01f_-12.61kHz  5.8/15.5dB/2 10e   30.9km 099.5deg  +1.1deg + ?')
+        message = parse('0.181sec:868.394MHz:   1:2:DDA411 103010: [ +50.86800, +12.15279]deg  988m  +0.1m/s  25.7m/s 085.4deg  -3.5deg/sec 5 03x04m 01f_-12.61kHz  5.8/15.5dB/2 10e   30.9km 099.5deg  +1.1deg + ?     R     B8949')
 
         self.assertEqual(message['pps_offset'], 0.181)
         self.assertEqual(message['frequency'], 868.394)
@@ -47,6 +47,11 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['bearing'], 99.5)
         self.assertEqual(message['phi'], 1.1)
         self.assertEqual(message['multichannel'], True)
+
+    def test_telnet_parse_corrupt(self):
+        message = parse('0.397sec:868.407MHz:  sA:1:784024 205656: [  +5.71003, +20.48951]deg 34012m +14.5m/s 109.7m/s 118.5deg +21.0deg/sec 0 27x40m 01_o +7.03kHz 17.2/27.0dB/2 12e 4719.5km 271.1deg  -8.5deg   ?     R     B34067')
+
+        self.assertIsNone(message)
 
 
 if __name__ == '__main__':
