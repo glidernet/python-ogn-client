@@ -20,7 +20,7 @@ pip install ogn-client
 
 ## Example Usage
 
-Parse APRS/OGN packet.
+### Parse APRS/OGN packet.
 
 ```
 from ogn.parser import parse
@@ -30,7 +30,7 @@ beacon = parse("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005
 				reference_timestamp=datetime(2015, 07, 31, 12, 34, 56))
 ```
 
-Connect to OGN and display all incoming beacons.
+### Connect to OGN and display all incoming beacons.
 
 ```
 from ogn.client import AprsClient
@@ -48,6 +48,27 @@ client.connect()
 
 try:
     client.run(callback=process_beacon, autoreconnect=True)
+except KeyboardInterrupt:
+    print('\nStop ogn gateway')
+    client.disconnect()
+```
+
+### Connect to telnet console and display all decoded beacons.
+
+```
+from ogn.client import TelnetClient
+from ogn.parser.telnet_parser import parse
+
+def process_beacon(raw_message):
+    beacon = parse(raw_message)
+    if beacon:
+        print(beacon)
+
+client = TelnetClient()
+client.connect()
+
+try:
+    client.run(callback=process_beacon)
 except KeyboardInterrupt:
     print('\nStop ogn gateway')
     client.disconnect()

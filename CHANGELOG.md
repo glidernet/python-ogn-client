@@ -1,5 +1,5 @@
 # CHANGELOG
-## unreleased
+## 0.9.5: - 2019-09-07
 - parser: fixed telnet parser
 
 ## 0.9.4: - 2019-06-10
