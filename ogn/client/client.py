@@ -13,11 +13,12 @@ def create_aprs_login(user_name, pass_code, app_name, app_version, aprs_filter=N
 
 
 class AprsClient:
-    def __init__(self, aprs_user, aprs_filter=''):
+    def __init__(self, aprs_user, aprs_filter='', settings=settings):
         self.logger = logging.getLogger(__name__)
         self.logger.info("Connect to OGN as {} with filter '{}'".format(aprs_user, (aprs_filter if aprs_filter else 'full-feed')))
         self.aprs_user = aprs_user
         self.aprs_filter = aprs_filter
+        self.settings = settings
 
         self._kill = False
 
@@ -27,14 +28,14 @@ class AprsClient:
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
 
         if self.aprs_filter:
-            port = settings.APRS_SERVER_PORT_CLIENT_DEFINED_FILTERS
+            port = self.settings.APRS_SERVER_PORT_CLIENT_DEFINED_FILTERS
         else:
-            port = settings.APRS_SERVER_PORT_FULL_FEED
+            port = self.settings.APRS_SERVER_PORT_FULL_FEED
 
-        self.sock.connect((settings.APRS_SERVER_HOST, port))
+        self.sock.connect((self.settings.APRS_SERVER_HOST, port))
         self.logger.debug('Server port {}'.format(port))
 
-        login = create_aprs_login(self.aprs_user, -1, settings.APRS_APP_NAME, settings.APRS_APP_VER, self.aprs_filter)
+        login = create_aprs_login(self.aprs_user, -1, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
         self.sock.send(login.encode())
         self.sock_file = self.sock.makefile('rw')
 
@@ -56,7 +57,7 @@ class AprsClient:
             try:
                 keepalive_time = time()
                 while not self._kill:
-                    if time() - keepalive_time > settings.APRS_KEEPALIVE_TIME:
+                    if time() - keepalive_time > self.settings.APRS_KEEPALIVE_TIME:
                         self.logger.info('Send keepalive')
                         self.sock.send('#keepalive\n'.encode())
                         timed_callback(self)
@@ -86,13 +87,14 @@ class AprsClient:
 
 
 class TelnetClient:
-    def __init__(self):
+    def __init__(self, settings=settings):
         self.logger = logging.getLogger(__name__)
         self.logger.info("Connect to local telnet server")
+        self.settings = settings
 
     def connect(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.connect((settings.TELNET_SERVER_HOST, settings.TELNET_SERVER_PORT))
+        self.sock.connect((self.settings.TELNET_SERVER_HOST, self.settings.TELNET_SERVER_PORT))
 
     def run(self, callback, autoreconnect=False):
         while True:
