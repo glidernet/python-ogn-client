@@ -13,18 +13,25 @@ class FlarmParser(BaseParser):
 
     def parse_position(self, aprs_comment):
         ac_match = self.position_pattern.match(aprs_comment)
-        return {'address_type': int(ac_match.group('details'), 16) & 0b00000011,
-                'aircraft_type': (int(ac_match.group('details'), 16) & 0b01111100) >> 2,
-                'stealth': (int(ac_match.group('details'), 16) & 0b10000000) >> 7 == 1,
-                'address': ac_match.group('address'),
-                'climb_rate': int(ac_match.group('climb_rate')) * FPM_TO_MS,
-                'turn_rate': float(ac_match.group('turn_rate')) * HPM_TO_DEGS,
-                'signal_quality': float(ac_match.group('signal_quality')),
-                'error_count': int(ac_match.group('error_count')),
-                'frequency_offset': float(ac_match.group('frequency_offset')),
-                'gps_quality': {'horizontal': int(ac_match.group('gps_quality_horizontal')),
-                                'vertical': int(ac_match.group('gps_quality_vertical'))} if ac_match.group('gps_quality') else None,
-                'software_version': float(ac_match.group('software_version')) if ac_match.group('software_version') else None,
-                'hardware_version': int(ac_match.group('hardware_version'), 16) if ac_match.group('hardware_version') else None,
-                'real_address': ac_match.group('real_address') if ac_match.group('real_address') else None,
-                'signal_power': float(ac_match.group('signal_power')) if ac_match.group('signal_power') else None}
+
+        def if_present(arg, func):
+            result = ac_match.group(arg)
+            return (func(result)) if result else None
+
+        return {'address_type': if_present('details', lambda x: int(x, 16) & 0b00000011),
+                'aircraft_type': if_present('details', lambda x: (int(x, 16) & 0b01111100) >> 2),
+                'stealth': if_present('details', lambda x: (int(x, 16) & 0b10000000) >> 7 == 1),
+                'address': if_present('address', lambda x: x),
+                'climb_rate': if_present('climb_rate', lambda x: int(x) * FPM_TO_MS),
+                'turn_rate': if_present('turn_rate', lambda x: float(x) * HPM_TO_DEGS),
+                'signal_quality': if_present('signal_quality', float),
+                'error_count': if_present('error_count', int),
+                'frequency_offset': if_present('frequency_offset', float),
+                'gps_quality': if_present('gps_quality', lambda _x: {
+                    'horizontal': int(ac_match.group('gps_quality_horizontal')),
+                    'vertical': int(ac_match.group('gps_quality_vertical'))}),
+                'software_version': if_present('software_version', float),
+                'hardware_version': if_present('hardware_version', lambda x: int(x, 16)),
+                'real_address': if_present('real_address', lambda x: x),
+                'signal_power': if_present('signal_power', float),
+                }
