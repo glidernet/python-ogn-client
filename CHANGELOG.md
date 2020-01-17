@@ -1,4 +1,8 @@
 # CHANGELOG
+## 0.9.6: - 2020-01-17
+- parser: Better support for OGFLR beacons from PilotAware
+- client: Allow dynamic settings override with optional "settings" parameter
+
 ## 0.9.5: - 2019-09-07
 - parser: fixed telnet parser
 
