@@ -1,4 +1,7 @@
 # CHANGELOG
+## unreleased
+- parser: Added support for OGPAW (PilotAware) beacons
+
 ## 0.9.6: - 2020-01-17
 - parser: Better support for OGFLR beacons from PilotAware
 - client: Allow dynamic settings override with optional "settings" parameter

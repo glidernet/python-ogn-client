@@ -54,6 +54,9 @@ class TestStringMethods(unittest.TestCase):
     def test_naviter_beacons(self):
         self.parse_valid_beacon_data_file(filename='naviter.txt', beacon_type='naviter')
 
+    def test_pilot_aware_beacons(self):
+        self.parse_valid_beacon_data_file(filename='pilot_aware.txt', beacon_type='pilot_aware')
+
     def test_skylines_beacons(self):
         self.parse_valid_beacon_data_file(filename='skylines.txt', beacon_type='skylines')
 

@@ -1,0 +1,5 @@
+# The following beacons are example for PilotAware's APRS format version OGPAW-1
+# source: https://github.com/glidernet/ogn-aprs-protocol
+#
+ICA404EC3>OGPAW,qAS,UKWOG:/104337h5211.24N\00032.65W^124/081/A=004026 !W62! id21404EC3 12.5dB +2.2kHz
+ICA404EC3>OGPAW,qAS,UKWOG:/104341h5211.18N\00032.53W^131/081/A=004010 !W85! id21404EC3 9.2dB +2.2kHz +10.0dBm
