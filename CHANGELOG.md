@@ -1,6 +1,7 @@
 # CHANGELOG
-## unreleased
+## 0.9.7: - 2020-05-21
 - parser: Added support for OGPAW (PilotAware) beacons
+- client: Dropped compatibility for Python 3.4
 
 ## 0.9.6: - 2020-01-17
 - parser: Better support for OGFLR beacons from PilotAware
