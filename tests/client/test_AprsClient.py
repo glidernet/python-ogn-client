@@ -147,4 +147,4 @@ class AprsClientTest(unittest.TestCase):
             pass
         finally:
             client.disconnect()
-        self.assert_(True)
+        self.assertTrue(True)
