@@ -1,5 +1,3 @@
-import re
-
 from ogn.parser.pattern import PATTERN_RECEIVER_POSITION_COMMENT, PATTERN_RECEIVER_STATUS_COMMENT
 
 from .base import BaseParser
@@ -8,8 +6,8 @@ from .base import BaseParser
 class ReceiverParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'receiver'
-        self.position_pattern = re.compile(PATTERN_RECEIVER_POSITION_COMMENT)
-        self.status_pattern = re.compile(PATTERN_RECEIVER_STATUS_COMMENT)
+        self.position_pattern = PATTERN_RECEIVER_POSITION_COMMENT
+        self.status_pattern = PATTERN_RECEIVER_STATUS_COMMENT
 
     def parse_position(self, aprs_comment):
         if aprs_comment is None:

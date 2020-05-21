@@ -1,5 +1,3 @@
-import re
-
 from ogn.parser.pattern import PATTERN_NAVITER_POSITION_COMMENT
 from ogn.parser.utils import FPM_TO_MS, HPM_TO_DEGS
 
@@ -9,7 +7,7 @@ from .base import BaseParser
 class NaviterParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'naviter'
-        self.position_pattern = re.compile(PATTERN_NAVITER_POSITION_COMMENT)
+        self.position_pattern = PATTERN_NAVITER_POSITION_COMMENT
 
     def parse_position(self, aprs_comment):
         match = self.position_pattern.match(aprs_comment)

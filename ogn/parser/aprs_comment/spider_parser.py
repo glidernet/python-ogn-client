@@ -1,5 +1,3 @@
-import re
-
 from ogn.parser.pattern import PATTERN_SPIDER_POSITION_COMMENT
 
 from .base import BaseParser
@@ -8,7 +6,7 @@ from .base import BaseParser
 class SpiderParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'spider'
-        self.position_pattern = re.compile(PATTERN_SPIDER_POSITION_COMMENT)
+        self.position_pattern = PATTERN_SPIDER_POSITION_COMMENT
 
     def parse_position(self, aprs_comment):
         ac_match = self.position_pattern.match(aprs_comment)

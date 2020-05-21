@@ -1,5 +1,3 @@
-import re
-
 from ogn.parser.pattern import PATTERN_TRACKER_POSITION_COMMENT, PATTERN_TRACKER_STATUS_COMMENT
 from ogn.parser.utils import FPM_TO_MS, HPM_TO_DEGS
 
@@ -9,8 +7,8 @@ from .base import BaseParser
 class TrackerParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'tracker'
-        self.position_pattern = re.compile(PATTERN_TRACKER_POSITION_COMMENT)
-        self.status_pattern = re.compile(PATTERN_TRACKER_STATUS_COMMENT)
+        self.position_pattern = PATTERN_TRACKER_POSITION_COMMENT
+        self.status_pattern = PATTERN_TRACKER_STATUS_COMMENT
 
     def parse_position(self, aprs_comment):
         match = self.position_pattern.match(aprs_comment)
