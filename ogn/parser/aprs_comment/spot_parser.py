@@ -10,6 +10,6 @@ class SpotParser(BaseParser):
 
     def parse_position(self, aprs_comment):
         match = self.position_pattern.match(aprs_comment)
-        return {'address': match.group('id'),
+        return {'spot_id': match.group('spot_id'),
                 'model': match.group('model') if match.group('model') else None,
                 'status': match.group('status') if match.group('status') else None}

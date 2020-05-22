@@ -10,7 +10,7 @@ class SpiderParser(BaseParser):
 
     def parse_position(self, aprs_comment):
         ac_match = self.position_pattern.match(aprs_comment)
-        return {'address': ac_match.group('id'),
+        return {'spider_id': ac_match.group('spider_id'),
                 'signal_power': int(ac_match.group('signal_power')) if ac_match.group('signal_power') else None,
-                'spider_id': ac_match.group('spider_id') if ac_match.group('spider_id') else None,
+                'spider_registration': ac_match.group('spider_registration') if ac_match.group('spider_registration') else None,
                 'gps_quality': ac_match.group('gps_quality') if ac_match.group('gps_quality') else None}

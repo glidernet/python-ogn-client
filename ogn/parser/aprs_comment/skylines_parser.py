@@ -11,5 +11,5 @@ class SkylinesParser(BaseParser):
 
     def parse_position(self, aprs_comment):
         match = self.position_pattern.match(aprs_comment)
-        return {'address': match.group('id'),
+        return {'skylines_id': match.group('skylines_id'),
                 'climb_rate': int(match.group('climb_rate')) * FPM_TO_MS if match.group('climb_rate') else None}

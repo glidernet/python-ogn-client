@@ -11,6 +11,6 @@ class LT24Parser(BaseParser):
 
     def parse_position(self, aprs_comment):
         match = self.position_pattern.match(aprs_comment)
-        return {'address': match.group('id'),
+        return {'lt24_id': match.group('lt24_id'),
                 'climb_rate': int(match.group('climb_rate')) * FPM_TO_MS if match.group('climb_rate') else None,
                 'source': match.group('source') if match.group('source') else None}

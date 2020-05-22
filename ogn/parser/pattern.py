@@ -11,6 +11,13 @@ PATTERN_FANET_POSITION_COMMENT = re.compile(r"""
     (?:(?P<climb_rate>[+-]\d+)fpm)?
 """, re.VERBOSE | re.MULTILINE)
 
+PATTERN_FANET_STATUS_COMMENT = re.compile(r"""
+    (?:(Name=\"(?P<user_name>[^\"]*)\")\s?)?
+    (?:(?P<signal_quality>[\d.]+?)dB\s?)?
+    (?:(?P<frequency_offset>[+-][\d.]+?)kHz\s?)?
+    (?:(?P<error_count>\d+)e\s?)?
+""", re.VERBOSE | re.MULTILINE)
+
 PATTERN_FLARM_POSITION_COMMENT = re.compile(r"""
     id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?
     (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
@@ -26,7 +33,7 @@ PATTERN_FLARM_POSITION_COMMENT = re.compile(r"""
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_LT24_POSITION_COMMENT = re.compile(r"""
-    id(?P<id>\d+)\s
+    id(?P<lt24_id>\d+)\s
     (?P<climb_rate>[+-]\d+)fpm\s
     (?P<source>.+)
 """, re.VERBOSE | re.MULTILINE)
@@ -38,19 +45,19 @@ PATTERN_NAVITER_POSITION_COMMENT = re.compile(r"""
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_SKYLINES_POSITION_COMMENT = re.compile(r"""
-    id(?P<id>\d+)\s
+    id(?P<skylines_id>\d+)\s
     (?P<climb_rate>[+-]\d+)fpm
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_SPIDER_POSITION_COMMENT = re.compile(r"""
-    id(?P<id>[\d-]+)\s
+    id(?P<spider_id>[\d-]+)\s
     (?P<signal_power>[+-]\d+)dB\s
-    (?P<spider_id>[A-Z0-9]+)\s
+    (?P<spider_registration>[A-Z0-9]+)\s
     (?P<gps_quality>.+)
 """, re.VERBOSE | re.MULTILINE)
 
 PATTERN_SPOT_POSITION_COMMENT = re.compile(r"""
-    id(?P<id>[\d-]+)\s
+    id(?P<spot_id>[\d-]+)\s
     (?P<model>SPOT[A-Z\d]+)\s
     (?P<status>[A-Z]+)
 """, re.VERBOSE | re.MULTILINE)
