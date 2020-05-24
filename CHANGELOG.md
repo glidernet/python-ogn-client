@@ -1,4 +1,9 @@
 # CHANGELOG
+## unreleased
+- parser: Changed InReach parser (fixes #73)
+- parser: separated incompatible ID into parser dependant ID (lt24: address -> lt24_id, skylines: address -> skylines_id,
+          spider: id_spider -> spider_registration, address -> spider_id, spot: address -> spot_id) (fixes #64)
+
 ## 0.9.7: - 2020-05-21
 - parser: Added support for OGPAW (PilotAware) beacons
 - client: Dropped compatibility for Python 3.4
