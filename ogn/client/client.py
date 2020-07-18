@@ -52,7 +52,7 @@ class AprsClient:
 
         self._kill = True
 
-    def run(self, callback, timed_callback=lambda client: None, autoreconnect=False):
+    def run(self, callback, timed_callback=lambda client: None, autoreconnect=False, **kwargs):
         while not self._kill:
             try:
                 keepalive_time = time()
@@ -72,7 +72,7 @@ class AprsClient:
                         self.logger.warning('Read returns zero length string. Failure.  Orderly closeout')
                         break
 
-                    callback(packet_str)
+                    callback(packet_str, **kwargs)
             except ConnectionError:
                 self.logger.error('ConnectionError', exc_info=True)
             except socket.error:
