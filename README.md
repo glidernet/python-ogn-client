@@ -22,7 +22,7 @@ pip install ogn-client
 
 ### Parse APRS/OGN packet.
 
-```
+```python
 from ogn.parser import parse
 from datetime import datetime
 
@@ -32,7 +32,7 @@ beacon = parse("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005
 
 ### Connect to OGN and display all incoming beacons.
 
-```
+```python
 from ogn.client import AprsClient
 from ogn.parser import parse, ParseError
 
@@ -55,7 +55,7 @@ except KeyboardInterrupt:
 
 ### Connect to telnet console and display all decoded beacons.
 
-```
+```python
 from ogn.client import TelnetClient
 from ogn.parser.telnet_parser import parse
 
