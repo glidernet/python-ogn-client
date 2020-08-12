@@ -27,7 +27,7 @@ from ogn.parser import parse
 from datetime import datetime
 
 beacon = parse("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005524 id0ADDDEAD -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5",
-				reference_timestamp=datetime(2015, 07, 31, 12, 34, 56))
+				reference_timestamp=datetime(2015, 7, 31, 12, 34, 56))
 ```
 
 ### Connect to OGN and display all incoming beacons.
