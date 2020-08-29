@@ -1,10 +1,9 @@
-import re
 from datetime import datetime
 
 from ogn.parser.utils import createTimestamp
 from ogn.parser.pattern import PATTERN_TELNET_50001
 
-telnet_50001_pattern = re.compile(PATTERN_TELNET_50001)
+telnet_50001_pattern = PATTERN_TELNET_50001
 
 
 def parse(telnet_data):

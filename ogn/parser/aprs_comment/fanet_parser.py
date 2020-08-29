@@ -1,5 +1,3 @@
-import re
-
 from ogn.parser.utils import FPM_TO_MS
 from ogn.parser.pattern import PATTERN_FANET_POSITION_COMMENT
 
@@ -9,7 +7,7 @@ from .base import BaseParser
 class FanetParser(BaseParser):
     def __init__(self):
         self.beacon_type = 'fanet'
-        self.position_parser = re.compile(PATTERN_FANET_POSITION_COMMENT)
+        self.position_parser = PATTERN_FANET_POSITION_COMMENT
 
     def parse_position(self, aprs_comment):
         ac_match = self.position_parser.match(aprs_comment)
