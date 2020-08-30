@@ -35,7 +35,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9'
     ],
-    keywords='gliding ogn',
+    keywords=['gliding', 'ogn'],
     packages=['ogn.{}'.format(package) for package in find_packages(where='ogn')],
     python_requires='>=3',
     install_requires=[],
