@@ -58,6 +58,13 @@ class TestStringMethods(unittest.TestCase):
         self.assertIsNotNone(message_triple)
         self.assertIsNotNone(message_single)
 
+    def test_relevant_keys_only(self):
+        # return only keys where we got informations
+        message = OgnParser().parse_aircraft_beacon("id093D0930")
+
+        self.assertIsNotNone(message)
+        self.assertEqual(sorted(message.keys()), sorted(['address_type', 'aircraft_type', 'stealth', 'address']))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -22,6 +22,13 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['hardware_version'], 67)
         self.assertEqual(message['real_address'], "DF0267")
 
+    def test_position_comment_relevant_keys_only(self):
+        # return only keys where we got informations
+        message = FlarmParser().parse_position("id21A8CBA8")
+
+        self.assertIsNotNone(message)
+        self.assertEqual(sorted(message.keys()), sorted(['address_type', 'aircraft_type', 'stealth', 'address']))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,4 +1,7 @@
 # CHANGELOG
+## not released
+- parser: Skip keys where value is "None"
+
 ## 0.9.8: - 2020-08-21
 - parser: Changed InReach parser (fixes #73)
 - parser: separated incompatible ID into parser dependant ID (lt24: address -> lt24_id, skylines: address -> skylines_id,

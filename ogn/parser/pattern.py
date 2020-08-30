@@ -178,7 +178,7 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
     \s)?
     CPU:(?P<cpu_load>[\d.]+)\s
     RAM:(?P<ram_free>[\d.]+)/(?P<ram_total>[\d.]+)MB\s
-    NTP:(?P<ntp_offset>[\d.]+)ms/(?P<ntp_correction>[+-][\d.]+)ppm\s
+    NTP:(?P<ntp_offset>[\d.]+)ms/(?P<ntp_correction>[+-][\d.]+)ppm\s?
     (?:(?P<voltage>[\d.]+)V\s)?
     (?:(?P<amperage>[\d.]+)A\s)?
     (?:(?P<cpu_temperature>[+-][\d.]+)C\s*)?

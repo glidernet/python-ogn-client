@@ -42,6 +42,13 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['good_senders'], 68)
         self.assertEqual(message['good_and_bad_senders'], 135)
 
+    def test_relevant_keys_only(self):
+        # return only keys where we got informations
+        message = OgnParser().parse_receiver_beacon("v0.2.5.ARM CPU:0.4 RAM:638.0/970.5MB NTP:0.2ms/-1.1ppm")
+
+        self.assertIsNotNone(message)
+        self.assertEqual(sorted(message.keys()), sorted(['version', 'platform', 'cpu_load', 'free_ram', 'total_ram', 'ntp_error', 'rt_crystal_correction']))
+
 
 if __name__ == '__main__':
     unittest.main()
