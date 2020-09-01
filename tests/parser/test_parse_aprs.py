@@ -79,7 +79,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_no_altitude(self):
         # altitude is not a 'must have'
-        raw_message = "FLRDDEEF1>OGCAPT,qAS,CAPTURS:/065511h4837.63N/00233.79E'000/000/"
+        raw_message = "FLRDDEEF1>OGCAPT,qAS,CAPTURS:/065511h4837.63N/00233.79E'000/000"
         message = parse_aprs(raw_message)
 
         self.assertEqual(message['altitude'], None)

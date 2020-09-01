@@ -1,5 +1,6 @@
 # CHANGELOG
 ## not released
+- parser: Fixed textual altitude part (fixes #81)
 - parser: Skip keys where value is "None"
 
 ## 0.9.8: - 2020-08-21
