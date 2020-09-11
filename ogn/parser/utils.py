@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 FEETS_TO_METER = 0.3048             # ratio feets to meter
 FPM_TO_MS = FEETS_TO_METER / 60     # ratio fpm to m/s
@@ -11,7 +11,7 @@ def parseAngle(dddmmhht):
     return float(dddmmhht[:3]) + float(dddmmhht[3:]) / 60
 
 
-def createTimestamp(time_string, reference_timestamp=None):
+def createTimestamp(time_string, reference_timestamp):
     if time_string[-1] == "z":
         dd = int(time_string[0:2])
         hh = int(time_string[2:4])
@@ -20,7 +20,8 @@ def createTimestamp(time_string, reference_timestamp=None):
         result = datetime(reference_timestamp.year,
                           reference_timestamp.month,
                           dd,
-                          hh, mm, 0)
+                          hh, mm, 0,
+                          tzinfo=timezone.utc if reference_timestamp.tzinfo is not None else None)
 
         if result > reference_timestamp + timedelta(days=14):
             # shift timestamp to previous month
@@ -36,7 +37,8 @@ def createTimestamp(time_string, reference_timestamp=None):
         result = datetime(reference_timestamp.year,
                           reference_timestamp.month,
                           reference_timestamp.day,
-                          hh, mm, ss)
+                          hh, mm, ss,
+                          tzinfo=timezone.utc if reference_timestamp.tzinfo is not None else None)
 
         if result > reference_timestamp + timedelta(hours=12):
             # shift timestamp to previous day

@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime
+from datetime import datetime, timezone
 
 from ogn.parser.utils import parseAngle, createTimestamp
 
@@ -29,6 +29,13 @@ class TestStringMethods(unittest.TestCase):
             ('011212z', datetime(2017, 9, 28, 0, 0, 1), datetime(2017, 10, 1, 12, 12, 0)),      # packet from 1st of month, received on september 28th,
             ('281313z', datetime(2017, 10, 1, 0, 0, 1), datetime(2017, 9, 28, 13, 13, 0)),      # packet from 28th of month, received on october 1st,
             ('281414z', datetime(2017, 1, 1, 0, 0, 1), datetime(2016, 12, 28, 14, 14, 0)),      # packet from 28th of month, received on january 1st,
+        ]
+
+        self.proceed_test_data(test_data)
+
+    def test_createTimestamp_tzinfo(self):
+        test_data = [
+            ('000001h', datetime(2020, 9, 10, 0, 0, 1, tzinfo=timezone.utc), (datetime(2020, 9, 10, 0, 0, 1, tzinfo=timezone.utc)))
         ]
 
         self.proceed_test_data(test_data)
