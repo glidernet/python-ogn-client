@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
-
+#from utils import get_aircraft_type
+from ogn.parser.utils import get_aircraft_type, createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER
 from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER
 from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_SERVER
 from ogn.parser.exceptions import AprsParseError
@@ -77,6 +78,7 @@ def parse_aprs(message, reference_timestamp=None):
                         'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
                         'ground_speed': int(match_position.group('ground_speed')) * KNOTS_TO_MS / KPH_TO_MS if match_position.group('ground_speed') else None,
                         'altitude': int(match_position.group('altitude')) * FEETS_TO_METER if match_position.group('altitude') else None,
+                        'aircrafttype' : get_aircraft_type(match_position.group('symbol_table'), match_position.group('symbol')), 
                         'comment': match_position.group('comment') if match_position.group('comment') else ""})
                 else:
                     raise AprsParseError(message)
