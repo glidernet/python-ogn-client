@@ -17,11 +17,7 @@ class TestStringMethods(unittest.TestCase):
     def test_pseudo_status_comment(self):
         message = FanetParser().parse_position("")
 
-        self.assertIsNone(message['address_type'])
-        self.assertIsNone(message['aircraft_type'])
-        self.assertIsNone(message['stealth'])
-        self.assertIsNone(message['address'])
-        self.assertIsNone(message['climb_rate'])
+        self.assertEqual(message, {})
 
 
 if __name__ == '__main__':

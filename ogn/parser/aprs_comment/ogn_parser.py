@@ -49,8 +49,8 @@ class OgnParser(BaseParser):
                     'gps_quality': {
                         'horizontal': int(match.group('gps_quality_horizontal')),
                         'vertical': int(match.group('gps_quality_vertical'))
-                        }
-                    })
+                    }
+                })
             if match.group('flarm_software_version'): result['software_version'] = float(match.group('flarm_software_version'))
             if match.group('flarm_hardware_version'): result['hardware_version'] = int(match.group('flarm_hardware_version'), 16)
             if match.group('flarm_id'): result['real_address'] = match.group('flarm_id')
