@@ -42,6 +42,10 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['good_senders'], 68)
         self.assertEqual(message['good_and_bad_senders'], 135)
 
+    def test_v028(self):
+        message = OgnParser().parse_receiver_beacon("v0.2.8.RPI-GPU CPU:0.3 RAM:744.5/968.2MB NTP:3.6ms/+2.0ppm +68.2C 3/3Acfts[1h] Lat:1.6s RF:-8+67.8ppm/+10.33dB/+1.3dB@10km[30998]/+10.4dB@10km[3/5]")
+        self.assertEqual(message['latency'], 1.6)
+
     def test_relevant_keys_only(self):
         # return only keys where we got informations
         message = OgnParser().parse_receiver_beacon("v0.2.5.ARM CPU:0.4 RAM:638.0/970.5MB NTP:0.2ms/-1.1ppm")
