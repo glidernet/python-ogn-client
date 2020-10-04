@@ -183,6 +183,7 @@ PATTERN_RECEIVER_BEACON = re.compile(r"""
     (?:(?P<amperage>[\d.]+)A\s)?
     (?:(?P<cpu_temperature>[+-][\d.]+)C\s*)?
     (?:(?P<visible_senders>\d+)/(?P<senders>\d+)Acfts\[1h\]\s*)?
+    (Lat\:(?P<latency>\d+\.\d+)s\s*)?
     (?:RF:
         (?:
             (?P<rf_correction_manual>[+-][\d]+)

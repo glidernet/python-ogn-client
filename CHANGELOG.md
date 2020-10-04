@@ -1,5 +1,6 @@
 # CHANGELOG
 ## not released
+- parser: Added support for latency in receiver messages (OGNSDR) (fixes #87)
 - parser: Added support for reference_timestamp with tzinfo (fixes #84)
 - parser: Fixed textual altitude part (fixes #81)
 - parser: Skip keys where value is "None"
