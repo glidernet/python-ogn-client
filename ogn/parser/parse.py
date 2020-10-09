@@ -1,8 +1,8 @@
 import re
 from datetime import datetime
 
-from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER
-from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_STATUS, PATTERN_SERVER
+from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, fahrenheit_to_celsius
+from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_POSITION_WEATHER, PATTERN_APRS_STATUS, PATTERN_SERVER
 from ogn.parser.exceptions import AprsParseError
 
 from ogn.parser.aprs_comment.ogn_parser import OgnParser
@@ -52,7 +52,6 @@ def parse_aprs(message, reference_timestamp=None):
             result.update({
                 'comment': message,
                 'aprs_type': 'comment'})
-
     else:
         match = re.search(PATTERN_APRS, message)
         if match:
@@ -74,12 +73,42 @@ def parse_aprs(message, reference_timestamp=None):
                         'longitude': parseAngle(match_position.group('longitude') + (match_position.group('longitude_enhancement') or '0')) *   # noqa: W504
                         (-1 if match_position.group('longitude_sign') == 'W' else 1),
                         'symbolcode': match_position.group('symbol'),
+
                         'track': int(match_position.group('course')) if match_position.group('course_extension') else None,
                         'ground_speed': int(match_position.group('ground_speed')) * KNOTS_TO_MS / KPH_TO_MS if match_position.group('ground_speed') else None,
                         'altitude': int(match_position.group('altitude')) * FEETS_TO_METER if match_position.group('altitude') else None,
-                        'comment': match_position.group('comment') if match_position.group('comment') else ""})
-                else:
-                    raise AprsParseError(message)
+
+                        'comment': match_position.group('comment') if match_position.group('comment') else "",
+                    })
+                    return result
+
+                match_position_weather = re.search(PATTERN_APRS_POSITION_WEATHER, aprs_body)
+                if match_position_weather:
+                    result.update({
+                        'name': match.group('callsign'),
+                        'dstcall': match.group('dstcall'),
+                        'relay': match.group('relay') if match.group('relay') else None,
+                        'receiver_name': match.group('receiver'),
+                        'timestamp': createTimestamp(match_position_weather.group('time'), reference_timestamp),
+                        'latitude': parseAngle('0' + match_position_weather.group('latitude')) *   # noqa: W504
+                        (-1 if match_position_weather.group('latitude_sign') == 'S' else 1),
+                        'symboltable': match_position_weather.group('symbol_table'),
+                        'longitude': parseAngle(match_position_weather.group('longitude')) *   # noqa: W504
+                        (-1 if match_position_weather.group('longitude_sign') == 'W' else 1),
+                        'symbolcode': match_position_weather.group('symbol'),
+
+                        'wind_direction': int(match_position_weather.group('wind_direction')) if match_position_weather.group('wind_direction') != '...' else None,
+                        'wind_speed': int(match_position_weather.group('wind_speed')) * KNOTS_TO_MS / KPH_TO_MS if match_position_weather.group('wind_speed') != '...' else None,
+                        'wind_speed_peak': int(match_position_weather.group('wind_speed_peak')) * KNOTS_TO_MS / KPH_TO_MS if match_position_weather.group('wind_speed_peak') != '...' else None,
+                        'temperature': fahrenheit_to_celsius(float(match_position_weather.group('temperature'))) if match_position_weather.group('temperature') != '...' else None,
+                        'humidity': int(match_position_weather.group('humidity')) * 0.01 if match_position_weather.group('humidity') else None,
+                        'barometric_pressure': int(match_position_weather.group('barometric_pressure')) if match_position_weather.group('barometric_pressure') else None,
+
+                        'comment': match_position_weather.group('comment') if match_position_weather.group('comment') else "",
+                    })
+                    return result
+
+                raise AprsParseError(message)
             elif aprs_type == 'status':
                 match_status = re.search(PATTERN_APRS_STATUS, aprs_body)
                 if match_status:

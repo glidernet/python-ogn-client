@@ -35,11 +35,11 @@ class ReceiverParser(BaseParser):
         if match.group('senders'): result['senders_total'] = int(match.group('senders'))
         if match.group('rf_correction_manual'): result['rec_crystal_correction'] = int(match.group('rf_correction_manual'))
         if match.group('rf_correction_automatic'): result['rec_crystal_correction_fine'] = float(match.group('rf_correction_automatic'))
-        if match.group('signal_quality'): result['rec_input_noise'] = float(match.group('signal_quality')) 
-        if match.group('senders_signal_quality'): result['senders_signal'] = float(match.group('senders_signal_quality')) 
-        if match.group('senders_messages'): result['senders_messages'] = float(match.group('senders_messages')) 
-        if match.group('good_senders_signal_quality'): result['good_senders_signal'] = float(match.group('good_senders_signal_quality')) 
-        if match.group('good_senders'): result['good_senders'] = float(match.group('good_senders')) 
+        if match.group('signal_quality'): result['rec_input_noise'] = float(match.group('signal_quality'))
+        if match.group('senders_signal_quality'): result['senders_signal'] = float(match.group('senders_signal_quality'))
+        if match.group('senders_messages'): result['senders_messages'] = float(match.group('senders_messages'))
+        if match.group('good_senders_signal_quality'): result['good_senders_signal'] = float(match.group('good_senders_signal_quality'))
+        if match.group('good_senders'): result['good_senders'] = float(match.group('good_senders'))
         if match.group('good_and_bad_senders'): result['good_and_bad_senders'] = float(match.group('good_and_bad_senders'))
 
         return result

@@ -2,7 +2,7 @@ import unittest
 
 from datetime import datetime
 
-from ogn.parser.utils import KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER
+from ogn.parser.utils import KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, fahrenheit_to_celsius
 from ogn.parser.parse import parse_aprs
 from ogn.parser.exceptions import AprsParseError
 
@@ -69,6 +69,31 @@ class TestStringMethods(unittest.TestCase):
         message = parse_aprs(raw_message)
 
         self.assertEqual(message['timestamp'].strftime('%d %H:%M'), "30 10:46")
+
+    def test_v028_fanet_position_weather(self):
+        # with v0.2.8 fanet devices can report weather data
+        raw_message = 'FNTFC9002>OGNFNT,qAS,LSXI2:/163051h4640.33N/00752.21E_187/004g007t075h78b63620 29.0dB -8.0kHz'
+
+        message = parse_aprs(raw_message)
+        self.assertEqual(message['wind_direction'], 187)
+        self.assertEqual(message['wind_speed'], 4 * KNOTS_TO_MS / KPH_TO_MS)
+        self.assertEqual(message['wind_speed_peak'], 7 * KNOTS_TO_MS / KPH_TO_MS)
+        self.assertEqual(message['temperature'], fahrenheit_to_celsius(75))
+        self.assertEqual(message['humidity'], 78 * 0.01)
+        self.assertEqual(message['barometric_pressure'], 63620)
+
+        self.assertEqual(message['comment'], '29.0dB -8.0kHz')
+
+    def test_v028_fanet_position_weather_empty(self):
+        raw_message = 'FNT010115>OGNFNT,qAS,DB7MJ:/065738h4727.72N/01012.83E_.../...g...t... 27.8dB -13.8kHz'
+
+        message = parse_aprs(raw_message)
+        self.assertIsNone(message['wind_direction'])
+        self.assertIsNone(message['wind_speed'])
+        self.assertIsNone(message['wind_speed_peak'])
+        self.assertIsNone(message['temperature'])
+        self.assertIsNone(message['humidity'])
+        self.assertIsNone(message['barometric_pressure'])
 
     def test_negative_altitude(self):
         # some devices can report negative altitudes

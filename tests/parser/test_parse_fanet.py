@@ -19,6 +19,14 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(message, {})
 
+    def test_v028_status(self):
+        message = FanetParser().parse_status('Name="Juerg Zweifel" 15.0dB -17.1kHz 1e')
+
+        self.assertEqual(message['fanet_name'], "Juerg Zweifel")
+        self.assertEqual(message['signal_quality'], 15.0)
+        self.assertEqual(message['frequency_offset'], -17.1)
+        self.assertEqual(message['error_count'], 1)
+
 
 if __name__ == '__main__':
     unittest.main()

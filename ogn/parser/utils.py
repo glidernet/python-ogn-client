@@ -7,6 +7,10 @@ KPH_TO_MS = 0.27778                 # ratio kph to m/s
 HPM_TO_DEGS = 180 / 60              # ratio between half turn per minute and degrees/s
 
 
+def fahrenheit_to_celsius(fahrenheit):
+    return (fahrenheit - 32.0) * 5.0 / 9.0
+
+
 def parseAngle(dddmmhht):
     return float(dddmmhht[:3]) + float(dddmmhht[3:]) / 60
 
