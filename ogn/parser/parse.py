@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, fahrenheit_to_celsius
+from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, fahrenheit_to_celsius, CheapRuler
 from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_POSITION_WEATHER, PATTERN_APRS_STATUS, PATTERN_SERVER
 from ogn.parser.exceptions import AprsParseError
 
@@ -18,8 +18,12 @@ from ogn.parser.aprs_comment.spot_parser import SpotParser
 from ogn.parser.aprs_comment.inreach_parser import InreachParser
 from ogn.parser.aprs_comment.generic_parser import GenericParser
 
+positions = {}
 
-def parse(aprs_message, reference_timestamp=None):
+
+def parse(aprs_message, reference_timestamp=None, calculate_distances=False):
+    global positions
+
     if reference_timestamp is None:
         reference_timestamp = datetime.utcnow()
 
@@ -28,6 +32,13 @@ def parse(aprs_message, reference_timestamp=None):
         message.update(parse_comment(message['comment'],
                                      dstcall=message['dstcall'],
                                      aprs_type=message['aprs_type']))
+
+    if message['aprs_type'].startswith('position') and calculate_distances is True:
+        positions[message['name']] = (message['longitude'], message['latitude'])
+        if message['receiver_name'] in positions:
+            cheap_ruler = CheapRuler((message['latitude'] + positions[message['receiver_name']][1]) / 2.0)
+            message['distance'] = cheap_ruler.distance((message['longitude'], message['latitude']), positions[message['receiver_name']])
+
     return message
 
 

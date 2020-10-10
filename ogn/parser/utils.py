@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+import math
 
 FEETS_TO_METER = 0.3048             # ratio feets to meter
 FPM_TO_MS = FEETS_TO_METER / 60     # ratio fpm to m/s
@@ -52,3 +53,24 @@ def createTimestamp(time_string, reference_timestamp):
             result += timedelta(days=1)
 
     return result
+
+
+class CheapRuler():
+    """Extreme fast distance calculating for distances below 500km."""
+
+    def __init__(self, lat):
+        c = math.cos(lat * 3.14159265359 / 180)
+        c2 = 2 * c * c - 1
+        c3 = 2 * c * c2 - c
+        c4 = 2 * c * c3 - c2
+        c5 = 2 * c * c4 - c3
+
+        self.kx = 1000 * (111.41513 * c - 0.09455 * c3 + 0.00012 * c5)  # longitude correction
+        self.ky = 1000 * (111.13209 - 0.56605 * c2 + 0.0012 * c4)       # latitude correction
+
+    def distance(self, a, b):
+        """Points a and b are from tuple(lon,lat)."""
+
+        dx = (a[0] - b[0]) * self.kx
+        dy = (a[1] - b[1]) * self.ky
+        return math.sqrt(dx * dx + dy * dy)

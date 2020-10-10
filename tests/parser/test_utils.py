@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from ogn.parser.utils import parseAngle, createTimestamp
+from ogn.parser.utils import parseAngle, createTimestamp, CheapRuler
 
 
 class TestStringMethods(unittest.TestCase):
@@ -39,6 +39,14 @@ class TestStringMethods(unittest.TestCase):
         ]
 
         self.proceed_test_data(test_data)
+
+    def test_cheap_ruler(self):
+        koenigsdf = (11.465353, 47.829825)
+        hochkoenig = (13.062405, 47.420516)
+
+        cheap_ruler = CheapRuler((koenigsdf[1] + hochkoenig[1]) / 2)
+        distance = cheap_ruler.distance(koenigsdf, hochkoenig)
+        self.assertEqual(distance, 128381.47612138899)
 
 
 if __name__ == '__main__':
