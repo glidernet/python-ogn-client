@@ -46,7 +46,7 @@ class TestStringMethods(unittest.TestCase):
 
         cheap_ruler = CheapRuler((koenigsdf[1] + hochkoenig[1]) / 2)
         distance = cheap_ruler.distance(koenigsdf, hochkoenig)
-        self.assertEqual(distance, 128381.47612138899)
+        self.assertAlmostEqual(distance, 128381.47612138899)
 
 
 if __name__ == '__main__':
