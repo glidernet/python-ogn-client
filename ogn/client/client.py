@@ -26,6 +26,7 @@ class AprsClient:
         # create socket, connect to server, login and make a file object associated with the socket
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+        self.sock.settimeout(5)
 
         if self.aprs_filter:
             port = self.settings.APRS_SERVER_PORT_CLIENT_DEFINED_FILTERS
@@ -73,10 +74,10 @@ class AprsClient:
                         break
 
                     callback(packet_str, **kwargs)
-            except ConnectionError:
-                self.logger.error('ConnectionError', exc_info=True)
             except socket.error:
                 self.logger.error('socket.error', exc_info=True)
+            except OSError:
+                self.logger.error('OSError', exc_info=True)
             except UnicodeDecodeError:
                 self.logger.error('UnicodeDecodeError', exc_info=True)
 
