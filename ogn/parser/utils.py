@@ -85,5 +85,5 @@ class CheapRuler():
         dy = (b[1] - a[1]) * self.ky
         if dx == 0 and dy == 0:
             return 0
-        else:
-            return math.atan2(-dy, dx) * 180 / MATH_PI + 90
+        result = math.atan2(-dy, dx) * 180 / MATH_PI + 90
+        return result if result >= 0 else result + 360
