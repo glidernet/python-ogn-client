@@ -1,7 +1,7 @@
 # CHANGELOG
 ## not released
 - client: changed socket mode from blocking to timeout (fixes #89)
-- parser: Added optionally distance calculation (fixes #86)
+- parser: Added optional distance/bearing calculation (fixes #86)
 - parser: Added support for weather data from FANET ground stations
 - parser: Added support for latency in receiver messages (OGNSDR) (fixes #87)
 - parser: Added support for reference_timestamp with tzinfo (fixes #84)

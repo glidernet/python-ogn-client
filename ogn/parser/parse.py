@@ -21,7 +21,7 @@ from ogn.parser.aprs_comment.generic_parser import GenericParser
 positions = {}
 
 
-def parse(aprs_message, reference_timestamp=None, calculate_distances=False):
+def parse(aprs_message, reference_timestamp=None, calculate_relations=False):
     global positions
 
     if reference_timestamp is None:
@@ -33,11 +33,12 @@ def parse(aprs_message, reference_timestamp=None, calculate_distances=False):
                                      dstcall=message['dstcall'],
                                      aprs_type=message['aprs_type']))
 
-    if message['aprs_type'].startswith('position') and calculate_distances is True:
+    if message['aprs_type'].startswith('position') and calculate_relations is True:
         positions[message['name']] = (message['longitude'], message['latitude'])
         if message['receiver_name'] in positions:
             cheap_ruler = CheapRuler((message['latitude'] + positions[message['receiver_name']][1]) / 2.0)
             message['distance'] = cheap_ruler.distance((message['longitude'], message['latitude']), positions[message['receiver_name']])
+            message['bearing'] = cheap_ruler.bearing((message['longitude'], message['latitude']), positions[message['receiver_name']])
 
     return message
 

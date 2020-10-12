@@ -40,13 +40,21 @@ class TestStringMethods(unittest.TestCase):
 
         self.proceed_test_data(test_data)
 
-    def test_cheap_ruler(self):
+    def test_cheap_ruler_distance(self):
         koenigsdf = (11.465353, 47.829825)
         hochkoenig = (13.062405, 47.420516)
 
         cheap_ruler = CheapRuler((koenigsdf[1] + hochkoenig[1]) / 2)
         distance = cheap_ruler.distance(koenigsdf, hochkoenig)
         self.assertAlmostEqual(distance, 128381.47612138899)
+
+    def test_cheap_ruler_bearing(self):
+        koenigsdf = (11.465353, 47.829825)
+        hochkoenig = (13.062405, 47.420516)
+
+        cheap_ruler = CheapRuler((koenigsdf[1] + hochkoenig[1]) / 2)
+        bearing = cheap_ruler.bearing(koenigsdf, hochkoenig)
+        self.assertAlmostEqual(bearing, 110.761300063515)
 
 
 if __name__ == '__main__':

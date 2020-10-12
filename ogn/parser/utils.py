@@ -55,11 +55,14 @@ def createTimestamp(time_string, reference_timestamp):
     return result
 
 
+MATH_PI = 3.14159265359
+
+
 class CheapRuler():
     """Extreme fast distance calculating for distances below 500km."""
 
     def __init__(self, lat):
-        c = math.cos(lat * 3.14159265359 / 180)
+        c = math.cos(lat * MATH_PI / 180)
         c2 = 2 * c * c - 1
         c3 = 2 * c * c2 - c
         c4 = 2 * c * c3 - c2
@@ -69,8 +72,18 @@ class CheapRuler():
         self.ky = 1000 * (111.13209 - 0.56605 * c2 + 0.0012 * c4)       # latitude correction
 
     def distance(self, a, b):
-        """Points a and b are from tuple(lon,lat)."""
+        """Distance between point a and b. A point is a tuple(lon,lat)."""
 
         dx = (a[0] - b[0]) * self.kx
         dy = (a[1] - b[1]) * self.ky
         return math.sqrt(dx * dx + dy * dy)
+
+    def bearing(self, a, b):
+        """Returns the bearing from point a to point b."""
+
+        dx = (b[0] - a[0]) * self.kx
+        dy = (b[1] - a[1]) * self.ky
+        if dx == 0 and dy == 0:
+            return 0
+        else:
+            return math.atan2(-dy, dx) * 180 / MATH_PI + 90
