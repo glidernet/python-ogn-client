@@ -87,3 +87,9 @@ class CheapRuler():
             return 0
         result = math.atan2(-dy, dx) * 180 / MATH_PI + 90
         return result if result >= 0 else result + 360
+
+
+def normalized_quality(distance, signal_quality):
+    """Signal quality normalized to 10km."""
+
+    return signal_quality + 20.0 * math.log10(distance / 10000.0) if distance > 0 else None

@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from ogn.parser.utils import parseAngle, createTimestamp, CheapRuler
+from ogn.parser.utils import parseAngle, createTimestamp, CheapRuler, normalized_quality
 
 
 class TestStringMethods(unittest.TestCase):
@@ -55,6 +55,11 @@ class TestStringMethods(unittest.TestCase):
         cheap_ruler = CheapRuler((koenigsdf[1] + hochkoenig[1]) / 2)
         bearing = cheap_ruler.bearing(koenigsdf, hochkoenig)
         self.assertAlmostEqual(bearing, 110.761300063515)
+
+    def test_normalized_quality(self):
+        self.assertAlmostEqual(normalized_quality(10000, 1), 1)
+        self.assertAlmostEqual(normalized_quality(20000, 10), 16.020599913279625)
+        self.assertAlmostEqual(normalized_quality(5000, 5), -1.0205999132796242)
 
 
 if __name__ == '__main__':
