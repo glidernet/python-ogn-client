@@ -3,9 +3,9 @@ class BaseParser():
         self.beacon_type = 'unknown'
 
     def parse(self, aprs_comment, aprs_type):
-        if aprs_type == "position":
+        if aprs_type.startswith('position'):
             data = self.parse_position(aprs_comment)
-        elif aprs_type == "status":
+        elif aprs_type.startswith('status'):
             data = self.parse_status(aprs_comment)
         else:
             raise ValueError("aprs_type {} unknown".format(aprs_type))

@@ -97,6 +97,8 @@ def parse_aprs(message, reference_timestamp=None):
                 match_position_weather = re.search(PATTERN_APRS_POSITION_WEATHER, aprs_body)
                 if match_position_weather:
                     result.update({
+                        'aprs_type': 'position_weather',
+
                         'name': match.group('callsign'),
                         'dstcall': match.group('dstcall'),
                         'relay': match.group('relay') if match.group('relay') else None,
