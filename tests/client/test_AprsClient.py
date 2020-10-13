@@ -130,7 +130,7 @@ class AprsClientTest(unittest.TestCase):
                 return
             try:
                 message = parse(raw_message)
-                print("{}: {}".format(message['beacon_type'], raw_message))
+                print("{}: {}".format(message['aprs_type'], raw_message))
             except NotImplementedError as e:
                 print("{}: {}".format(e, raw_message))
                 return
