@@ -1,9 +1,9 @@
 # CHANGELOG
-## not released
-- client: changed socket mode from blocking to timeout (fixes #89)
-- parser: Added optional distance/bearing/normalized_quality calculation (fixes #86)
-- parser: Added support for weather data from FANET ground stations (aprs_type: position_weather)
-- parser: Added support for latency in receiver messages (OGNSDR) (fixes #87)
+## 1.0.0: - 2020-10-15
+- client: changed socket mode from blocking to 5s timeout (fixes #89)
+- parser: Added optional distance/bearing/normalized_quality calculation if parameter "calculate_relatives" is True (fixes #86)
+- parser: Added support for weather data (new in receiver software v0.2.8) from FANET ground stations (aprs_type: position_weather)
+- parser: Added support for latency (new in receiver software v0.2.8) in receiver messages (OGNSDR) (fixes #87)
 - parser: Added support for reference_timestamp with tzinfo (fixes #84)
 - parser: Fixed textual altitude part (fixes #81)
 - parser: Skip keys where value is "None"
