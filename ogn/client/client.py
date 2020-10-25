@@ -15,6 +15,7 @@ def create_aprs_login(user_name, pass_code, app_name, app_version, aprs_filter=N
 class AprsClient:
     def __init__(self, aprs_user, aprs_filter='', settings=settings):
         self.logger = logging.getLogger(__name__)
+        self.logger.addHandler(logging.NullHandler())
 
         self.aprs_user = aprs_user
         self.aprs_filter = aprs_filter

@@ -1,6 +1,7 @@
 # CHANGELOG
 ## unreleased
 - client: catch errors while connecting (fixes #74 and #91)
+- client: no logging messages by default (fixes #92)
 
 ## 1.0.0: - 2020-10-15
 - client: changed socket mode from blocking to 5s timeout (fixes #89)
