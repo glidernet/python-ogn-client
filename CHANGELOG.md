@@ -1,4 +1,7 @@
 # CHANGELOG
+## unreleased
+- client: catch errors while connecting (fixes #74 and #91)
+
 ## 1.0.0: - 2020-10-15
 - client: changed socket mode from blocking to 5s timeout (fixes #89)
 - parser: Added optional distance/bearing/normalized_quality calculation if parameter "calculate_relatives" is True (fixes #86)

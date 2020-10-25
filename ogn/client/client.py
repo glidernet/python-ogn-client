@@ -15,32 +15,45 @@ def create_aprs_login(user_name, pass_code, app_name, app_version, aprs_filter=N
 class AprsClient:
     def __init__(self, aprs_user, aprs_filter='', settings=settings):
         self.logger = logging.getLogger(__name__)
-        self.logger.info("Connect to OGN as {} with filter '{}'".format(aprs_user, (aprs_filter if aprs_filter else 'full-feed')))
+
         self.aprs_user = aprs_user
         self.aprs_filter = aprs_filter
         self.settings = settings
 
         self._kill = False
 
-    def connect(self):
+    def connect(self, retries=1, wait_period=15):
         # create socket, connect to server, login and make a file object associated with the socket
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-        self.sock.settimeout(5)
+        while retries > 0:
+            retries -= 1
+            try:
+                self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+                self.sock.settimeout(5)
 
-        if self.aprs_filter:
-            port = self.settings.APRS_SERVER_PORT_CLIENT_DEFINED_FILTERS
-        else:
-            port = self.settings.APRS_SERVER_PORT_FULL_FEED
+                if self.aprs_filter:
+                    port = self.settings.APRS_SERVER_PORT_CLIENT_DEFINED_FILTERS
+                else:
+                    port = self.settings.APRS_SERVER_PORT_FULL_FEED
 
-        self.sock.connect((self.settings.APRS_SERVER_HOST, port))
-        self.logger.debug('Server port {}'.format(port))
+                self.sock.connect((self.settings.APRS_SERVER_HOST, port))
 
-        login = create_aprs_login(self.aprs_user, -1, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
-        self.sock.send(login.encode())
-        self.sock_file = self.sock.makefile('rw')
+                login = create_aprs_login(self.aprs_user, -1, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
+                self.sock.send(login.encode())
+                self.sock_file = self.sock.makefile('rw')
 
-        self._kill = False
+                self._kill = False
+
+                self.logger.info("Connect to OGN ({}:{}) as {} with filter: {}".format(self.settings.APRS_SERVER_HOST, port, self.aprs_user, "'" + self.aprs_filter + "'" if self.aprs_filter else 'none (full-feed)'))
+                break
+            except (socket.error, ConnectionError) as e:
+                self.logger.error('Connect error: {}'.format(e))
+                if retries > 0:
+                    self.logger.info('Waiting {}s before next connection try ({} attempts left).'.format(wait_period, retries))
+                    sleep(wait_period)
+                else:
+                    self._kill = True
+                    self.logger.info('Giving up.')
 
     def disconnect(self):
         self.logger.info('Disconnect')
@@ -49,7 +62,7 @@ class AprsClient:
             self.sock.shutdown(0)
             self.sock.close()
         except OSError:
-            self.logger.error('Socket close error', exc_info=True)
+            self.logger.error('Socket close error')
 
         self._kill = True
 
@@ -75,14 +88,14 @@ class AprsClient:
 
                     callback(packet_str, **kwargs)
             except socket.error:
-                self.logger.error('socket.error', exc_info=True)
+                self.logger.error('socket.error')
             except OSError:
-                self.logger.error('OSError', exc_info=True)
+                self.logger.error('OSError')
             except UnicodeDecodeError:
-                self.logger.error('UnicodeDecodeError', exc_info=True)
+                self.logger.error('UnicodeDecodeError')
 
             if autoreconnect and not self._kill:
-                self.connect()
+                self.connect(retries=100)
             else:
                 return
 
