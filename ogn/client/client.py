@@ -54,7 +54,7 @@ class AprsClient:
                     sleep(wait_period)
                 else:
                     self._kill = True
-                    self.logger.info('Giving up.')
+                    self.logger.critical('Could not connect to OGN.')
 
     def disconnect(self):
         self.logger.info('Disconnect')

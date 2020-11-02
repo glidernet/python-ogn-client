@@ -1,5 +1,5 @@
 # CHANGELOG
-## unreleased
+## 1.0.1: - 2020-11-02
 - client: catch errors while connecting (fixes #74 and #91)
 - client: no logging messages by default (fixes #92)
 
