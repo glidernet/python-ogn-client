@@ -34,7 +34,8 @@ class OgnParser(BaseParser):
             if match.group('details'):
                 result.update({
                     'address_type': int(match.group('details'), 16) & 0b00000011,
-                    'aircraft_type': (int(match.group('details'), 16) & 0b01111100) >> 2,
+                    'aircraft_type': (int(match.group('details'), 16) & 0b00111100) >> 2,
+                    'no-tracking': (int(match.group('details'), 16) & 0b01000000) >> 6 == 1,
                     'stealth': (int(match.group('details'), 16) & 0b10000000) >> 7 == 1,
                     'address': match.group('address'),
                 })
