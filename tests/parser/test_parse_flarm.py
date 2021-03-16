@@ -11,6 +11,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['address_type'], 1)
         self.assertEqual(message['aircraft_type'], 8)
         self.assertFalse(message['stealth'])
+        self.assertFalse(message['no-tracking'])
         self.assertEqual(message['address'], "A8CBA8")
         self.assertAlmostEqual(message['climb_rate'], -39 * FPM_TO_MS, 2)
         self.assertEqual(message['turn_rate'], 0.1 * HPM_TO_DEGS)
@@ -27,7 +28,7 @@ class TestStringMethods(unittest.TestCase):
         message = FlarmParser().parse_position("id21A8CBA8")
 
         self.assertIsNotNone(message)
-        self.assertEqual(sorted(message.keys()), sorted(['address_type', 'aircraft_type', 'stealth', 'address']))
+        self.assertEqual(sorted(message.keys()), sorted(['address_type', 'aircraft_type', 'stealth', 'address', 'no-tracking']))
 
 
 if __name__ == '__main__':
