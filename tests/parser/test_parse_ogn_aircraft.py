@@ -14,6 +14,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['address_type'], 2)
         self.assertEqual(message['aircraft_type'], 2)
         self.assertFalse(message['stealth'])
+        self.assertFalse(message['no-tracking'])
         self.assertEqual(message['address'], "DDA5BA")
         self.assertAlmostEqual(message['climb_rate'], -454 * FPM_TO_MS, 2)
         self.assertEqual(message['turn_rate'], -1.1 * HPM_TO_DEGS)
@@ -25,6 +26,13 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['proximity'][0], '1084')
         self.assertEqual(message['proximity'][1], 'B597')
         self.assertEqual(message['proximity'][2], 'B598')
+
+    def test_no_tracking(self):
+        message = OgnParser().parse_aircraft_beacon("id0ADD1234 -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
+        self.assertFalse(message['no-tracking'])
+
+        message = OgnParser().parse_aircraft_beacon("id4ADD1234 -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
+        self.assertTrue(message['no-tracking'])
 
     def test_stealth(self):
         message = OgnParser().parse_aircraft_beacon("id0ADD1234 -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5 hear1084 hearB597 hearB598")
@@ -63,7 +71,7 @@ class TestStringMethods(unittest.TestCase):
         message = OgnParser().parse_aircraft_beacon("id093D0930")
 
         self.assertIsNotNone(message)
-        self.assertEqual(sorted(message.keys()), sorted(['address_type', 'aircraft_type', 'stealth', 'address']))
+        self.assertEqual(sorted(message.keys()), sorted(['address_type', 'aircraft_type', 'stealth', 'address', 'no-tracking']))
 
 
 if __name__ == '__main__':
