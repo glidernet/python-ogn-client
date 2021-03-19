@@ -13,11 +13,12 @@ def create_aprs_login(user_name, pass_code, app_name, app_version, aprs_filter=N
 
 
 class AprsClient:
-    def __init__(self, aprs_user, aprs_filter='', settings=settings):
+    def __init__(self, aprs_user, aprs_passcode=-1, aprs_filter='', settings=settings):
         self.logger = logging.getLogger(__name__)
         self.logger.addHandler(logging.NullHandler())
 
         self.aprs_user = aprs_user
+        self.aprs_passcode = aprs_passcode
         self.aprs_filter = aprs_filter
         self.settings = settings
 
@@ -39,7 +40,7 @@ class AprsClient:
 
                 self.sock.connect((self.settings.APRS_SERVER_HOST, port))
 
-                login = create_aprs_login(self.aprs_user, -1, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
+                login = create_aprs_login(self.aprs_user, self.aprs_passcode, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
                 self.sock.send(login.encode())
                 self.sock_file = self.sock.makefile('rw')
 
