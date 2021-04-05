@@ -28,12 +28,11 @@ def createTimestamp(time_string, reference_timestamp):
                           hh, mm, 0,
                           tzinfo=timezone.utc if reference_timestamp.tzinfo is not None else None)
 
+        # correct wrong month
         if result > reference_timestamp + timedelta(days=14):
-            # shift timestamp to previous month
-            result = (result.replace(day=1) - timedelta(days=5)).replace(day=result.day)
+            result = (result.replace(day=1) - timedelta(days=14)).replace(day=result.day)
         elif result < reference_timestamp - timedelta(days=14):
-            # shift timestamp to next month
-            result = (result.replace(day=28) + timedelta(days=5)).replace(day=result.day)
+            result = (result.replace(day=28) + timedelta(days=14)).replace(day=result.day)
     else:
         hh = int(time_string[0:2])
         mm = int(time_string[2:4])
