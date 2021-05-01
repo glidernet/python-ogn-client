@@ -82,6 +82,12 @@ PATTERN_TRACKER_POSITION_COMMENT = re.compile(r"""
     (?:(?P<signal_power>[+-][\d.]+)dBm\s?)?
 """, re.VERBOSE | re.MULTILINE)
 
+PATTERN_SAFESKY_POSITION_COMMENT = re.compile(r"""
+    id(?P<safesky_id>[A-F0-9]{8})\s
+    (?:(?P<climb_rate>[+-]\d+?)fpm\s)?
+    (?:gps(?P<gps_quality>(?P<gps_quality_horizontal>(\d+))x(?P<gps_quality_vertical>(\d+)))?)?
+""", re.VERBOSE | re.MULTILINE)
+
 PATTERN_TRACKER_STATUS_COMMENT = re.compile(r"""
     h(?P<hardware_version>[\d]{2})\s
     v(?P<software_version>[\d]{2})\s?

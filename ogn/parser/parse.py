@@ -16,6 +16,7 @@ from ogn.parser.aprs_comment.skylines_parser import SkylinesParser
 from ogn.parser.aprs_comment.spider_parser import SpiderParser
 from ogn.parser.aprs_comment.spot_parser import SpotParser
 from ogn.parser.aprs_comment.inreach_parser import InreachParser
+from ogn.parser.aprs_comment.safesky_parser import SafeskyParser
 from ogn.parser.aprs_comment.generic_parser import GenericParser
 
 positions = {}
@@ -155,6 +156,7 @@ dstcall_parser_mapping = {'APRS': OgnParser(),
                           'OGSKYL': SkylinesParser(),
                           'OGSPID': SpiderParser(),
                           'OGSPOT': SpotParser(),
+                          'OGNSKY': SafeskyParser(),
                           'GENERIC': GenericParser(beacon_type='unknown'),
                           }
 
