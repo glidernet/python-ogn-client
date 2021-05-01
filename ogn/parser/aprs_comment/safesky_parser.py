@@ -12,9 +12,16 @@ class SafeskyParser(BaseParser):
     def parse_position(self, aprs_comment):
         match = self.position_pattern.match(aprs_comment)
         result = dict()
+        if match.group('details'):
+            result.update({
+                'address_type': int(match.group('details'), 16) & 0b00000011,
+                'aircraft_type': (int(match.group('details'), 16) & 0b00111100) >> 2,
+                'no-tracking': (int(match.group('details'), 16) & 0b01000000) >> 6 == 1,
+                'stealth': (int(match.group('details'), 16) & 0b10000000) >> 7 == 1,
+                'address': match.group('address'),
+            })
         result.update(
-            {'safesky_id': match.group('safesky_id'),
-             'climb_rate': int(match.group('climb_rate')) * FPM_TO_MS if match.group('climb_rate') else None})
+            {'climb_rate': int(match.group('climb_rate')) * FPM_TO_MS if match.group('climb_rate') else None})
         if match.group('gps_quality'):
             result.update({
                 'gps_quality': {
