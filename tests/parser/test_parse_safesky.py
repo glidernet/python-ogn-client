@@ -11,6 +11,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['address'], '3E5906')
         self.assertEqual(message['address_type'], 0)
         self.assertEqual(message['aircraft_type'], 7)
+        self.assertFalse(message['stealth'])
         self.assertAlmostEqual(message['climb_rate'], 10 * FPM_TO_MS, 2)
         self.assertEqual(message['gps_quality'], {'horizontal': 6, 'vertical': 1})
 
