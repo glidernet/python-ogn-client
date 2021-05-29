@@ -25,7 +25,7 @@ class AprsClientTest(unittest.TestCase):
         client.connect()
         client.sock.send.assert_called_once_with('user testuser pass -1 vers {} {}\n'.format(
                                                  APRS_APP_NAME, APRS_APP_VER).encode('ascii'))
-        client.sock.makefile.assert_called_once_with('rw')
+        client.sock.makefile.assert_called_once_with('rb')
 
     @mock.patch('ogn.client.client.socket')
     def test_connect_client_defined_filter(self, mock_socket):
@@ -33,7 +33,7 @@ class AprsClientTest(unittest.TestCase):
         client.connect()
         client.sock.send.assert_called_once_with('user testuser pass -1 vers {} {} filter r/50.4976/9.9495/100\n'.format(
                                                  APRS_APP_NAME, APRS_APP_VER).encode('ascii'))
-        client.sock.makefile.assert_called_once_with('rw')
+        client.sock.makefile.assert_called_once_with('rb')
 
     @mock.patch('ogn.client.client.socket')
     def test_disconnect(self, mock_socket):
@@ -53,18 +53,18 @@ class AprsClientTest(unittest.TestCase):
         client.connect()
 
         client.sock_file.readline = mock.MagicMock()
-        client.sock_file.readline.side_effect = ['Normal text blabla',
-                                                 'my weird character ¥',
+        client.sock_file.readline.side_effect = [b'Normal text blabla',
+                                                 b'my weird character \xc2\xa5',
                                                  UnicodeDecodeError('funnycodec', b'\x00\x00', 1, 2, 'This is just a fake reason!'),
-                                                 '... show must go on',
+                                                 b'... show must go on',
                                                  BrokenPipeError(),
-                                                 '... and on',
+                                                 b'... and on',
                                                  ConnectionResetError(),
-                                                 '... and on',
+                                                 b'... and on',
                                                  socket.error(),
-                                                 '... and on',
-                                                 '',
-                                                 '... and on',
+                                                 b'... and on',
+                                                 b'',
+                                                 b'... and on',
                                                  KeyboardInterrupt()]
 
         try:
@@ -84,7 +84,7 @@ class AprsClientTest(unittest.TestCase):
         client.connect()
 
         client.sock_file.readline = mock.MagicMock()
-        client.sock_file.readline.side_effect = ['Normal text blabla',
+        client.sock_file.readline.side_effect = [b'Normal text blabla',
                                                  KeyboardInterrupt()]
 
         mock_time.side_effect = [0, 0, APRS_KEEPALIVE_TIME + 1, APRS_KEEPALIVE_TIME + 1]
