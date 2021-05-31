@@ -41,7 +41,7 @@ class AprsClient:
 
                 login = create_aprs_login(self.aprs_user, -1, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
                 self.sock.send(login.encode())
-                self.sock_file = self.sock.makefile('rw')
+                self.sock_file = self.sock.makefile('rb')
 
                 self._kill = False
 
@@ -67,7 +67,8 @@ class AprsClient:
 
         self._kill = True
 
-    def run(self, callback, timed_callback=lambda client: None, autoreconnect=False, **kwargs):
+    def run(self, callback, timed_callback=lambda client: None, autoreconnect=False, ignore_decoding_error=True,
+            **kwargs):
         while not self._kill:
             try:
                 keepalive_time = time()
@@ -79,7 +80,8 @@ class AprsClient:
                         keepalive_time = time()
 
                     # Read packet string from socket
-                    packet_str = self.sock_file.readline().strip()
+                    packet_b = self.sock_file.readline().strip()
+                    packet_str = packet_b.decode(errors="replace") if ignore_decoding_error else packet_b.decode()
 
                     # A zero length line should not be return if keepalives are being sent
                     # A zero length line will only be returned after ~30m if keepalives are not sent
@@ -94,6 +96,7 @@ class AprsClient:
                 self.logger.error('OSError')
             except UnicodeDecodeError:
                 self.logger.error('UnicodeDecodeError')
+                self.logger.debug(packet_b)
 
             if autoreconnect and not self._kill:
                 self.connect(retries=100)
