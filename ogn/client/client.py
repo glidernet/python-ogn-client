@@ -67,7 +67,8 @@ class AprsClient:
 
         self._kill = True
 
-    def run(self, callback, timed_callback=lambda client: None, autoreconnect=False, strict=True, **kwargs):
+    def run(self, callback, timed_callback=lambda client: None, autoreconnect=False, ignore_decoding_error=True,
+            **kwargs):
         while not self._kill:
             try:
                 keepalive_time = time()
@@ -80,7 +81,7 @@ class AprsClient:
 
                     # Read packet string from socket
                     packet_b = self.sock_file.readline().strip()
-                    packet_str = packet_b.decode() if strict else packet_b.decode(errors='ignore')
+                    packet_str = packet_b.decode(errors="replace") if ignore_decoding_error else packet_b.decode()
 
                     # A zero length line should not be return if keepalives are being sent
                     # A zero length line will only be returned after ~30m if keepalives are not sent
