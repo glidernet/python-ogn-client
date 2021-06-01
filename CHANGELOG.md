@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 1.2.0: - 2021-06-01
+- parser: Added support for OGNSKY (safesky) beacons
+- client: Replace bad characters with � instead of raising an exception (restore old behaviour with parameter ignore_decoding_error=False)
+
 ## 1.1.0: - 2021-04-05
 - parser: Added no-tracking flag decoding
 - parser: Fixed aircraft_type decoding
