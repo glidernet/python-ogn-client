@@ -21,6 +21,7 @@ class AprsClient:
         self.aprs_filter = aprs_filter
         self.settings = settings
 
+        self._sock_peer_ip = None
         self._kill = False
 
     def connect(self, retries=1, wait_period=15):
@@ -38,14 +39,16 @@ class AprsClient:
                     port = self.settings.APRS_SERVER_PORT_FULL_FEED
 
                 self.sock.connect((self.settings.APRS_SERVER_HOST, port))
+                self._sock_peer_ip = self.sock.getpeername()[0]
 
                 login = create_aprs_login(self.aprs_user, -1, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
                 self.sock.send(login.encode())
                 self.sock_file = self.sock.makefile('rb')
 
                 self._kill = False
-
-                self.logger.info("Connect to OGN ({}:{}) as {} with filter: {}".format(self.settings.APRS_SERVER_HOST, port, self.aprs_user, "'" + self.aprs_filter + "'" if self.aprs_filter else 'none (full-feed)'))
+                self.logger.info("Connect to OGN ({}/{}:{}) as {} with filter: {}".
+                                 format(self.settings.APRS_SERVER_HOST, self._sock_peer_ip, port, self.aprs_user,
+                                        "'" + self.aprs_filter + "'" if self.aprs_filter else 'none (full-feed)'))
                 break
             except (socket.error, ConnectionError) as e:
                 self.logger.error('Connect error: {}'.format(e))
@@ -57,7 +60,7 @@ class AprsClient:
                     self.logger.critical('Could not connect to OGN.')
 
     def disconnect(self):
-        self.logger.info('Disconnect')
+        self.logger.info('Disconnect from {}'.format(self._sock_peer_ip))
         try:
             # close everything
             self.sock.shutdown(0)
@@ -74,7 +77,7 @@ class AprsClient:
                 keepalive_time = time()
                 while not self._kill:
                     if time() - keepalive_time > self.settings.APRS_KEEPALIVE_TIME:
-                        self.logger.info('Send keepalive')
+                        self.logger.info('Send keepalive to {}'.format(self._sock_peer_ip))
                         self.sock.send('#keepalive\n'.encode())
                         timed_callback(self)
                         keepalive_time = time()
@@ -86,7 +89,8 @@ class AprsClient:
                     # A zero length line should not be return if keepalives are being sent
                     # A zero length line will only be returned after ~30m if keepalives are not sent
                     if len(packet_str) == 0:
-                        self.logger.warning('Read returns zero length string. Failure.  Orderly closeout')
+                        self.logger.warning('Read returns zero length string. Failure.  Orderly closeout from {}'.
+                                            format(self._sock_peer_ip))
                         break
 
                     callback(packet_str, **kwargs)
