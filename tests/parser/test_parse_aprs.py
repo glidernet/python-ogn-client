@@ -2,7 +2,7 @@ import unittest
 
 from datetime import datetime
 
-from ogn.parser.utils import KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, fahrenheit_to_celsius
+from ogn.parser.utils import KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, INCH_TO_MM, fahrenheit_to_celsius
 from ogn.parser.parse import parse_aprs
 from ogn.parser.exceptions import AprsParseError
 
@@ -87,6 +87,14 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(message['barometric_pressure'], 63620)
 
         self.assertEqual(message['comment'], '29.0dB -8.0kHz')
+
+    def test_GXAirCom_fanet_position_weather_rainfall(self):
+        raw_message = 'FNT08F298>OGNFNT,qAS,DREIFBERG:/082654h4804.90N/00845.74E_273/005g008t057r123p234h90b10264 0.0dB'
+        message = parse_aprs(raw_message)
+
+        self.assertEqual(message['aprs_type'], 'position_weather')
+        self.assertEqual(message['rainfall_1h'], 123 / 100 * INCH_TO_MM)
+        self.assertEqual(message['rainfall_24h'], 234 / 100 * INCH_TO_MM)
 
     def test_v028_fanet_position_weather_empty(self):
         raw_message = 'FNT010115>OGNFNT,qAS,DB7MJ:/065738h4727.72N/01012.83E_.../...g...t... 27.8dB -13.8kHz'

@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, fahrenheit_to_celsius, CheapRuler, normalized_quality
+from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, INCH_TO_MM, fahrenheit_to_celsius, CheapRuler, normalized_quality
 from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_POSITION_WEATHER, PATTERN_APRS_STATUS, PATTERN_SERVER
 from ogn.parser.exceptions import AprsParseError
 
@@ -117,6 +117,8 @@ def parse_aprs(message, reference_timestamp=None):
                         'wind_speed': int(match_position_weather.group('wind_speed')) * KNOTS_TO_MS / KPH_TO_MS if match_position_weather.group('wind_speed') != '...' else None,
                         'wind_speed_peak': int(match_position_weather.group('wind_speed_peak')) * KNOTS_TO_MS / KPH_TO_MS if match_position_weather.group('wind_speed_peak') != '...' else None,
                         'temperature': fahrenheit_to_celsius(float(match_position_weather.group('temperature'))) if match_position_weather.group('temperature') != '...' else None,
+                        'rainfall_1h': int(match_position_weather.group('rainfall_1h')) / 100.0 * INCH_TO_MM if match_position_weather.group('rainfall_1h') else None,
+                        'rainfall_24h': int(match_position_weather.group('rainfall_24h')) / 100.0 * INCH_TO_MM if match_position_weather.group('rainfall_24h') else None,
                         'humidity': int(match_position_weather.group('humidity')) * 0.01 if match_position_weather.group('humidity') else None,
                         'barometric_pressure': int(match_position_weather.group('barometric_pressure')) if match_position_weather.group('barometric_pressure') else None,
 
