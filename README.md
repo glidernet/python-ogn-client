@@ -42,6 +42,8 @@ def process_beacon(raw_message):
         print('Received {aprs_type}: {raw_message}'.format(**beacon))
     except ParseError as e:
         print('Error, {}'.format(e.message))
+    except NotImplementedError as e:
+        print('{}: {}'.format(e, raw_message))
 
 client = AprsClient(aprs_user='N0CALL')
 client.connect()

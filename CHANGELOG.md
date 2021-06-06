@@ -1,6 +1,10 @@
 # CHANGELOG
 
-# 1.2.0: - 2021-06-01
+## unreleased
+- client: Added peer IP to log messages
+- parser: Added rainfall_1h and rainfall_24h to beacon_type 'position_weather'
+
+## 1.2.0: - 2021-06-01
 - parser: Added support for OGNSKY (safesky) beacons
 - client: Replace bad characters with � instead of raising an exception (restore old behaviour with parameter ignore_decoding_error=False)
 
