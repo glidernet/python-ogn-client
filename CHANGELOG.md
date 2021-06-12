@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## unreleased
+- client: If no reference_timestamp provided use timestamp from APRS server (fixes #85)
+
 ## 1.2.1: - 2021-06-06
 - client: Added peer IP to log messages
 - parser: Added rainfall_1h and rainfall_24h to beacon_type 'position_weather'

@@ -20,15 +20,19 @@ from ogn.parser.aprs_comment.safesky_parser import SafeskyParser
 from ogn.parser.aprs_comment.generic_parser import GenericParser
 
 positions = {}
+server_timestamp = None
 
 
-def parse(aprs_message, reference_timestamp=None, calculate_relations=False):
+def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use_server_timestamp=True):
     global positions
+    global server_timestamp
 
-    if reference_timestamp is None:
+    if use_server_timestamp is True:
+        reference_timestamp = server_timestamp or datetime.utcnow()
+    elif reference_timestamp is None:
         reference_timestamp = datetime.utcnow()
 
-    message = parse_aprs(aprs_message, reference_timestamp)
+    message = parse_aprs(aprs_message, reference_timestamp=reference_timestamp)
     if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
         message.update(parse_comment(message['comment'],
                                      dstcall=message['dstcall'],
@@ -41,6 +45,9 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False):
             message['distance'] = cheap_ruler.distance((message['longitude'], message['latitude']), positions[message['receiver_name']])
             message['bearing'] = cheap_ruler.bearing((message['longitude'], message['latitude']), positions[message['receiver_name']])
             message['normalized_quality'] = normalized_quality(message['distance'], message['signal_quality']) if 'signal_quality' in message else None
+
+    if message['aprs_type'] == 'server':
+        server_timestamp = message['timestamp']
 
     return message
 
