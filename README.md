@@ -65,7 +65,7 @@ if __name__ == '__main__':
 ```
 
 ### Concurrent Example:
-Same as above, but run concurrently run your custom long running function:
+Same as above, but also concurrently execute your custom long-running function:
 
 ```python
 import asyncio
