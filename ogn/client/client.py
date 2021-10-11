@@ -1,3 +1,4 @@
+import asyncio
 import socket
 import logging
 from time import time, sleep
@@ -24,26 +25,34 @@ class AprsClient:
         self._sock_peer_ip = None
         self._kill = False
 
-    def connect(self, retries=1, wait_period=15):
+        self.reader = None
+        self.writer = None
+
+    async def connect(self, retries=1, wait_period=15):
         # create socket, connect to server, login and make a file object associated with the socket
         while retries > 0:
             retries -= 1
             try:
-                self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-                self.sock.settimeout(5)
+                #self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                #self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+                #self.sock.settimeout(5)
 
                 if self.aprs_filter:
                     port = self.settings.APRS_SERVER_PORT_CLIENT_DEFINED_FILTERS
                 else:
                     port = self.settings.APRS_SERVER_PORT_FULL_FEED
 
-                self.sock.connect((self.settings.APRS_SERVER_HOST, port))
-                self._sock_peer_ip = self.sock.getpeername()[0]
+                # self.sock.connect((self.settings.APRS_SERVER_HOST, port))
+                self.reader, self.writer = await asyncio.open_connection(self.settings.APRS_SERVER_HOST, port)
+                # self._sock_peer_ip = self.sock.getpeername()[0]
+                if (sock := self.writer.get_extra_info('socket')):
+                    self._sock_peer_ip = sock.getpeername()[0]
 
                 login = create_aprs_login(self.aprs_user, -1, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
-                self.sock.send(login.encode())
-                self.sock_file = self.sock.makefile('rb')
+                #self.sock.send(login.encode())
+                self.writer.write(login.encode())
+                await self.writer.drain()
+                #self.sock_file = self.sock.makefile('rb')
 
                 self._kill = False
                 self.logger.info("Connect to OGN ({}/{}:{}) as {} with filter: {}".
@@ -59,18 +68,20 @@ class AprsClient:
                     self._kill = True
                     self.logger.critical('Could not connect to OGN.')
 
-    def disconnect(self):
+    async def disconnect(self):
         self.logger.info('Disconnect from {}'.format(self._sock_peer_ip))
         try:
             # close everything
-            self.sock.shutdown(0)
-            self.sock.close()
+            # self.sock.shutdown(0)
+            # self.sock.close()
+            self.writer.close()
+            await self.writer.wait_closed()
         except OSError:
             self.logger.error('Socket close error')
 
         self._kill = True
 
-    def run(self, callback, timed_callback=lambda client: None, autoreconnect=False, ignore_decoding_error=True,
+    async def run(self, callback, timed_callback=lambda client: None, autoreconnect=False, ignore_decoding_error=True,
             **kwargs):
         while not self._kill:
             try:
@@ -78,13 +89,16 @@ class AprsClient:
                 while not self._kill:
                     if time() - keepalive_time > self.settings.APRS_KEEPALIVE_TIME:
                         self.logger.info('Send keepalive to {}'.format(self._sock_peer_ip))
-                        self.sock.send('#keepalive\n'.encode())
+                        #self.sock.send('#keepalive\n'.encode())
+                        self.writer.write('#keepalive\n'.encode())
+                        await self.writer.drain()
                         timed_callback(self)
                         keepalive_time = time()
 
                     # Read packet string from socket
-                    packet_b = self.sock_file.readline().strip()
-                    packet_str = packet_b.decode(errors="replace") if ignore_decoding_error else packet_b.decode()
+                    #packet_b = self.sock_file.readline().strip()
+                    packet_b = await self.reader.readline()
+                    packet_str = packet_b.strip().decode(errors="replace") if ignore_decoding_error else packet_b.decode()
 
                     # A zero length line should not be return if keepalives are being sent
                     # A zero length line will only be returned after ~30m if keepalives are not sent
@@ -103,7 +117,7 @@ class AprsClient:
                 self.logger.debug(packet_b)
 
             if autoreconnect and not self._kill:
-                self.connect(retries=100)
+                await self.connect(retries=100)
             else:
                 return
 

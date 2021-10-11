@@ -30,11 +30,15 @@ beacon = parse("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005
 				reference_timestamp=datetime(2015, 7, 31, 12, 34, 56))
 ```
 
-### Connect to OGN and display all incoming beacons.
+### Simple Example:
+Connect to OGN and display all incoming beacons.
 
 ```python
+import asyncio
+
 from ogn.client import AprsClient
 from ogn.parser import parse, ParseError
+
 
 def process_beacon(raw_message):
     try:
@@ -45,15 +49,68 @@ def process_beacon(raw_message):
     except NotImplementedError as e:
         print('{}: {}'.format(e, raw_message))
 
-client = AprsClient(aprs_user='N0CALL')
-client.connect()
 
-try:
-    client.run(callback=process_beacon, autoreconnect=True)
-except KeyboardInterrupt:
-    print('\nStop ogn gateway')
-    client.disconnect()
+async def run_aprs():
+    client = AprsClient(aprs_user='N0CALL')
+    await client.connect()
+    await client.run(callback=process_beacon, autoreconnect=True)
+
+if __name__ == '__main__':
+    try:
+        asyncio.run(run_aprs())
+    except KeyboardInterrupt:
+        print('\nStop ogn gateway')
+        # await client.disconnect()
+
 ```
+
+### Concurrent Example:
+Same as above, but also concurrently execute your custom long-running function:
+
+```python
+import asyncio
+
+from ogn.client import AprsClient
+from ogn.parser import parse, ParseError
+
+
+def process_beacon(raw_message):
+    try:
+        beacon = parse(raw_message)
+        print('Received {aprs_type}: {raw_message}'.format(**beacon))
+    except ParseError as e:
+        print('Error, {}'.format(e.message))
+    except NotImplementedError as e:
+        print('{}: {}'.format(e, raw_message))
+
+
+async def run_aprs():
+    client = AprsClient(aprs_user='N0CALL')
+    await client.connect()
+    await client.run(callback=process_beacon, autoreconnect=True)
+
+
+async def run_another_long_running_function():
+    import datetime
+    while True:
+        print(f'The time is {datetime.datetime.now()}')
+        await asyncio.sleep(10)
+
+
+async def main():
+    await asyncio.gather(run_aprs(), run_another_long_running_function())
+
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+
+
+
+
+
+
 
 ### Connect to telnet console and display all decoded beacons.
 
