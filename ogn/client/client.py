@@ -24,14 +24,14 @@ class AprsClient:
         self._sock_peer_ip = None
         self._kill = False
 
-    def connect(self, retries=1, wait_period=15):
+    def connect(self, retries=1, wait_period=15, socket_timeout=5):
         # create socket, connect to server, login and make a file object associated with the socket
         while retries > 0:
             retries -= 1
             try:
                 self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-                self.sock.settimeout(5)
+                self.sock.settimeout(socket_timeout)
 
                 if self.aprs_filter:
                     port = self.settings.APRS_SERVER_PORT_CLIENT_DEFINED_FILTERS
