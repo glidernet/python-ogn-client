@@ -94,8 +94,8 @@ class AprsClient:
                         break
 
                     callback(packet_str, **kwargs)
-            except socket.error:
-                self.logger.error('socket.error')
+            except (socket.error, ConnectionError) as e:
+                self.logger.error('Connect error: {}'.format(e))
             except OSError:
                 self.logger.error('OSError')
             except UnicodeDecodeError:
