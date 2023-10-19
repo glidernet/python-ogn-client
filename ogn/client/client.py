@@ -43,7 +43,7 @@ class AprsClient:
 
                 login = create_aprs_login(self.aprs_user, -1, self.settings.APRS_APP_NAME, self.settings.APRS_APP_VER, self.aprs_filter)
                 self.sock.send(login.encode())
-                self.sock_file = self.sock.makefile('rb')
+                self.sock_file = self.sock.makefile('rb', encoding='iso-8859-1')
 
                 self._kill = False
                 self.logger.info("Connect to OGN ({}/{}:{}) as {} with filter: {}".
