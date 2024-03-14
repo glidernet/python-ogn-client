@@ -22,13 +22,14 @@ from ogn.parser.aprs_comment.generic_parser import GenericParser
 positions = {}
 
 
-def parse(aprs_message, reference_timestamp=None, calculate_relations=False):
+def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use_server_timestamp=True):
     global positions
 
-    if reference_timestamp is None:
-        reference_timestamp = datetime.utcnow()
+    if reference_timestamp is True:
+        reference_timestamp = server_timestamp or datetime.utcnow()
+    elif reference_timestamp is None:
 
-    message = parse_aprs(aprs_message, reference_timestamp)
+    message = parse_aprs(aprs_message, reference_timestamp=reference_timestamp)
     if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
         message.update(parse_comment(message['comment'],
                                      dstcall=message['dstcall'],
@@ -41,7 +42,9 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False):
             message['distance'] = cheap_ruler.distance((message['longitude'], message['latitude']), positions[message['receiver_name']])
             message['bearing'] = cheap_ruler.bearing((message['longitude'], message['latitude']), positions[message['receiver_name']])
             message['normalized_quality'] = normalized_quality(message['distance'], message['signal_quality']) if 'signal_quality' in message else None
-
+    
+    if message['aprs_type'] == 'server':
+        server_timestamp = message['timestamp']
     return message
 
 
@@ -196,8 +199,6 @@ dstcall_parser_mapping = {'APRS': OgnParser(),
 
 
 def parse_comment(aprs_comment, dstcall='APRS', aprs_type="position"):
-    print('parse_comment')
-    print(aprs_comment)
     parser = dstcall_parser_mapping.get(dstcall)
     if parser:
         return parser.parse(aprs_comment, aprs_type)
