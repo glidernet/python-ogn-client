@@ -13,17 +13,17 @@ PATTERN_APRS_POSITION_WEATHER_WX = re.compile(r"""
     (?P<longitude>18000\.00|1[0-7]\d{3}\.\d{2}|0\d{4}\.\d{2})
     (?P<longitude_sign>E|W)
 	(?P<symbol>_)
-	(?P<wind_direction>(\d{3}|\.{3}))/
-	(?P<wind_speed>(\d{3}|\.{3}))
+	(?P<wind_direction>(\d{3}))/
+	(?P<wind_speed>(\d{3}))
 	(?:c(?P<wind_direction1>[\d]+)?)?
 	(?:s(?P<wind_speed2>[\d]+)?)?
 	(?:g(?P<wind_speed_peak>[\d]+)?)?
+	(?:t(?P<temperature>[\d]+)?)?
 	(?:r(?P<rainfall_1h>[\d]+)?)?
 	(?:p(?P<rainfall_24h>[\d]+)?)?
 	(?:l(?P<luminosity>[\d]+)?)?
 	(?:L(?P<luminosity2>[\d]+)?)?
 	(?:P(?P<rain_since_midnight>[\d]+)?)?
-	(?:t(?P<temperature>[\d]+)?)?
 	(?:h(?P<humidity>[\d]+)?)?
 	(?:b(?P<barometric_pressure>[\d]+)?)?
 	(?P<comment>.*)
