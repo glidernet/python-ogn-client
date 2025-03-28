@@ -153,6 +153,8 @@ def parse_aprs(message, reference_timestamp=None):
 dstcall_parser_mapping = {'APRS': OgnParser(),
                           'OGNFNT': FanetParser(),
                           'OGFLR': FlarmParser(),
+                          'OGFLR6': FlarmParser(),
+                          'OGFLR7': FlarmParser(),
                           'OGNTRK': TrackerParser(),
                           'OGNSDR': ReceiverParser(),
                           'OGCAPT': GenericParser(beacon_type='capturs'),
