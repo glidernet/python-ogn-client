@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## unreleased
+## 1.2.2: - 2024-03-31
 - client: If no reference_timestamp provided use timestamp from APRS server (fixes #85)
+- parser: Manage Flarm APRS messages with TOCALL set to OGFLR6 and OGFLR7 (fixes #123)
 
 ## 1.2.1: - 2021-06-06
 - client: Added peer IP to log messages
