@@ -17,6 +17,7 @@ from ogn.parser.aprs_comment.spider_parser import SpiderParser
 from ogn.parser.aprs_comment.spot_parser import SpotParser
 from ogn.parser.aprs_comment.inreach_parser import InreachParser
 from ogn.parser.aprs_comment.safesky_parser import SafeskyParser
+from ogn.parser.aprs_comment.microtrak_parser import MicrotrakParser
 from ogn.parser.aprs_comment.generic_parser import GenericParser
 
 positions = {}
@@ -168,6 +169,7 @@ dstcall_parser_mapping = {'APRS': OgnParser(),
                           'OGSPID': SpiderParser(),
                           'OGSPOT': SpotParser(),
                           'OGNSKY': SafeskyParser(),
+                          'OGNMTK': MicrotrakParser(),
                           'GENERIC': GenericParser(beacon_type='unknown'),
                           }
 

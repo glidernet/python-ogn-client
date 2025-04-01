@@ -1,0 +1,6 @@
+# The following beacons are example for Microtrak's APRS format
+# source: https://github.com/glidernet/ogn-aprs-protocol
+#
+MTK895B2D>OGNMTK,qAS,Microtrak:/195300h4849.11N/00216.49E'000/000/A=000472 !W72! id07895B2D
+MTK895B2D>OGNMTK,qAS,Microtrak:/195300h4849.11N/00216.49E'000/000/A=000472 !W72! id07895B2D
+MTK6FC895>OGNMTK,qAS,Microtrak:/195346h4849.09N/00216.52E'000/000/A=000295 !W18! id076FC895
