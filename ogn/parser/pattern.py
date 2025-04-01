@@ -88,6 +88,10 @@ PATTERN_SAFESKY_POSITION_COMMENT = re.compile(r"""
     (?:gps(?P<gps_quality>(?P<gps_quality_horizontal>(\d+))x(?P<gps_quality_vertical>(\d+)))?)?
 """, re.VERBOSE | re.MULTILINE)
 
+PATTERN_MICROTRAK_POSITION_COMMENT = re.compile(r"""
+    id(?P<details>[\dA-F]{2})(?P<address>[\dA-F]{6}?)\s?
+""", re.VERBOSE | re.MULTILINE)
+
 PATTERN_TRACKER_STATUS_COMMENT = re.compile(r"""
     h(?P<hardware_version>[\d]{2})\s
     v(?P<software_version>[\d]{2})\s?

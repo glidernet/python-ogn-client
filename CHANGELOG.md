@@ -2,6 +2,8 @@
 
 ## unreleased
 - client: If no reference_timestamp provided use timestamp from APRS server (fixes #85)
+- parser: Handle dst_calls 'OGFLR6' (protocol 6) and 'OGFLR7' (protocol 7) like 'OGFLR' (fixes #123)
+- parser: Added support for OGNMTK (Microtrak) beacons
 
 ## 1.2.1: - 2021-06-06
 - client: Added peer IP to log messages
