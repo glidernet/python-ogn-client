@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.2.3: - 2024-04-01
+- parser: Add Microtrak parser
+
 ## 1.2.2: - 2024-03-31
 - client: If no reference_timestamp provided use timestamp from APRS server (fixes #85)
 - parser: Manage Flarm APRS messages with TOCALL set to OGFLR6 and OGFLR7 (fixes #123)
