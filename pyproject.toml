@@ -1,0 +1,45 @@
+[project]
+name = "python-ogn-client"
+version = "1.2.1"
+description = "A python module for the Open Glider Network"
+authors = [
+    {name = "Konstantin Gründger",email = "konstantin.gruendger@web.de"},
+    {name = "Fabian P. Schmidt",email = "kerel-fs@gmx.de"},
+    {name = "Heikki Hannikainen",email = "hessu@hes.iki.fi"},
+    {name = "Anze Kolar",email = "me@akolar.com"},
+]
+maintainers = [
+    {name = "Konstantin Gründger",email = "konstantin.gruendger@web.de"},
+]
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+keywords = ["gliding", "ogn"]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: GIS",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+[project.urls]
+repository = "https://github.com/glidernet/python-ogn-client"
+
+[tool.poetry]
+packages = [
+    { include = "ogn" },
+    { include = "README.md" },
+    { include = "LICENSE" },
+]
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
