@@ -24,7 +24,6 @@ server_timestamp = None
 
 
 def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use_server_timestamp=True):
-    global positions
     global server_timestamp
 
     if use_server_timestamp is True:
