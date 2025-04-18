@@ -7,6 +7,8 @@ authors = [
     {name = "Fabian P. Schmidt",email = "kerel-fs@gmx.de"},
     {name = "Heikki Hannikainen",email = "hessu@hes.iki.fi"},
     {name = "Anze Kolar",email = "me@akolar.com"},
+    {name = "Angel Casado",email = "acasadoalonso@gmail.com"},
+    {name = "Sebastien Chaumontet",email = "sebastien@chaumontet.ne"},
 ]
 maintainers = [
     {name = "Konstantin Gründger",email = "konstantin.gruendger@web.de"},
