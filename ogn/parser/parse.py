@@ -1,9 +1,8 @@
-import re
 from datetime import datetime
 
 from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, INCH_TO_MM, fahrenheit_to_celsius, CheapRuler, normalized_quality
 from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_POSITION_WEATHER, PATTERN_APRS_STATUS, PATTERN_SERVER
-from ogn.parser.exceptions import AprsParseError
+from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 from ogn.parser.aprs_comment.ogn_parser import OgnParser
 from ogn.parser.aprs_comment.fanet_parser import FanetParser
@@ -34,9 +33,12 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
 
     message = parse_aprs(aprs_message, reference_timestamp=reference_timestamp)
     if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
-        message.update(parse_comment(message['comment'],
-                                     dstcall=message['dstcall'],
-                                     aprs_type=message['aprs_type']))
+        try:
+            message.update(parse_comment(message['comment'],
+                           dstcall=message['dstcall'],
+                           aprs_type=message['aprs_type']))
+        except Exception:
+            raise OgnParseError(f"dstcall: {message['dstcall']}, aprs_type: {message['aprs_type']}, comment: {message['comment']}")
 
     if message['aprs_type'].startswith('position') and calculate_relations is True:
         positions[message['name']] = (message['longitude'], message['latitude'])
@@ -60,7 +62,7 @@ def parse_aprs(message, reference_timestamp=None):
               'reference_timestamp': reference_timestamp}
 
     if message and message[0] == '#':
-        match_server = re.search(PATTERN_SERVER, message)
+        match_server = PATTERN_SERVER.search(message)
         if match_server:
             result.update({
                 'version': match_server.group('version'),
@@ -74,13 +76,13 @@ def parse_aprs(message, reference_timestamp=None):
                 'comment': message,
                 'aprs_type': 'comment'})
     else:
-        match = re.search(PATTERN_APRS, message)
+        match = PATTERN_APRS.search(message)
         if match:
             aprs_type = 'position' if match.group('aprs_type') == '/' else 'status' if match.group('aprs_type') == '>' else 'unknown'
             result.update({'aprs_type': aprs_type})
             aprs_body = match.group('aprs_body')
             if aprs_type == 'position':
-                match_position = re.search(PATTERN_APRS_POSITION, aprs_body)
+                match_position = PATTERN_APRS_POSITION.search(aprs_body)
                 if match_position:
                     result.update({
                         'name': match.group('callsign'),
@@ -103,7 +105,7 @@ def parse_aprs(message, reference_timestamp=None):
                     })
                     return result
 
-                match_position_weather = re.search(PATTERN_APRS_POSITION_WEATHER, aprs_body)
+                match_position_weather = PATTERN_APRS_POSITION_WEATHER.search(aprs_body)
                 if match_position_weather:
                     result.update({
                         'aprs_type': 'position_weather',
@@ -135,7 +137,7 @@ def parse_aprs(message, reference_timestamp=None):
 
                 raise AprsParseError(message)
             elif aprs_type == 'status':
-                match_status = re.search(PATTERN_APRS_STATUS, aprs_body)
+                match_status = PATTERN_APRS_STATUS.search(aprs_body)
                 if match_status:
                     result.update({
                         'name': match.group('callsign'),

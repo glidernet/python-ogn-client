@@ -1,12 +1,17 @@
 # CHANGELOG
 
-## 1.2.3: - 2024-04-01
-- parser: Add Microtrak parser
+=======
+## 1.3.0: - 2025-04-19
+- parser: Handle messages that do not conform to the "ogn-aprs-protocol" specification/implementation (fixes #126)
+- Moved dependency management to to poetry
+- Added github action pipeline for automated testing and publishing
 
-## 1.2.2: - 2024-03-31
+## 1.2.3: - 2024-04-01 (not released on PyPI)
+- parser: Added support for OGNMTK (Microtrak) beacons
+
+## 1.2.2: - 2024-03-31 (not released on PyPI)
 - client: If no reference_timestamp provided use timestamp from APRS server (fixes #85)
 - parser: Handle dst_calls 'OGFLR6' (protocol 6) and 'OGFLR7' (protocol 7) like 'OGFLR' (fixes #123)
-- parser: Added support for OGNMTK (Microtrak) beacons
 
 ## 1.2.1: - 2021-06-06
 - client: Added peer IP to log messages
