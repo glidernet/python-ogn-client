@@ -7,7 +7,7 @@ APRS_SERVER_PORT_CLIENT_DEFINED_FILTERS = 14580
 APRS_APP_NAME = 'python-ogn-client'
 
 try:
-    PACKAGE_VERSION = importlib.metadata.version(APRS_APP_NAME)
+    PACKAGE_VERSION = importlib.metadata.version('ogn-client')
 except importlib.metadata.PackageNotFoundError:
     PACKAGE_VERSION = '0.0.0'
 
