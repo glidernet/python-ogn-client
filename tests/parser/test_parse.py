@@ -6,7 +6,7 @@ from datetime import datetime
 from time import sleep
 
 from ogn.parser.parse import parse
-from ogn.parser.exceptions import AprsParseError
+from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 
 class TestStringMethods(unittest.TestCase):
@@ -113,6 +113,10 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(message['name'], 'FLRDDA5BA')
         self.assertEqual(message['address'], 'DDA5BA')
+
+    def test_bad_naviter_format(self):
+        with self.assertRaises(OgnParseError):
+            parse("FLRA51D93>OGNAVI,qAS,NAVITER2:/204507h4444.98N/09323.34W'000/000/A=000925 !W67! id06A51D93 +000fpm +0.0rot")
 
 
 if __name__ == '__main__':
