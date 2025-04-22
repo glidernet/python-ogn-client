@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.3.1: - 2025-04-22
+- parser: parse short path (#128)
+- client: configurable socket timeout (#112)
+- client: more helpful socket error message (#116)
+
 ## 1.3.0: - 2025-04-19
 - parser: Handle messages that do not conform to the "ogn-aprs-protocol" specification/implementation (fixes #126)
 - Moved dependency management to to poetry
