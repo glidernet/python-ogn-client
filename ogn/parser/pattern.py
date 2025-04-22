@@ -1,6 +1,6 @@
 import re
 
-PATTERN_APRS = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+),((?P<relay>[A-Za-z0-9]+)\*)?.*,(?P<receiver>.+?):(?P<aprs_type>(.))(?P<aprs_body>.*)$")
+PATTERN_APRS = re.compile(r"^(?P<callsign>.+?)>(?P<dstcall>[A-Z0-9]+)(,((?P<relay>[A-Za-z0-9]+)\*)?.*,(?P<receiver>.+?))?:(?P<aprs_type>(.))(?P<aprs_body>.*)$")
 PATTERN_APRS_POSITION = re.compile(r"^(?P<time>(([0-1]\d|2[0-3])[0-5]\d[0-5]\dh|([0-2]\d|3[0-1])([0-1]\d|2[0-3])[0-5]\dz))(?P<latitude>9000\.00|[0-8]\d{3}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>18000\.00|1[0-7]\d{3}\.\d{2}|0\d{4}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<course_extension>(?P<course>\d{3})/(?P<ground_speed>\d{3}))?(/A=(?P<altitude>(-\d{5}|\d{6})))?(?P<pos_extension>\s!W((?P<latitude_enhancement>\d)(?P<longitude_enhancement>\d))!)?(?:\s(?P<comment>.*))?$")
 PATTERN_APRS_POSITION_WEATHER = re.compile(r"^(?P<time>(([0-1]\d|2[0-3])[0-5]\d[0-5]\dh|([0-2]\d|3[0-1])([0-1]\d|2[0-3])[0-5]\dz))(?P<latitude>9000\.00|[0-8]\d{3}\.\d{2})(?P<latitude_sign>N|S)(?P<symbol_table>.)(?P<longitude>18000\.00|1[0-7]\d{3}\.\d{2}|0\d{4}\.\d{2})(?P<longitude_sign>E|W)(?P<symbol>.)(?P<wind_direction>(\d{3}|\.{3}))/(?P<wind_speed>(\d{3}|\.{3}))g(?P<wind_speed_peak>(\d{3}|\.{3}))t(?P<temperature>(\d{3}|\.{3}))(r(?P<rainfall_1h>\d{3}))?(p(?P<rainfall_24h>\d{3}))?(h(?P<humidity>\d{2}))?(b(?P<barometric_pressure>\d{5}))?(?:\s(?P<comment>.*))?$")
 PATTERN_APRS_STATUS = re.compile(r"^(?P<time>(([0-1]\d|2[0-3])[0-5]\d[0-5]\dh|([0-2]\d|3[0-1])([0-1]\d|2[0-3])[0-5]\dz))\s(?P<comment>.*)$")

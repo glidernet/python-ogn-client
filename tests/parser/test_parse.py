@@ -118,6 +118,15 @@ class TestStringMethods(unittest.TestCase):
         with self.assertRaises(OgnParseError):
             parse("FLRA51D93>OGNAVI,qAS,NAVITER2:/204507h4444.98N/09323.34W'000/000/A=000925 !W67! id06A51D93 +000fpm +0.0rot")
 
+    def test_no_receiver(self):
+        result = parse("EDFW>OGNSDR:/102713h4949.02NI00953.88E&/A=000984")
+
+        self.assertEqual(result['aprs_type'], 'position')
+        self.assertEqual(result['beacon_type'], 'receiver')
+        self.assertEqual(result['name'], 'EDFW')
+        self.assertEqual(result['dstcall'], 'OGNSDR')
+        self.assertEqual(result['receiver_name'], None)
+
 
 if __name__ == '__main__':
     unittest.main()

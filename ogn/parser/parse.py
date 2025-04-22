@@ -87,7 +87,7 @@ def parse_aprs(message, reference_timestamp=None):
                     result.update({
                         'name': match.group('callsign'),
                         'dstcall': match.group('dstcall'),
-                        'relay': match.group('relay') if match.group('relay') else None,
+                        'relay': match.group('relay'),
                         'receiver_name': match.group('receiver'),
                         'timestamp': createTimestamp(match_position.group('time'), reference_timestamp),
                         'latitude': parseAngle('0' + match_position.group('latitude') + (match_position.group('latitude_enhancement') or '0')) *   # noqa: W504
