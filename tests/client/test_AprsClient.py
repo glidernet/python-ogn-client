@@ -9,15 +9,15 @@ from ogn.client.settings import APRS_APP_NAME, APRS_APP_VER, APRS_KEEPALIVE_TIME
 class AprsClientTest(unittest.TestCase):
     def test_create_aprs_login(self):
         basic_login = create_aprs_login('klaus', -1, 'myApp', '0.1')
-        self.assertEqual('user klaus pass -1 vers myApp 0.1\n', basic_login)
+        assert 'user klaus pass -1 vers myApp 0.1\n' == basic_login
 
         login_with_filter = create_aprs_login('klaus', -1, 'myApp', '0.1', 'r/48.0/11.0/100')
-        self.assertEqual('user klaus pass -1 vers myApp 0.1 filter r/48.0/11.0/100\n', login_with_filter)
+        assert 'user klaus pass -1 vers myApp 0.1 filter r/48.0/11.0/100\n' == login_with_filter
 
     def test_initialisation(self):
         client = AprsClient(aprs_user='testuser', aprs_filter='')
-        self.assertEqual(client.aprs_user, 'testuser')
-        self.assertEqual(client.aprs_filter, '')
+        assert client.aprs_user == 'testuser'
+        assert client.aprs_filter == ''
 
     @mock.patch('ogn.client.client.socket')
     def test_connect_full_feed(self, mock_socket):
@@ -42,7 +42,7 @@ class AprsClientTest(unittest.TestCase):
         client.disconnect()
         client.sock.shutdown.assert_called_once_with(0)
         client.sock.close.assert_called_once_with()
-        self.assertTrue(client._kill)
+        assert client._kill is True
 
     @mock.patch('ogn.client.client.socket')
     def test_run(self, mock_socket):
@@ -112,14 +112,14 @@ class AprsClientTest(unittest.TestCase):
         client.run(callback=mock_callback, autoreconnect=True)
 
         # After .disconnect(), client._kill should be True
-        self.assertTrue(client._kill)
-        self.assertEqual(mock_callback.call_count, 1)
+        assert client._kill is True
+        assert mock_callback.call_count == 1
 
         # After we reconnect, .run() should be able to run again
         mock_callback.reset_mock()
         client.connect()
         client.run(callback=mock_callback, autoreconnect=True)
-        self.assertEqual(mock_callback.call_count, 1)
+        assert mock_callback.call_count == 1
 
     @unittest.skip("Too much invalid APRS data on the live feed")
     def test_50_live_messages(self):
@@ -148,4 +148,3 @@ class AprsClientTest(unittest.TestCase):
             pass
         finally:
             client.disconnect()
-        self.assertTrue(True)

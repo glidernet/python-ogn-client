@@ -17,7 +17,7 @@ class TestStringMethods(unittest.TestCase):
                     message = parse(line, datetime(2015, 4, 10, 17, 0))
                     self.assertFalse(message is None)
                     if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
-                        self.assertEqual(message['beacon_type'], beacon_type)
+                        assert message['beacon_type'] == beacon_type
                 except NotImplementedError as e:
                     print(e)
 
@@ -68,8 +68,8 @@ class TestStringMethods(unittest.TestCase):
 
     def test_generic_beacons(self):
         message = parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment")
-        self.assertEqual(message['beacon_type'], 'unknown')
-        self.assertEqual(message['comment'], "this is a comment")
+        assert message['beacon_type'] == 'unknown'
+        assert message['comment'] == "this is a comment"
 
     def test_fail_parse_aprs_none(self):
         with self.assertRaises(TypeError):
@@ -87,11 +87,11 @@ class TestStringMethods(unittest.TestCase):
         # receiver beacons from chile have a APRS position message with a pure user comment
         message = parse("VITACURA1>APRS,TCPIP*,qAC,GLIDERN4:/201146h3322.79SI07034.80W&/A=002329 Vitacura Municipal Aerodrome, Club de Planeadores Vitacura")
 
-        self.assertEqual(message['user_comment'], "Vitacura Municipal Aerodrome, Club de Planeadores Vitacura")
+        assert message['user_comment'] == "Vitacura Municipal Aerodrome, Club de Planeadores Vitacura"
 
         message_with_id = parse("ALFALFAL>APRS,TCPIP*,qAC,GLIDERN4:/221830h3330.40SI07007.88W&/A=008659 Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs")
 
-        self.assertEqual(message_with_id['user_comment'], "Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs")
+        assert message_with_id['user_comment'] == "Alfalfal Hidroelectric Plant, Club de Planeadores Vitacurs"
 
     @mock.patch('ogn.parser.parse_module.createTimestamp')
     def test_default_reference_date(self, createTimestamp_mock):
@@ -111,8 +111,8 @@ class TestStringMethods(unittest.TestCase):
         valid_aprs_string = "FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5"
         message = parse(valid_aprs_string)
 
-        self.assertEqual(message['name'], 'FLRDDA5BA')
-        self.assertEqual(message['address'], 'DDA5BA')
+        assert message['name'] == 'FLRDDA5BA'
+        assert message['address'] == 'DDA5BA'
 
     def test_bad_naviter_format(self):
         with self.assertRaises(OgnParseError):
@@ -121,11 +121,11 @@ class TestStringMethods(unittest.TestCase):
     def test_no_receiver(self):
         result = parse("EDFW>OGNSDR:/102713h4949.02NI00953.88E&/A=000984")
 
-        self.assertEqual(result['aprs_type'], 'position')
-        self.assertEqual(result['beacon_type'], 'receiver')
-        self.assertEqual(result['name'], 'EDFW')
-        self.assertEqual(result['dstcall'], 'OGNSDR')
-        self.assertEqual(result['receiver_name'], None)
+        assert result['aprs_type'] == 'position'
+        assert result['beacon_type'] == 'receiver'
+        assert result['name'] == 'EDFW'
+        assert result['dstcall'] == 'OGNSDR'
+        assert result['receiver_name'] is None
 
 
 if __name__ == '__main__':

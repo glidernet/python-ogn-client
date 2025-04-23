@@ -15,26 +15,26 @@ class TestStringMethods(unittest.TestCase):
     def test_basic(self):
         message = parse_aprs("FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 this is a comment")
 
-        self.assertEqual(message['aprs_type'], 'position')
-        self.assertEqual(message['name'], "FLRDDA5BA")
-        self.assertEqual(message['dstcall'], "APRS")
-        self.assertEqual(message['receiver_name'], "LFMX")
-        self.assertEqual(message['timestamp'].strftime('%H:%M:%S'), "16:08:29")
+        assert message['aprs_type'] == 'position'
+        assert message['name'] == "FLRDDA5BA"
+        assert message['dstcall'] == "APRS"
+        assert message['receiver_name'] == "LFMX"
+        assert message['timestamp'].strftime('%H:%M:%S') == "16:08:29"
         self.assertAlmostEqual(message['latitude'], 44.25683, 5)
-        self.assertEqual(message['symboltable'], '/')
+        assert message['symboltable'] == '/'
         self.assertAlmostEqual(message['longitude'], 6.0005, 5)
-        self.assertEqual(message['symbolcode'], '\'')
-        self.assertEqual(message['track'], 342)
-        self.assertEqual(message['ground_speed'], 49 * KNOTS_TO_MS / KPH_TO_MS)
+        assert message['symbolcode'] == '\''
+        assert message['track'] == 342
+        assert message['ground_speed'] == 49 * KNOTS_TO_MS / KPH_TO_MS
         self.assertAlmostEqual(message['altitude'], 5524 * FEETS_TO_METER, 5)
-        self.assertEqual(message['comment'], "this is a comment")
+        assert message['comment'] == "this is a comment"
 
     def test_v024(self):
         # higher precision datum format introduced
         raw_message = "FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 !W26! id21400EA9 -2454fpm +0.9rot 19.5dB 0e -6.6kHz gps1x1 s6.02 h44 rDF0C56"
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['aprs_type'], 'position')
+        assert message['aprs_type'] == 'position'
         self.assertAlmostEqual(message['latitude'] - 44.2568 - 1 / 30000, 2 / 1000 / 60, 10)
         self.assertAlmostEqual(message['longitude'] - 6.0005, 6 / 1000 / 60, 10)
 
@@ -43,70 +43,70 @@ class TestStringMethods(unittest.TestCase):
         raw_message = "EPZR>APRS,TCPIP*,qAC,GLIDERN1:>093456h this is a comment"
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['aprs_type'], 'status')
-        self.assertEqual(message['name'], "EPZR")
-        self.assertEqual(message['receiver_name'], "GLIDERN1")
-        self.assertEqual(message['timestamp'].strftime('%H:%M:%S'), "09:34:56")
-        self.assertEqual(message['comment'], "this is a comment")
+        assert message['aprs_type'] == 'status'
+        assert message['name'] == "EPZR"
+        assert message['receiver_name'] == "GLIDERN1"
+        assert message['timestamp'].strftime('%H:%M:%S') == "09:34:56"
+        assert message['comment'] == "this is a comment"
 
     def test_v026(self):
         # from 0.2.6 the ogn comment of a receiver beacon is just optional
         raw_message = "Ulrichamn>APRS,TCPIP*,qAC,GLIDERN1:/085616h5747.30NI01324.77E&/A=001322"
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['aprs_type'], 'position')
-        self.assertEqual(message['comment'], '')
+        assert message['aprs_type'] == 'position'
+        assert message['comment'] == ''
 
     def test_v026_relay(self):
         # beacons can be relayed
         raw_message = "FLRFFFFFF>OGNAVI,NAV07220E*,qAS,NAVITER:/092002h1000.00S/01000.00W'000/000/A=003281 !W00! id2820FFFFFF +300fpm +1.7rot"
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['aprs_type'], 'position')
-        self.assertEqual(message['relay'], "NAV07220E")
+        assert message['aprs_type'] == 'position'
+        assert message['relay'] == "NAV07220E"
 
     def test_v027_ddhhmm(self):
         # beacons can have hhmmss or ddhhmm timestamp
         raw_message = "ICA4B0678>APRS,qAS,LSZF:/301046z4729.50N/00812.89E'227/091/A=002854 !W01! id054B0678 +040fpm +0.0rot 19.0dB 0e +1.5kHz gps1x1"
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['aprs_type'], 'position')
-        self.assertEqual(message['timestamp'].strftime('%d %H:%M'), "30 10:46")
+        assert message['aprs_type'] == 'position'
+        assert message['timestamp'].strftime('%d %H:%M') == "30 10:46"
 
     def test_v028_fanet_position_weather(self):
         # with v0.2.8 fanet devices can report weather data
         raw_message = 'FNTFC9002>OGNFNT,qAS,LSXI2:/163051h4640.33N/00752.21E_187/004g007t075h78b63620 29.0dB -8.0kHz'
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['aprs_type'], 'position_weather')
-        self.assertEqual(message['wind_direction'], 187)
-        self.assertEqual(message['wind_speed'], 4 * KNOTS_TO_MS / KPH_TO_MS)
-        self.assertEqual(message['wind_speed_peak'], 7 * KNOTS_TO_MS / KPH_TO_MS)
-        self.assertEqual(message['temperature'], fahrenheit_to_celsius(75))
-        self.assertEqual(message['humidity'], 78 * 0.01)
-        self.assertEqual(message['barometric_pressure'], 63620)
+        assert message['aprs_type'] == 'position_weather'
+        assert message['wind_direction'] == 187
+        assert message['wind_speed'] == 4 * KNOTS_TO_MS / KPH_TO_MS
+        assert message['wind_speed_peak'] == 7 * KNOTS_TO_MS / KPH_TO_MS
+        assert message['temperature'] == fahrenheit_to_celsius(75)
+        assert message['humidity'] == 78 * 0.01
+        assert message['barometric_pressure'] == 63620
 
-        self.assertEqual(message['comment'], '29.0dB -8.0kHz')
+        assert message['comment'] == '29.0dB -8.0kHz'
 
     def test_GXAirCom_fanet_position_weather_rainfall(self):
         raw_message = 'FNT08F298>OGNFNT,qAS,DREIFBERG:/082654h4804.90N/00845.74E_273/005g008t057r123p234h90b10264 0.0dB'
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['aprs_type'], 'position_weather')
-        self.assertEqual(message['rainfall_1h'], 123 / 100 * INCH_TO_MM)
-        self.assertEqual(message['rainfall_24h'], 234 / 100 * INCH_TO_MM)
+        assert message['aprs_type'] == 'position_weather'
+        assert message['rainfall_1h'] == 123 / 100 * INCH_TO_MM
+        assert message['rainfall_24h'] == 234 / 100 * INCH_TO_MM
 
     def test_v028_fanet_position_weather_empty(self):
         raw_message = 'FNT010115>OGNFNT,qAS,DB7MJ:/065738h4727.72N/01012.83E_.../...g...t... 27.8dB -13.8kHz'
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['aprs_type'], 'position_weather')
-        self.assertIsNone(message['wind_direction'])
-        self.assertIsNone(message['wind_speed'])
-        self.assertIsNone(message['wind_speed_peak'])
-        self.assertIsNone(message['temperature'])
-        self.assertIsNone(message['humidity'])
-        self.assertIsNone(message['barometric_pressure'])
+        assert message['aprs_type'] == 'position_weather'
+        assert message['wind_direction'] is None
+        assert message['wind_speed'] is None
+        assert message['wind_speed_peak'] is None
+        assert message['temperature'] is None
+        assert message['humidity'] is None
+        assert message['barometric_pressure'] is None
 
     def test_negative_altitude(self):
         # some devices can report negative altitudes
@@ -120,7 +120,7 @@ class TestStringMethods(unittest.TestCase):
         raw_message = "FLRDDEEF1>OGCAPT,qAS,CAPTURS:/065511h4837.63N/00233.79E'000/000"
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['altitude'], None)
+        assert message['altitude'] is None
 
     def test_invalid_coordinates(self):
         # sometimes the coordinates leave their valid range: -90<=latitude<=90 or -180<=longitude<=180
@@ -145,19 +145,19 @@ class TestStringMethods(unittest.TestCase):
         raw_message = "# bad configured ogn receiver"
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['comment'], raw_message)
-        self.assertEqual(message['aprs_type'], 'comment')
+        assert message['comment'] == raw_message
+        assert message['aprs_type'] == 'comment'
 
     def test_server_comment(self):
         raw_message = "# aprsc 2.1.4-g408ed49 17 Mar 2018 09:30:36 GMT GLIDERN1 37.187.40.234:10152"
         message = parse_aprs(raw_message)
 
-        self.assertEqual(message['version'], '2.1.4-g408ed49')
-        self.assertEqual(message['timestamp'], datetime(2018, 3, 17, 9, 30, 36))
-        self.assertEqual(message['server'], 'GLIDERN1')
-        self.assertEqual(message['ip_address'], '37.187.40.234')
-        self.assertEqual(message['port'], '10152')
-        self.assertEqual(message['aprs_type'], 'server')
+        assert message['version'] == '2.1.4-g408ed49'
+        assert message['timestamp'] == datetime(2018, 3, 17, 9, 30, 36)
+        assert message['server'] == 'GLIDERN1'
+        assert message['ip_address'] == '37.187.40.234'
+        assert message['port'] == '10152'
+        assert message['aprs_type'] == 'server'
 
 
 if __name__ == '__main__':

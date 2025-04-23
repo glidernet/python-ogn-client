@@ -15,15 +15,15 @@ class TestStringMethods(unittest.TestCase):
         # bits 6-11: address type (namespace is extended from 2 to 6 bits to avoid collisions with other tracking providers)
         # bits 12-15: reserved for use at a later time
         # bits 16-39: device id (24-bit device identifier, same as in APRS header)
-        self.assertEqual(message['stealth'], False)
-        self.assertEqual(message['do_not_track'], False)
-        self.assertEqual(message['aircraft_type'], 1)
-        self.assertEqual(message['address_type'], 4)
-        self.assertEqual(message['reserved'], 0)
-        self.assertEqual(message['address'], "042121")
+        assert message['stealth'] is False
+        assert message['do_not_track'] is False
+        assert message['aircraft_type'] == 1
+        assert message['address_type'] == 4
+        assert message['reserved'] == 0
+        assert message['address'] == "042121"
 
         self.assertAlmostEqual(message['climb_rate'], 123 * FPM_TO_MS, 2)
-        self.assertEqual(message['turn_rate'], 0.5 * HPM_TO_DEGS)
+        assert message['turn_rate'] == 0.5 * HPM_TO_DEGS
 
 
 if __name__ == '__main__':

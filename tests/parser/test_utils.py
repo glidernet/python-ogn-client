@@ -11,7 +11,7 @@ class TestStringMethods(unittest.TestCase):
     def proceed_test_data(self, test_data={}):
         for test in test_data:
             timestamp = createTimestamp(test[0], reference_timestamp=test[1])
-            self.assertEqual(timestamp, test[2])
+            assert timestamp == test[2]
 
     def test_createTimestamp_hhmmss(self):
         test_data = [
