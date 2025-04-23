@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.3.2: - 2025-04-23
+- parser: fixed utcnow deprecation warning
+
 ## 1.3.1: - 2025-04-22
 - parser: parse short path (#128)
 - client: configurable socket timeout (#112)
