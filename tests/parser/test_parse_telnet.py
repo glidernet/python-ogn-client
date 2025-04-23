@@ -15,8 +15,8 @@ class TestStringMethods(unittest.TestCase):
 
     @mock.patch('ogn.parser.telnet_parser.datetime')
     def test_telnet_parse_complete(self, datetime_mock):
-        # set the utcnow-mock near to the time in the test string
-        datetime_mock.utcnow.return_value = datetime(2015, 1, 1, 10, 0, 55)
+        # set the now-mock near to the time in the test string
+        datetime_mock.now.return_value = datetime(2015, 1, 1, 10, 0, 55)
 
         message = parse('0.181sec:868.394MHz:   1:2:DDA411 103010: [ +50.86800, +12.15279]deg  988m  +0.1m/s  25.7m/s 085.4deg  -3.5deg/sec 5 03x04m 01f_-12.61kHz  5.8/15.5dB/2 10e   30.9km 099.5deg  +1.1deg + ?     R     B8949')
 

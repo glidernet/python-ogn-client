@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from ogn.parser.utils import createTimestamp, parseAngle, KNOTS_TO_MS, KPH_TO_MS, FEETS_TO_METER, INCH_TO_MM, fahrenheit_to_celsius, CheapRuler, normalized_quality
 from ogn.parser.pattern import PATTERN_APRS, PATTERN_APRS_POSITION, PATTERN_APRS_POSITION_WEATHER, PATTERN_APRS_STATUS, PATTERN_SERVER
@@ -27,9 +27,9 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
     global server_timestamp
 
     if use_server_timestamp is True:
-        reference_timestamp = server_timestamp or datetime.utcnow()
+        reference_timestamp = server_timestamp or datetime.now(timezone.utc)
     elif reference_timestamp is None:
-        reference_timestamp = datetime.utcnow()
+        reference_timestamp = datetime.now(timezone.utc)
 
     message = parse_aprs(aprs_message, reference_timestamp=reference_timestamp)
     if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
@@ -56,7 +56,7 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
 
 def parse_aprs(message, reference_timestamp=None):
     if reference_timestamp is None:
-        reference_timestamp = datetime.utcnow()
+        reference_timestamp = datetime.now(timezone.utc)
 
     result = {'raw_message': message,
               'reference_timestamp': reference_timestamp}

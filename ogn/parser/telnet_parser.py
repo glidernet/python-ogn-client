@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from ogn.parser.utils import createTimestamp
 from ogn.parser.pattern import PATTERN_TELNET_50001
@@ -7,7 +7,7 @@ telnet_50001_pattern = PATTERN_TELNET_50001
 
 
 def parse(telnet_data):
-    reference_timestamp = datetime.utcnow()
+    reference_timestamp = datetime.now(timezone.utc)
 
     match = telnet_50001_pattern.match(telnet_data)
     if match:
