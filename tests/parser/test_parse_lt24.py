@@ -1,17 +1,12 @@
-import unittest
+import pytest
 
 from ogn.parser.utils import FPM_TO_MS
 from ogn.parser.aprs_comment.lt24_parser import LT24Parser
 
 
-class TestStringMethods(unittest.TestCase):
-    def test_position_comment(self):
-        message = LT24Parser().parse_position("id25387 +123fpm GPS")
+def test_position_comment():
+    message = LT24Parser().parse_position("id25387 +123fpm GPS")
 
-        assert message['lt24_id'] == "25387"
-        self.assertAlmostEqual(message['climb_rate'], 123 * FPM_TO_MS, 2)
-        assert message['source'] == 'GPS'
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert message['lt24_id'] == "25387"
+    assert message['climb_rate'] == pytest.approx(123 * FPM_TO_MS, 2)
+    assert message['source'] == 'GPS'
