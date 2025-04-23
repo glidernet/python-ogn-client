@@ -7,9 +7,9 @@ from ogn.client import settings
 
 def create_aprs_login(user_name, pass_code, app_name, app_version, aprs_filter=None):
     if not aprs_filter:
-        return "user {} pass {} vers {} {}\n".format(user_name, pass_code, app_name, app_version)
+        return f"user {user_name} pass {pass_code} vers {app_name} {app_version}\n"
     else:
-        return "user {} pass {} vers {} {} filter {}\n".format(user_name, pass_code, app_name, app_version, aprs_filter)
+        return f"user {user_name} pass {pass_code} vers {app_name} {app_version} filter {aprs_filter}\n"
 
 
 class AprsClient:
@@ -46,21 +46,19 @@ class AprsClient:
                 self.sock_file = self.sock.makefile('rb')
 
                 self._kill = False
-                self.logger.info("Connect to OGN ({}/{}:{}) as {} with filter: {}".
-                                 format(self.settings.APRS_SERVER_HOST, self._sock_peer_ip, port, self.aprs_user,
-                                        "'" + self.aprs_filter + "'" if self.aprs_filter else 'none (full-feed)'))
+                self.logger.info(f"Connect to OGN ({self.settings.APRS_SERVER_HOST}/{self._sock_peer_ip}:{port}) as {self.aprs_user} with filter: '{self.aprs_filter}'" if self.aprs_filter else 'none (full-feed)')
                 break
             except (socket.error, ConnectionError) as e:
-                self.logger.error('Connect error: {}'.format(e))
+                self.logger.error(f'Connect error: {e}')
                 if retries > 0:
-                    self.logger.info('Waiting {}s before next connection try ({} attempts left).'.format(wait_period, retries))
+                    self.logger.info(f'Waiting {wait_period}s before next connection try ({retries} attempts left).')
                     sleep(wait_period)
                 else:
                     self._kill = True
                     self.logger.critical('Could not connect to OGN.')
 
     def disconnect(self):
-        self.logger.info('Disconnect from {}'.format(self._sock_peer_ip))
+        self.logger.info(f'Disconnect from {self._sock_peer_ip}')
         try:
             # close everything
             self.sock.shutdown(0)
@@ -77,7 +75,7 @@ class AprsClient:
                 keepalive_time = time()
                 while not self._kill:
                     if time() - keepalive_time > self.settings.APRS_KEEPALIVE_TIME:
-                        self.logger.info('Send keepalive to {}'.format(self._sock_peer_ip))
+                        self.logger.info(f'Send keepalive to {self._sock_peer_ip}')
                         self.sock.send('#keepalive\n'.encode())
                         timed_callback(self)
                         keepalive_time = time()
@@ -95,7 +93,7 @@ class AprsClient:
 
                     callback(packet_str, **kwargs)
             except (socket.error, ConnectionError) as e:
-                self.logger.error('Connect error: {}'.format(e))
+                self.logger.error(f'Connect error: {e}')
             except OSError:
                 self.logger.error('OSError')
             except UnicodeDecodeError:

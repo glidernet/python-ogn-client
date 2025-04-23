@@ -8,12 +8,12 @@ class BaseParser():
         elif aprs_type.startswith('status'):
             data = self.parse_status(aprs_comment)
         else:
-            raise ValueError("aprs_type {} unknown".format(aprs_type))
+            raise ValueError(f"aprs_type '{aprs_type}' unknown")
         data.update({'beacon_type': self.beacon_type})
         return data
 
     def parse_position(self, aprs_comment):
-        raise NotImplementedError("Position parser for parser '{}' not yet implemented".format(self.beacon_type))
+        raise NotImplementedError(f"Position parser for parser '{self.beacon_type}' not yet implemented")
 
     def parse_status(self, aprs_comment):
-        raise NotImplementedError("Status parser for parser '{}' not yet implemented".format(self.beacon_type))
+        raise NotImplementedError(f"Status parser for parser '{self.beacon_type}' not yet implemented")

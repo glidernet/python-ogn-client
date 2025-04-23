@@ -70,7 +70,7 @@ def test_run(mock_socket):
                                              KeyboardInterrupt()]
 
     try:
-        client.run(callback=lambda msg: print("got: {}".format(msg)), autoreconnect=True)
+        client.run(callback=lambda msg: print(f"got: {msg}"), autoreconnect=True)
     except KeyboardInterrupt:
         pass
     finally:
@@ -95,7 +95,7 @@ def test_run_keepalive(mock_socket, mock_time):
     timed_callback = mock.MagicMock()
 
     try:
-        client.run(callback=lambda msg: print("got: {}".format(msg)), timed_callback=timed_callback)
+        client.run(callback=lambda msg: print(f"got: {msg}"), timed_callback=timed_callback)
     except KeyboardInterrupt:
         pass
     finally:
@@ -137,9 +137,9 @@ def test_50_live_messages():
             return
         try:
             message = parse(raw_message)
-            print("{}: {}".format(message['aprs_type'], raw_message))
+            print(f"{message['aprs_type']}: {raw_message}")
         except NotImplementedError as e:
-            print("{}: {}".format(e, raw_message))
+            print(f"{e}: {raw_message}")
             return
         if remaining_messages > 0:
             remaining_messages -= 1

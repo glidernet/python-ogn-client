@@ -12,7 +12,7 @@ class AprsParseError(ParseError):
     def __init__(self, aprs_string):
         self.aprs_string = aprs_string
 
-        self.message = "This is not a valid APRS packet: {}".format(aprs_string)
+        self.message = f"This is not a valid APRS packet: {aprs_string}"
         super(AprsParseError, self).__init__(self.message)
 
 
@@ -21,5 +21,5 @@ class OgnParseError(ParseError):
     def __init__(self, aprs_comment):
         self.aprs_comment = aprs_comment
 
-        self.message = "This is not a valid OGN message: {}".format(aprs_comment)
+        self.message = f"This is not a valid OGN message: {aprs_comment}"
         super(OgnParseError, self).__init__(self.message)
