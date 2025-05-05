@@ -12,6 +12,9 @@ from ogn.parser.exceptions import AprsParseError, OgnParseError
 def _parse_valid_beacon_data_file(filename, beacon_type):
     with open(os.path.dirname(__file__) + '/../../ogn-aprs-protocol/valid_messages/' + filename) as f:
         for line in f:
+            if line.strip() == '':
+                continue
+
             try:
                 message = parse(line, datetime(2015, 4, 10, 17, 0))
                 assert message is not None
@@ -29,24 +32,36 @@ def test_aprs_receiver_beacons():
     _parse_valid_beacon_data_file(filename='APRS_receiver.txt', beacon_type='aprs_receiver')
 
 
-def test_aprs_fanet_beacons():
-    _parse_valid_beacon_data_file(filename='OGNFNT_Fanet.txt', beacon_type='fanet')
+def test_flyxc_beacons():
+    _parse_valid_beacon_data_file(filename='FXCAPP_flyxc.txt', beacon_type='unknown')
 
 
-def test_flarm_beacons():
-    _parse_valid_beacon_data_file(filename='OGFLR_Flarm.txt', beacon_type='flarm')
+def test_adsb_beacons():
+    _parse_valid_beacon_data_file(filename='OGADSB_ADSB.txt', beacon_type='unknown')
 
 
-def test_receiver_beacons():
-    _parse_valid_beacon_data_file(filename='OGNSDR_TCPIPmsgs.txt', beacon_type='receiver')
+def test_adsl_beacons():
+    _parse_valid_beacon_data_file(filename='OGADSL_Tracker_with_ADSL', beacon_type='unknown')
 
 
-def test_tracker_beacons():
-    _parse_valid_beacon_data_file(filename='OGNTRK_OGNtracker.txt', beacon_type='tracker')
+def test_airmate_beacons():
+    _parse_valid_beacon_data_file(filename='OGAIRM_Airmate.txt', beacon_type='unknown')
+
+
+def test_apik_beacons():
+    _parse_valid_beacon_data_file(filename='OGAPIK_APIKdevice.txt', beacon_type='unknown')
 
 
 def test_capturs_beacons():
     _parse_valid_beacon_data_file(filename='OGCAPT_Capturs.txt', beacon_type='capturs')
+
+
+def test_evario_beacons():
+    _parse_valid_beacon_data_file(filename='OGEVARIO_evario.txt', beacon_type='unknown')
+
+
+def test_flarm_beacons():
+    _parse_valid_beacon_data_file(filename='OGFLR_Flarm.txt', beacon_type='flarm')
 
 
 def test_flymaster_beacons():
@@ -63,6 +78,62 @@ def test_lt24_beacons():
 
 def test_naviter_beacons():
     _parse_valid_beacon_data_file(filename='OGNAVI_Naviter.txt', beacon_type='naviter')
+
+
+def test_delay_beacons():
+    _parse_valid_beacon_data_file(filename='OGNDELAY_Delay.txt', beacon_type='unknown')
+
+
+def test_wx_beacons():
+    _parse_valid_beacon_data_file(filename='OGNDVS_wx.txt', beacon_type='unknown')
+
+
+def test_nemo_beacons():
+    _parse_valid_beacon_data_file(filename='OGNEMO_Nemo.txt', beacon_type='unknown')
+
+
+def test_flying_neurons_beacons():
+    _parse_valid_beacon_data_file(filename='OGNFNO_FlyingNeurons.txt', beacon_type='unknown')
+
+
+def test_fanet_weather_beacons():
+    _parse_valid_beacon_data_file(filename='OGNFNT_Fanet_weather.txt', beacon_type='fanet')
+
+
+def test_fanet_beacons():
+    _parse_valid_beacon_data_file(filename='OGNFNT_Fanet.txt', beacon_type='fanet')
+
+
+def test_microtrack_beacons():
+    _parse_valid_beacon_data_file(filename='OGNMTK_Microtrack.txt', beacon_type='microtrak')
+
+
+def test_myc_tracker_beacons():
+    _parse_valid_beacon_data_file(filename='OGNMYC_OGNtracker.txt', beacon_type='unknown')
+
+
+def test_receiver_beacons():
+    _parse_valid_beacon_data_file(filename='OGNSDR_TCPIPmsgs.txt', beacon_type='receiver')
+
+
+def test_safesky_beacons():
+    _parse_valid_beacon_data_file(filename='OGNSKY_SafeSky.txt', beacon_type='safesky')
+
+
+def test_ognbase_beacons():
+    _parse_valid_beacon_data_file(filename='OGNSXR_OGNbase.txt', beacon_type='unknown')
+
+
+def test_tracker_beacons():
+    _parse_valid_beacon_data_file(filename='OGNTRK_OGNtracker.txt', beacon_type='tracker')
+
+
+def test_thethingsnetwork_beacons():
+    _parse_valid_beacon_data_file(filename='OGNTTN_TheThingsNetwork.txt', beacon_type='unknown')
+
+
+def test_wingman_beacons():
+    _parse_valid_beacon_data_file(filename='OGNWMN_Wingman.txt', beacon_type='unknown')
 
 
 def test_pilot_aware_beacons():
