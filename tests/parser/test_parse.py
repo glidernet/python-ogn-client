@@ -10,7 +10,7 @@ from ogn.parser.exceptions import AprsParseError, OgnParseError
 
 
 def _parse_valid_beacon_data_file(filename, beacon_type):
-    with open(os.path.dirname(__file__) + '/valid_beacon_data/' + filename) as f:
+    with open(os.path.dirname(__file__) + '/../../ogn-aprs-protocol/valid_messages/' + filename) as f:
         for line in f:
             try:
                 message = parse(line, datetime(2015, 4, 10, 17, 0))
@@ -22,63 +22,63 @@ def _parse_valid_beacon_data_file(filename, beacon_type):
 
 
 def test_aprs_aircraft_beacons():
-    _parse_valid_beacon_data_file(filename='aprs_aircraft.txt', beacon_type='aprs_aircraft')
+    _parse_valid_beacon_data_file(filename='APRS_aircraft.txt', beacon_type='aprs_aircraft')
 
 
 def test_aprs_receiver_beacons():
-    _parse_valid_beacon_data_file(filename='aprs_receiver.txt', beacon_type='aprs_receiver')
+    _parse_valid_beacon_data_file(filename='APRS_receiver.txt', beacon_type='aprs_receiver')
 
 
 def test_aprs_fanet_beacons():
-    _parse_valid_beacon_data_file(filename='fanet.txt', beacon_type='fanet')
+    _parse_valid_beacon_data_file(filename='OGNFNT_Fanet.txt', beacon_type='fanet')
 
 
 def test_flarm_beacons():
-    _parse_valid_beacon_data_file(filename='flarm.txt', beacon_type='flarm')
+    _parse_valid_beacon_data_file(filename='OGFLR_Flarm.txt', beacon_type='flarm')
 
 
 def test_receiver_beacons():
-    _parse_valid_beacon_data_file(filename='receiver.txt', beacon_type='receiver')
+    _parse_valid_beacon_data_file(filename='OGNSDR_TCPIPmsgs.txt', beacon_type='receiver')
 
 
 def test_tracker_beacons():
-    _parse_valid_beacon_data_file(filename='tracker.txt', beacon_type='tracker')
+    _parse_valid_beacon_data_file(filename='OGNTRK_OGNtracker.txt', beacon_type='tracker')
 
 
 def test_capturs_beacons():
-    _parse_valid_beacon_data_file(filename='capturs.txt', beacon_type='capturs')
+    _parse_valid_beacon_data_file(filename='OGCAPT_Capturs.txt', beacon_type='capturs')
 
 
 def test_flymaster_beacons():
-    _parse_valid_beacon_data_file(filename='flymaster.txt', beacon_type='flymaster')
+    _parse_valid_beacon_data_file(filename='OGFLYM_Flymaster.txt', beacon_type='flymaster')
 
 
 def test_inreach_beacons():
-    _parse_valid_beacon_data_file(filename='inreach.txt', beacon_type='inreach')
+    _parse_valid_beacon_data_file(filename='OGINRE_InReach.txt', beacon_type='inreach')
 
 
 def test_lt24_beacons():
-    _parse_valid_beacon_data_file(filename='lt24.txt', beacon_type='lt24')
+    _parse_valid_beacon_data_file(filename='OGLT24_LiveTrack24.txt', beacon_type='lt24')
 
 
 def test_naviter_beacons():
-    _parse_valid_beacon_data_file(filename='naviter.txt', beacon_type='naviter')
+    _parse_valid_beacon_data_file(filename='OGNAVI_Naviter.txt', beacon_type='naviter')
 
 
 def test_pilot_aware_beacons():
-    _parse_valid_beacon_data_file(filename='pilot_aware.txt', beacon_type='pilot_aware')
+    _parse_valid_beacon_data_file(filename='OGPAW_PilotAware.txt', beacon_type='pilot_aware')
 
 
 def test_skylines_beacons():
-    _parse_valid_beacon_data_file(filename='skylines.txt', beacon_type='skylines')
+    _parse_valid_beacon_data_file(filename='OGSKYL_Skylines.txt', beacon_type='skylines')
 
 
 def test_spider_beacons():
-    _parse_valid_beacon_data_file(filename='spider.txt', beacon_type='spider')
+    _parse_valid_beacon_data_file(filename='OGSPID_Spider.txt', beacon_type='spider')
 
 
 def test_spot_beacons():
-    _parse_valid_beacon_data_file(filename='spot.txt', beacon_type='spot')
+    _parse_valid_beacon_data_file(filename='OGSPOT_Spot.txt', beacon_type='spot')
 
 
 def test_generic_beacons():

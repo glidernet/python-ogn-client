@@ -1,4 +1,0 @@
-# The following beacons are example for Garmin inReach APRS format
-# source: https://github.com/glidernet/ogn-aprs-protocol
-#
-OGN8A0749>OGINRE,qAS,INREACH:/142700h0448.38N/07600.74W'000/000/A=004583 id300434060496190 inReac True

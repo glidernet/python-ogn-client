@@ -1,0 +1,3 @@
+[submodule "ogn-aprs-protocol"]
+	path = ogn-aprs-protocol
+	url = https://github.com/glidernet/ogn-aprs-protocol
