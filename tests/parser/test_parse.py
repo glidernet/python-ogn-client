@@ -84,7 +84,7 @@ def test_naviter_beacons():
 
 @pytest.mark.skip(reason="todo")
 def test_delay_beacons():
-    _parse_valid_beacon_data_file(filename='OGNDELAY_Delay.txt', beacon_type='unknown')
+    _parse_valid_beacon_data_file(filename='OGNDELAY_Delay.txt', beacon_type='tracker')
 
 
 def test_wx_beacons():
