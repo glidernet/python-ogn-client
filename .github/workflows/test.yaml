@@ -1,0 +1,44 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+      - development
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: PyPI - Build Python 🐍 distributions 📦
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install poetry
+      uses: abatilo/actions-poetry@v4
+
+    - name: Install the project dependencies
+      run: poetry install
+
+    - name: Run the automated tests
+      run: poetry run pytest tests --cov=ogn --cov-report=xml --cov-report=html
+
+    - name: Lint code with flake8
+      run: poetry run flake8 ogn tests --ignore=E501,E701
+
+    - name: Build the project
+      run: poetry build
+      shell: bash
