@@ -41,7 +41,7 @@ def test_adsb_beacons():
 
 
 def test_adsl_beacons():
-    _parse_valid_beacon_data_file(filename='OGADSL_Tracker_with_ADSL', beacon_type='unknown')
+    _parse_valid_beacon_data_file(filename='OGADSL_Tracker_with_ADSL.txt', beacon_type='unknown')
 
 
 def test_airmate_beacons():
