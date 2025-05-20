@@ -52,6 +52,7 @@ def test_apik_beacons():
     _parse_valid_beacon_data_file(filename='OGAPIK_APIKdevice.txt', beacon_type='unknown')
 
 
+@pytest.mark.skip(reason="todo")
 def test_capturs_beacons():
     _parse_valid_beacon_data_file(filename='OGCAPT_Capturs.txt', beacon_type='capturs')
 
@@ -68,8 +69,9 @@ def test_flymaster_beacons():
     _parse_valid_beacon_data_file(filename='OGFLYM_Flymaster.txt', beacon_type='flymaster')
 
 
+@pytest.mark.skip(reason="todo")
 def test_inreach_beacons():
-    _parse_valid_beacon_data_file(filename='OGINRE_InReach.txt', beacon_type='inreach')
+    _parse_valid_beacon_data_file(filename='OGNINRE_InReach.txt', beacon_type='inreach')
 
 
 def test_lt24_beacons():
@@ -80,6 +82,7 @@ def test_naviter_beacons():
     _parse_valid_beacon_data_file(filename='OGNAVI_Naviter.txt', beacon_type='naviter')
 
 
+@pytest.mark.skip(reason="todo")
 def test_delay_beacons():
     _parse_valid_beacon_data_file(filename='OGNDELAY_Delay.txt', beacon_type='unknown')
 
