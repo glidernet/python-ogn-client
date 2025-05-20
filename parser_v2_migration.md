@@ -44,16 +44,80 @@ For each example, a sample beacon is provided along with the differing parser re
 ### APRS
 (The `dst_call` "APRS" is outdated and is therefore not considered.)
 
+### OGNCAPT and OGNINRE
+These messages are ignored
+
 ### FXCAPP
 ```
 FXC201699>FXCAPP,qAS,FLYXC:/114100h3236.19S/01903.01Eg312/017/A=003474 !W05! id1E201699
 dropped: []
 added:
+  - address: 201699
   - address_type: 2
   - stealth: False
-  - no-tracking: False
   - aircraft_type: 7
-  - address: 201699
+  - no-tracking: False
+```
+
+### OGADSB
+```
+ICA34364F>OGADSB,qAS,LEMDadsb:/140827h4038.69N\00344.37W^235/248/A=010350 id2534364F +1792fpm  fnANE06BK
+dropped: []
+added:
+  - climb_rate: 9.10336
+  - address: 34364F
+  - address_type: 1
+  - stealth: False
+  - aircraft_type: 9
+  - no-tracking: False
+  - user_comment: fnANE06BK
+```
+
+```
+ICA4CA4EB>OGADSB,qAS,LEMDadsb:/142346h4034.03N\00315.64W^008/370/A=038000 id254CA4EB +000fpm  0.0rot fnRYR4057  regEI-DPG modelB738
+dropped: []
+added:
+  - climb_rate: 0.0
+  - turn_rate: 0.0
+  - address: 4CA4EB
+  - address_type: 1
+  - stealth: False
+  - aircraft_type: 9
+  - no-tracking: False
+  - user_comment: fnRYR4057 regEI-DPG modelB738
+```
+
+```
+ICAA4FFC0>OGADSB,qAS,ADSBExch:/151612h4002.40N/10513.83W'000/001/A=005275 !W00! id05A4FFC0 +0fpm +0.0rot 0.0dB 0e +0.0kHz gps2x3
+dropped: []
+added:
+  - climb_rate: 0.0
+  - frequency_offset: 0.0
+  - turn_rate: 0.0
+  - signal_quality: 0.0
+  - address: A4FFC0
+  - error_count: 0
+  - address_type: 1
+  - stealth: False
+  - aircraft_type: 1
+  - no-tracking: False
+  - gps_quality: 2x3
+```
+
+### OGADSL
+```
+OGN631C45>OGADSL,qAS,OxfBarton:/104536h5145.96N/00111.47W'267/000/A=000312 !W25! id07631C45 -177fpm 22.8dB +2.5kHz gps63x63
+dropped: []
+added:
+  - climb_rate: -0.8991600000000001
+  - frequency_offset: 2.5
+  - signal_quality: 22.799999237060547
+  - address: 631C45
+  - address_type: 3
+  - stealth: False
+  - aircraft_type: 1
+  - no-tracking: False
+  - gps_quality: 63x63
 ```
 
 ### OGAIRM
@@ -69,12 +133,12 @@ added:
 FLRDDA396>OGAPIK,qAS,APIK:/113700h4520.00N/00510.00E'000/050/A=000472 !W37! id07DDA396 euiecdb86fffe00001b
 dropped: []
 added:
+  - address: DDA396
   - address_type: 3
   - stealth: False
-  - no-tracking: False
   - aircraft_type: 1
+  - no-tracking: False
   - user_comment: euiecdb86fffe00001b
-  - address: DDA396
 ```
 
 ### OGEVARIO
@@ -83,46 +147,21 @@ OGN06A4D0>OGEVARIO,qAS,EVARIO:/054700h4223.23N/00902.69E'251/005/A=001130 !W34! 
 dropped: []
 added:
   - climb_rate: 0.0
-  - address_type: 3
-  - stealth: False
-  - gps_quality: 8x3
-  - no-tracking: False
-  - aircraft_type: 7
   - turn_rate: 0.0
   - address: 06A4D0
-```
-
-### OGNINRE
-```
-OGN8A0749>OGNINRE,qAS,INREACH:/142700h0448.38N/07600.74W'000/000/A=004583 id300434060496190 inReac True
-dropped: []
-added:
-  - user_comment: id300434060496190 inReac True
-```
-
-```
-ICAA01158>OGNINRE,qAS,Inreach:/073000h4315.20N/00450.47W'247/001/A=001056 !W00! id3DA01158 +000fpm +0.0rot 0.0dB 0e +0.0kHz gps2x3
-dropped: []
-added:
-  - climb_rate: 0.0
-  - frequency_offset: 0.0
-  - signal_quality: 0.0
-  - address_type: 1
+  - address_type: 3
   - stealth: False
-  - gps_quality: 2x3
+  - aircraft_type: 7
   - no-tracking: False
-  - aircraft_type: 15
-  - error_count: 0
-  - turn_rate: 0.0
-  - address: A01158
+  - gps_quality: 8x3
 ```
 
 ### OGLT24
 ```
 FLRDDE48A>OGLT24,qAS,LT24:/102606h4030.47N/00338.38W'000/018/A=002267 id25387 +000fpm GPS
 dropped:
-  - lt24_id: 25387
   - source: GPS
+  - lt24_id: 25387
 added:
   - user_comment: id25387 GPS
 ```
@@ -167,8 +206,8 @@ CZBA4>OGNEMO,TCPIP*,qAC,NEMO:/094148h4326.58NI07950.86W&/A=000602 v2.00 nemobrid
 dropped:
   - relay: TCPIP
 added:
-  - signal_quality: 23.0
   - user_comment: v2.00 nemobridge - Omni 0dBi + AMP
+  - signal_quality: 23.0
 ```
 
 ### OGNFNO
@@ -177,12 +216,12 @@ FNO0003F4>OGNFNO,qAS,Neurone:/171603h4338.04N/00510.74E'316/000/A=000623 !W28! i
 dropped: []
 added:
   - climb_rate: 0.0
-  - address_type: 0
-  - stealth: False
-  - no-tracking: False
-  - aircraft_type: 8
   - turn_rate: 0.0
   - address: 0003F4
+  - address_type: 0
+  - stealth: False
+  - aircraft_type: 8
+  - no-tracking: False
 ```
 
 ### OGNFNT
@@ -205,8 +244,8 @@ FNT1118C1>OGNFNT,qAS,BelaVista:/191919h3841.98N\00919.39Wn !W68! id3E1118C1 FNT7
 dropped: []
 added:
   - frequency_offset: -12.399999618530273
-  - no-tracking: False
   - signal_quality: 26.299999237060547
+  - no-tracking: False
   - user_comment: !W68! FNT71
 ```
 
@@ -224,8 +263,8 @@ added:
 FNT0828B8>OGNFNT,qAS,Huenenb2:/210414h4710.43N/00826.96E_152/001g002t057r000p000h48b10227 0.0dB
 dropped: []
 added:
-  - signal_quality: 0.0
   - beacon_type: fanet
+  - signal_quality: 0.0
 ```
 
 ### OGNMTK
@@ -248,11 +287,11 @@ added:
 MYC78FF44>OGNMYC:/140814h5205.34N/00207.12W'000/000/A=000095 id1B78FF44
 dropped: []
 added:
+  - address: 78FF44
   - address_type: 3
   - stealth: False
-  - no-tracking: False
   - aircraft_type: 6
-  - address: 78FF44
+  - no-tracking: False
 ```
 
 ### OGNSDR
@@ -267,15 +306,15 @@ added: []
 SCVH>OGNSDR,TCPIP*,qAC,GLIDERN4:>153734h v0.2.8.RPI-GPU CPU:0.3 RAM:744.5/968.2MB NTP:3.6ms/+2.0ppm +68.2C 3/3Acfts[1h] Lat:1.6s RF:-8+67.8ppm/+10.33dB/+1.3dB@10km[30998]/+10.4dB@10km[3/5]
 dropped: []
 added:
-  - good_and_bad_senders: 5
+  - rec_crystal_correction_fine: 67.80000305175781
   - good_senders: 3
   - latency: 1.600000023841858
-  - senders_messages: 30998
-  - senders_signal: 1.2999999523162842
-  - rec_crystal_correction: -8
-  - good_senders_signal: 10.399999618530273
   - rec_input_noise: 10.329999923706055
-  - rec_crystal_correction_fine: 67.80000305175781
+  - rec_crystal_correction: -8
+  - senders_signal: 1.2999999523162842
+  - good_senders_signal: 10.399999618530273
+  - good_and_bad_senders: 5
+  - senders_messages: 30998
 ```
 
 ### OGNSXR
@@ -290,18 +329,18 @@ added: []
 K2B9>OGNSXR,TCPIP*,qAC,GLIDERN0:>152545h vMB101-ESP32-OGNbase 3.7V 0/min 0/0Acfts[1h] 10sat time_synched 0_m_r_uptime
 dropped: []
 added:
-  - senders_visible: 0
   - senders_total: 0
-  - user_comment: vMB101-ESP32-OGNbase 0/min 10sat time_synched 0_m_r_uptime
+  - senders_visible: 0
   - voltage: 3.700000047683716
+  - user_comment: vMB101-ESP32-OGNbase 0/min 10sat time_synched 0_m_r_uptime
 ```
 
 ```
 K2B9>OGNSXR,TCPIP*,qAC,GLIDERN0:>194557h vMB101-ESP32-OGNbase 3.8V 9sat time_synched 1155_m_r_sleep
 dropped: []
 added:
-  - user_comment: vMB101-ESP32-OGNbase 9sat time_synched 1155_m_r_sleep
   - voltage: 3.799999952316284
+  - user_comment: vMB101-ESP32-OGNbase 9sat time_synched 1155_m_r_sleep
 ```
 
 ```
@@ -311,29 +350,21 @@ added:
   - user_comment: vMB101-ESP32-OGNbase time_not_synched 269_m_uptime
 ```
 
-### OGFLR
-```
-FLR1EFCCC>OGFLR,qAS,K2B9:/172500h4432.07N/07306.44W^000/000/A=000646 !W72! id061EFCCC +039fpm 67.0dB
-dropped: []
-added:
-  - signal_quality: 67.0
-```
-
 ### OGNTRK
 ```
 OGN3FC859>OGNTRK,qAS,LZHL:>093215h h00 v00 9sat/1 164m 1002.6hPa +20.2degC 0% 3.34V 14/-110.5dBm 1/min
 dropped:
-  - hardware_version: 0
-  - relays: 1
-  - noise_level: -110.5
-  - humidity: 0
   - temperature: 20.2
-  - gps_altitude: 164
+  - hardware_version: 0
+  - software_version: 0
   - pressure: 1002.6
+  - relays: 1
+  - humidity: 0
+  - gps_altitude: 164
+  - noise_level: -110.5
   - gps_quality: 1
   - gps_satellites: 9
   - transmitter_power: 14
-  - software_version: 0
 added:
   - user_comment: h00 v00 9sat/1 164m 1002.6hPa +20.2degC 0% 14/-110.5dBm 1/min
 ```
@@ -349,9 +380,9 @@ added:
 FLRDD9C70>OGNTRK,OGN2FD00F*,qAS,LZHL:/093021h4848.77N/01708.33E'000/000/A=000518 !W66! id06DD9C70 -019fpm +0.0rot 29.0dB 0e -0.8kHz gps2x3 s6.09 h03
 dropped: []
 added:
-  - hardware_version: 3
-  - no-tracking: False
   - software_version: 6.090000152587891
+  - no-tracking: False
+  - hardware_version: 3
 ```
 
 ### OGNTTN
@@ -359,16 +390,32 @@ added:
 OGN60E6A0>OGNTTN,qAS,TTN2OGN:/181002h4030.24N/00341.95W'235/003/A=002343 !W27! id0760E6A0 +000fpm -12.4rot FL020.64 gps3x5 7.2dB
 dropped: []
 added:
-  - flightlevel: 20.639999389648438
   - climb_rate: 0.0
+  - turn_rate: -37.19999885559082
+  - flightlevel: 20.639999389648438
   - signal_quality: 7.199999809265137
+  - address: 60E6A0
   - address_type: 3
   - stealth: False
-  - gps_quality: 3x5
-  - no-tracking: False
   - aircraft_type: 1
-  - turn_rate: -37.19999885559082
-  - address: 60E6A0
+  - no-tracking: False
+  - gps_quality: 3x5
+```
+
+```
+OGN8E20F0>OGNTTN,RELAY*,qAS,TTN2OGN:/172403h4030.24N/00341.94W'182/002/A=002441 !W66! id078E20F0 -039fpm +8.4rot FL023.17 gps4x7 7.5dB
+dropped: []
+added:
+  - climb_rate: -0.19812000000000002
+  - turn_rate: 25.19999885559082
+  - flightlevel: 23.170000076293945
+  - signal_quality: 7.5
+  - address: 8E20F0
+  - stealth: False
+  - address_type: 3
+  - aircraft_type: 1
+  - no-tracking: False
+  - gps_quality: 4x7
 ```
 
 ```
@@ -382,25 +429,25 @@ added:
 OGN60E6A0>OGNTTN,qAS,TTN2OGN:>173011h h02 v01 8sat/1/22dB 724m 932.3hPa +31.8degC +18.8% +4.28V 14/-99.5dBm 63/min 6.8dB
 dropped: []
 added:
-  - user_comment: h02 v01 8sat/1/22dB 724m 932.3hPa +31.8degC +18.8% 14/-99.5dBm 63/min 6.8dB
   - voltage: 4.28000020980835
+  - user_comment: h02 v01 8sat/1/22dB 724m 932.3hPa +31.8degC +18.8% 14/-99.5dBm 63/min 6.8dB
 ```
 
-### OGTTN3
+### OGNTTN3
 ```
 OGNC3088C>OGTTN3,qAS,TTN3OGN:/180751h4030.23N/00341.98W'115/003/A=002218 !W61! id07C3088C +000fpm -7.2rot FL024.48 gps9x14 9.5dB
 dropped: []
 added:
-  - flightlevel: 24.479999542236328
   - climb_rate: 0.0
+  - turn_rate: -21.59999942779541
+  - flightlevel: 24.479999542236328
   - signal_quality: 9.5
+  - address: C3088C
   - address_type: 3
   - stealth: False
-  - gps_quality: 9x14
-  - no-tracking: False
   - aircraft_type: 1
-  - turn_rate: -21.59999942779541
-  - address: C3088C
+  - no-tracking: False
+  - gps_quality: 9x14
 ```
 
 ```
@@ -408,6 +455,22 @@ OGN60E6A0>OGTTN3,qAS,TTN3OGN:>180757h Class=OPEN Base=LELT PilotID=12345 9.2dB
 dropped: []
 added:
   - user_comment: Class=OPEN Base=LELT PilotID=12345 9.2dB
+```
+
+```
+OGNC30824>OGTTN3,RELAY*,qAS,TTN3OGN:/181005h4030.24N/00341.94W'218/000/A=002353 !W56! id07C30824 +000fpm +8.6rot FL024.45 gps3x5 8.2dB
+dropped: []
+added:
+  - climb_rate: 0.0
+  - turn_rate: 25.80000114440918
+  - flightlevel: 24.450000762939453
+  - signal_quality: 8.199999809265137
+  - address: C30824
+  - stealth: False
+  - address_type: 3
+  - aircraft_type: 1
+  - no-tracking: False
+  - gps_quality: 3x5
 ```
 
 ### OGNWMN
@@ -425,11 +488,11 @@ dropped: []
 added:
   - frequency_offset: 2.200000047683716
   - signal_quality: 12.5
+  - address: 404EC3
   - address_type: 1
   - stealth: False
-  - no-tracking: False
   - aircraft_type: 8
-  - address: 404EC3
+  - no-tracking: False
 ```
 
 ```
@@ -437,13 +500,13 @@ ICA404EC3>OGPAW,qAS,UKWOG:/104341h5211.18N\00032.53W^131/081/A=004010 !W85! id21
 dropped: []
 added:
   - frequency_offset: 2.200000047683716
-  - signal_quality: 9.199999809265137
-  - address_type: 1
   - signal_power: 10.0
-  - stealth: False
-  - no-tracking: False
-  - aircraft_type: 8
+  - signal_quality: 9.199999809265137
   - address: 404EC3
+  - address_type: 1
+  - stealth: False
+  - aircraft_type: 8
+  - no-tracking: False
 ```
 
 ### OGSKYL
@@ -459,10 +522,10 @@ added:
 ```
 FLRDDF944>OGSPID,qAS,SPIDER:/190930h3322.78S/07034.60W'000/000/A=002263 id300234010617040 +19dB LWE 3D
 dropped:
-  - spider_id: 300234010617040
   - signal_power: 19
-  - gps_quality: 3D
+  - spider_id: 300234010617040
   - spider_registration: LWE
+  - gps_quality: 3D
 added:
   - signal_quality: 19.0
   - user_comment: id300234010617040 LWE 3D

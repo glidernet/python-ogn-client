@@ -31,7 +31,7 @@ mapping = {
     'OGFLR6': 'flarm',
     'OGFLR7': 'flarm',
     'OGFLYM': 'flymaster',
-    'OGINRE': 'inreach',
+    'OGNINRE': 'inreach',
     'OGLT24': 'lt24',
     'OGNMTK': 'microtrak',
     'OGNAVI': 'naviter',
