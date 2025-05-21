@@ -10,7 +10,7 @@ from ogn.parser.exceptions import AprsParseError
 
 
 def _parse_valid_beacon_data_file(filename, beacon_type):
-    with open(os.path.dirname(__file__) + '/../../ogn-aprs-protocol/valid_messages/' + filename) as f:
+    with open(os.path.dirname(__file__) + '/../../../ogn-aprs-protocol/valid_messages/' + filename) as f:
         for line in f:
             if line.strip() == '':
                 continue
@@ -143,7 +143,10 @@ def test_spot_beacons():
 
 def test_generic_beacons():
     message = parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment")
+
+    assert message['aprs_type'] == 'status'
     assert message['beacon_type'] == 'unknown'
+
     assert message['user_comment'] == "this is a comment"
 
 
@@ -155,6 +158,11 @@ def test_fail_parse_none():
 def test_fail_empty():
     with pytest.raises(AprsParseError):
         parse("")
+
+
+def test_fail_validationassert():
+    with pytest.raises(AprsParseError):
+        parse("notAValidString")
 
 
 def test_fail_bad_string():
@@ -186,19 +194,12 @@ def test_default_reference_date(createTimestamp_mock):
     assert call_args_before != call_args_seconds_later
 
 
-def test_copy_constructor():
-    valid_aprs_string = "FLRDDA5BA>APRS,qAS,LFMX:/160829h4415.41N/00600.03E'342/049/A=005524 id0ADDA5BA -454fpm -1.1rot 8.8dB 0e +51.2kHz gps4x5"
-    message = parse(valid_aprs_string)
-
-    assert message['name'] == 'FLRDDA5BA'
-    assert message['address'] == 'DDA5BA'
-
-
 def test_no_receiver():
     result = parse("EDFW>OGNSDR:/102713h4949.02NI00953.88E&/A=000984")
 
     assert result['aprs_type'] == 'position'
     assert result['beacon_type'] == 'receiver'
+
     assert result['name'] == 'EDFW'
     assert result['dstcall'] == 'OGNSDR'
     assert result.get('receiver_name') is None
