@@ -8,7 +8,7 @@ from ogn_parser import parse as rust_parse
 positions = {}
 server_timestamp = None
 
-mapping = {
+dstcall_beacontype_mapping = {
     'OGCAPT': 'capturs',
     'OGNFNT': 'fanet',
     'OGFLR': 'flarm',
@@ -49,7 +49,7 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
     elif aprs_packet := rust_message.get('aprs_packet'):
         message.update({
             'aprs_type': 'position',
-            'beacon_type': mapping.get(aprs_packet['to'], 'unknown'),
+            'beacon_type': dstcall_beacontype_mapping.get(aprs_packet['to'], 'unknown'),
             'name': aprs_packet['from'],
             'dstcall': aprs_packet['to'],
         })
@@ -129,7 +129,7 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
 
             if 'unparsed' in status: message["user_comment"] = status['unparsed']
         else:
-            raise ValueError("WTF")
+            raise ValueError("Raised unreachable exception")
     elif server_comment := rust_message.get('server_comment'):
         message.update({
             'version': server_comment['version'],
@@ -144,7 +144,7 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
             'comment': comment['comment'],
             'aprs_type': 'comment'})
     else:
-        raise ValueError("WTF")
+        raise ValueError("Raised unreachable exception")
 
     if message['aprs_type'].startswith('position') and calculate_relations is True:
         positions[message['name']] = (message['longitude'], message['latitude'])
