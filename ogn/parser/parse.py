@@ -133,7 +133,8 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
     elif server_comment := rust_message.get('server_comment'):
         message.update({
             'version': server_comment['version'],
-            'timestamp': datetime.fromisoformat(server_comment['timestamp']),
+            # 'timestamp': datetime.fromisoformat(server_comment['timestamp']), # only available in python 3.11+
+            'timestamp': datetime.strptime(server_comment['timestamp'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc),
             'server': server_comment['server'],
             'ip_address': server_comment['ip_address'],
             'port': server_comment['port'],
