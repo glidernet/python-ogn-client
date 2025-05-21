@@ -1,5 +1,4 @@
 import unittest.mock as mock
-import pytest
 
 from ogn.parser import parse
 from ogn.client.client import create_aprs_login, AprsClient
@@ -126,9 +125,9 @@ def test_reset_kill_reconnect():
     assert mock_callback.call_count == 1
 
 
-@pytest.mark.skip("Too much invalid APRS data on the live feed")
 def test_50_live_messages():
     print("Enter")
+    global remaining_messages
     remaining_messages = 50
 
     def process_message(raw_message):

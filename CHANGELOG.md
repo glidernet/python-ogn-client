@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.0: unreleased
+- parser: use rust parser as default
+
 ## 1.3.3: - 2025-05-21
 - parser: use rust parser with option "use_rust_parser=True" (default for v2.0.0)
 

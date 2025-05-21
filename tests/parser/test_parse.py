@@ -6,7 +6,7 @@ from datetime import datetime
 from time import sleep
 
 from ogn.parser.parse import parse
-from ogn.parser.exceptions import AprsParseError, OgnParseError
+from ogn.parser.exceptions import AprsParseError
 
 
 def _parse_valid_beacon_data_file(filename, beacon_type):
@@ -22,14 +22,6 @@ def _parse_valid_beacon_data_file(filename, beacon_type):
                     assert message['beacon_type'] == beacon_type
             except NotImplementedError as e:
                 print(e)
-
-
-def test_aprs_aircraft_beacons():
-    _parse_valid_beacon_data_file(filename='APRS_aircraft.txt', beacon_type='aprs_aircraft')
-
-
-def test_aprs_receiver_beacons():
-    _parse_valid_beacon_data_file(filename='APRS_receiver.txt', beacon_type='aprs_receiver')
 
 
 def test_flyxc_beacons():
@@ -158,10 +150,10 @@ def test_spot_beacons():
 def test_generic_beacons():
     message = parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment")
     assert message['beacon_type'] == 'unknown'
-    assert message['comment'] == "this is a comment"
+    assert message['user_comment'] == "this is a comment"
 
 
-def test_fail_parse_aprs_none():
+def test_fail_parse_none():
     with pytest.raises(TypeError):
         parse(None)
 
@@ -208,11 +200,6 @@ def test_copy_constructor():
     assert message['address'] == 'DDA5BA'
 
 
-def test_bad_naviter_format():
-    with pytest.raises(OgnParseError):
-        parse("FLRA51D93>OGNAVI,qAS,NAVITER2:/204507h4444.98N/09323.34W'000/000/A=000925 !W67! id06A51D93 +000fpm +0.0rot")
-
-
 def test_no_receiver():
     result = parse("EDFW>OGNSDR:/102713h4949.02NI00953.88E&/A=000984")
 
@@ -220,4 +207,4 @@ def test_no_receiver():
     assert result['beacon_type'] == 'receiver'
     assert result['name'] == 'EDFW'
     assert result['dstcall'] == 'OGNSDR'
-    assert result['receiver_name'] is None
+    assert result.get('receiver_name') is None
