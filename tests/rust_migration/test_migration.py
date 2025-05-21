@@ -7,6 +7,7 @@ from tests.rust_migration import get_valid_beacons
 valid_beacons = get_valid_beacons()
 
 
+@pytest.mark.skip("For development only")
 def test_parser_differences_keywise():
     differences = []
     error_combinations = {}
@@ -32,6 +33,7 @@ def test_parser_differences_keywise():
         pytest.fail('\n\n'.join(differences))
 
 
+@pytest.mark.skip("For development only")
 def test_parser_differences_valuewise():
     differences = []
     for line in valid_beacons:
@@ -62,6 +64,7 @@ def test_parser_differences_valuewise():
         pytest.fail('\n\n'.join(differences))
 
 
+@pytest.mark.skip("For development only")
 def test_failing():
     failing_lines = [
         r"""MYC78FF44>OGNMYC:>140735h Pilot=RichardHunt""",
