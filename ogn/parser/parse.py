@@ -54,12 +54,12 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
         reference_timestamp = datetime.now(timezone.utc)
 
     if use_rust_parser:
-        rust_zeug = rust_parse(aprs_message)
+        rust_response = rust_parse(aprs_message)[0]
         message = {'raw_message': aprs_message, 'reference_timestamp': reference_timestamp}
-        if parser_error := rust_zeug.get('parsererror'):
+        if parser_error := rust_response.get('parser_error'):
             message['aprs_type'] = 'comment'
             message['comment'] = str(parser_error)
-        elif aprs_packet := rust_zeug.get('aprspacket'):
+        elif aprs_packet := rust_response.get('aprs_packet'):
             message.update({
                 'aprs_type': 'position',
                 'beacon_type': mapping.get(aprs_packet['to'], 'unknown'),
@@ -143,7 +143,18 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
                 if 'unparsed' in status: message["user_comment"] = status['unparsed']
             else:
                 raise ValueError("WTF")
-
+        elif server_comment := rust_response.get('servercomment'):
+            message.update({
+                'version': server_comment['version'],
+                'timestamp': datetime.strptime(server_comment['timestamp'], "%d %b %Y %H:%M:%S %Z"),
+                'server': server_comment['server'],
+                'ip_address': server_comment['ip_address'],
+                'port': server_comment['port'],
+                'aprs_type': 'server'})
+        elif comment := rust_response.get('comment'):
+            message.update({
+                'comment': comment['comment'],
+                'aprs_type': 'comment'})
         else:
             raise ValueError("WTF")
 
