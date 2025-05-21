@@ -15,13 +15,10 @@ def _parse_valid_beacon_data_file(filename, beacon_type):
             if line.strip() == '':
                 continue
 
-            try:
-                message = parse(line, datetime(2015, 4, 10, 17, 0))
-                assert message is not None
-                if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
-                    assert message['beacon_type'] == beacon_type
-            except NotImplementedError as e:
-                print(e)
+            message = parse(line, datetime(2015, 4, 10, 17, 0))
+            assert message is not None
+            if message['aprs_type'] == 'position' or message['aprs_type'] == 'status':
+                assert message['beacon_type'] == beacon_type
 
 
 def test_flyxc_beacons():

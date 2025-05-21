@@ -134,12 +134,8 @@ def test_50_live_messages():
         global remaining_messages
         if raw_message[0] == '#':
             return
-        try:
-            message = parse(raw_message)
-            print(f"{message['aprs_type']}: {raw_message}")
-        except NotImplementedError as e:
-            print(f"{e}: {raw_message}")
-            return
+        message = parse(raw_message)
+        print(f"{message['aprs_type']}: {raw_message}")
         if remaining_messages > 0:
             remaining_messages -= 1
         else:

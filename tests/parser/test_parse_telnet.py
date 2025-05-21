@@ -4,12 +4,12 @@ import pytest
 from datetime import datetime
 
 from ogn.parser.telnet_parser import parse
-from ogn.parser.exceptions import ParseError
+from ogn.parser.exceptions import AprsParseError
 
 
 @pytest.mark.skip("Not yet implemented")
 def test_telnet_fail_corrupt():
-    with pytest.raises(ParseError):
+    with pytest.raises(AprsParseError):
         parse('This is rubbish')
 
 

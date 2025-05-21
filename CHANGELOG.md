@@ -2,6 +2,7 @@
 
 ## 2.0.0: unreleased
 - parser: use rust parser as default
+- parser: removed OgnParseError since only invalid APRS don't pass the parser
 
 ## 1.3.3: - 2025-05-21
 - parser: use rust parser with option "use_rust_parser=True" (default for v2.0.0)

@@ -31,16 +31,14 @@ beacon = parse("FLRDDDEAD>APRS,qAS,EDER:/114500h5029.86N/00956.98E'342/049/A=005
 
 ```python
 from ogn.client import AprsClient
-from ogn.parser import parse, ParseError
+from ogn.parser import parse, AprsParseError
 
 def process_beacon(raw_message):
     try:
         beacon = parse(raw_message)
         print('Received {aprs_type}: {raw_message}'.format(**beacon))
-    except ParseError as e:
+    except AprsParseError as e:
         print('Error, {}'.format(e.message))
-    except NotImplementedError as e:
-        print('{}: {}'.format(e, raw_message))
 
 client = AprsClient(aprs_user='N0CALL')
 client.connect()
