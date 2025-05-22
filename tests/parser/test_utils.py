@@ -11,7 +11,7 @@ def _proceed_test_data(test_data={}):
 
 
 def test_parseAngle():
-    assert parseAngle('05048.30') == pytest.approx(50.805, 5)
+    assert parseAngle('05048.30') == 50.805
 
 
 def test_createTimestamp_hhmmss():

@@ -16,13 +16,13 @@ def test_basic():
     assert message['dstcall'] == "APRS"
     assert message['receiver_name'] == "LFMX"
     assert message['timestamp'].strftime('%H:%M:%S') == "16:08:29"
-    assert message['latitude'] == pytest.approx(44.25683, 5)
+    assert message['latitude'] == 44.25683333333333
     assert message['symboltable'] == '/'
-    assert message['longitude'] == pytest.approx(6.0005, 5)
+    assert message['longitude'] == 6.0005
     assert message['symbolcode'] == '\''
     assert message['track'] == 342
     assert message['ground_speed'] == 49 * KNOTS_TO_MS / KPH_TO_MS
-    assert message['altitude'] == pytest.approx(5524 * FEETS_TO_METER, 5)
+    assert message['altitude'] == 5524 * FEETS_TO_METER
     assert message['user_comment'] == "this is a comment"
 
 
@@ -76,21 +76,21 @@ def test():
     assert message['dstcall'] == "OGCAPT"
     assert message['receiver_name'] == "CAPTURS"
     assert message['timestamp'].strftime('%H:%M:%S') == "06:55:11"
-    assert message['latitude'] == pytest.approx(48.62605, 5)
-    assert message['longitude'] == pytest.approx(2.56298, 5)
+    assert message['latitude'] == 48.62716666666667
+    assert message['longitude'] == 2.5632166666666665
     assert message['symboltable'] == '/'
     assert message['symbolcode'] == '\''
     assert message['track'] == 255
     assert message['ground_speed'] == 45 * KNOTS_TO_MS / KPH_TO_MS
-    assert message['altitude'] == pytest.approx(3399 * FEETS_TO_METER, 5)
+    assert message['altitude'] == 3399 * FEETS_TO_METER
 
     assert message['address_type'] == 2
     assert message['aircraft_type'] == 1
     assert message['stealth'] is False
     assert message['no-tracking'] is False
     assert message['address'] == 'DDFAA3'
-    assert message['climb_rate'] == pytest.approx(-613 * FPM_TO_MS, 0.1)
-    assert message['turn_rate'] == pytest.approx(-3.9 * HPM_TO_DEGS, 0.1)
+    assert message['climb_rate'] == -613 * FPM_TO_MS
+    assert message['turn_rate'] == -3.9 * HPM_TO_DEGS
     assert message['signal_quality'] == 22.5
     assert message['error_count'] == 7
     assert message['frequency_offset'] == -7.0

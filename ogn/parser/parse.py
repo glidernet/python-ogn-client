@@ -88,14 +88,14 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
             if 'address' in position: message['address'] = f"{position['address']:06X}"
 
             if 'climb_rate' in position: message["climb_rate"] = position['climb_rate'] * FPM_TO_MS
-            if 'turn_rate' in position: message["turn_rate"] = position['turn_rate'] * HPM_TO_DEGS
-            if 'signal_quality' in position: message["signal_quality"] = position['signal_quality']
+            if 'turn_rate' in position: message["turn_rate"] = float(position['turn_rate']) * HPM_TO_DEGS
+            if 'signal_quality' in position: message["signal_quality"] = float(position['signal_quality'])
             if 'error' in position: message["error_count"] = position['error']
-            if 'frequency_offset' in position: message["frequency_offset"] = position['frequency_offset']
+            if 'frequency_offset' in position: message["frequency_offset"] = float(position['frequency_offset'])
             if 'gps_quality' in position: message["gps_quality"] = position['gps_quality']
             if 'flight_level' in position: message["flightlevel"] = position['flight_level']
             if 'signal_power' in position: message["signal_power"] = position['signal_power']
-            if 'software_version' in position: message["software_version"] = position['software_version']
+            if 'software_version' in position: message["software_version"] = float(position['software_version'])
             if 'hardware_version' in position: message["hardware_version"] = position['hardware_version']
             if 'original_address' in position: message["real_address"] = f"{position['original_address']:06X}"
 
@@ -107,23 +107,23 @@ def parse(aprs_message, reference_timestamp=None, calculate_relations=False, use
 
             if 'version' in status: message["version"] = status['version']
             if 'platform' in status: message["platform"] = status['platform']
-            if 'cpu_load' in status: message["cpu_load"] = status['cpu_load']
-            if 'ram_free' in status: message["free_ram"] = status['ram_free']
-            if 'ram_total' in status: message["total_ram"] = status['ram_total']
-            if 'ntp_offset' in status: message["ntp_error"] = status['ntp_offset']
-            if 'ntp_correction' in status: message["rt_crystal_correction"] = status['ntp_correction']
-            if 'voltage' in status: message["voltage"] = status['voltage']
-            if 'amperage' in status: message["amperage"] = status['amperage']
-            if 'cpu_temperature' in status: message["cpu_temp"] = status['cpu_temperature']
+            if 'cpu_load' in status: message["cpu_load"] = float(status['cpu_load'])
+            if 'ram_free' in status: message["free_ram"] = float(status['ram_free'])
+            if 'ram_total' in status: message["total_ram"] = float(status['ram_total'])
+            if 'ntp_offset' in status: message["ntp_error"] = float(status['ntp_offset'])
+            if 'ntp_correction' in status: message["rt_crystal_correction"] = float(status['ntp_correction'])
+            if 'voltage' in status: message["voltage"] = float(status['voltage'])
+            if 'amperage' in status: message["amperage"] = float(status['amperage'])
+            if 'cpu_temperature' in status: message["cpu_temp"] = float(status['cpu_temperature'])
             if 'visible_senders' in status: message["senders_visible"] = status['visible_senders']
             if 'latency' in status: message["latency"] = status['latency']
             if 'senders' in status: message["senders_total"] = status['senders']
             if 'rf_correction_manual' in status: message["rec_crystal_correction"] = status['rf_correction_manual']
-            if 'rf_correction_automatic' in status: message["rec_crystal_correction_fine"] = status['rf_correction_automatic']
-            if 'noise' in status: message["rec_input_noise"] = status['noise']
-            if 'senders_signal_quality' in status: message["senders_signal"] = status['senders_signal_quality']
+            if 'rf_correction_automatic' in status: message["rec_crystal_correction_fine"] = float(status['rf_correction_automatic'])
+            if 'noise' in status: message["rec_input_noise"] = float(status['noise'])
+            if 'senders_signal_quality' in status: message["senders_signal"] = float(status['senders_signal_quality'])
             if 'senders_messages' in status: message["senders_messages"] = status['senders_messages']
-            if 'good_senders_signal_quality' in status: message["good_senders_signal"] = status['good_senders_signal_quality']
+            if 'good_senders_signal_quality' in status: message["good_senders_signal"] = float(status['good_senders_signal_quality'])
             if 'good_senders' in status: message["good_senders"] = status['good_senders']
             if 'good_and_bad_senders' in status: message["good_and_bad_senders"] = status['good_and_bad_senders']
 

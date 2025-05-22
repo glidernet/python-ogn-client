@@ -30,7 +30,7 @@ def test():
     assert message['cpu_load'] == 0.7
     assert message['free_ram'] == 770.2
     assert message['total_ram'] == 968.2
-    assert message['ntp_offset'] == 1.8
+    assert message['ntp_error'] == 1.8
     assert message['rt_crystal_correction'] == -3.3
     assert message['cpu_temp'] == 55.7
     assert message['senders_visible'] == 7
