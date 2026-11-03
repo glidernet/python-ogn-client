@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Unreleased
+- parser: Added the OGNUPH tocall (Uphere app, beacon type "uphere")
+
 ## 2.0.0: - 2025-05-23
 - parser: use rust parser as default
 - parser: removed OgnParseError since only invalid APRS don't pass the parser
