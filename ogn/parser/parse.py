@@ -26,6 +26,7 @@ dstcall_beacontype_mapping = {
     'OGSPID': 'spider',
     'OGSPOT': 'spot',
     'OGNTRK': 'tracker',
+    'OGNUPH': 'uphere',
 }
 
 

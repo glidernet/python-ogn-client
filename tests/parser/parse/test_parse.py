@@ -204,3 +204,7 @@ def test_no_receiver():
     assert result['name'] == 'EDFW'
     assert result['dstcall'] == 'OGNSDR'
     assert result.get('receiver_name') is None
+
+
+def test_uphere_beacons():
+    _parse_valid_beacon_data_file(filename='OGNUPH_Uphere.txt', beacon_type='uphere')
