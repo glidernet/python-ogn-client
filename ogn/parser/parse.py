@@ -22,6 +22,7 @@ dstcall_beacontype_mapping = {
     'OGNSDR': 'receiver',
     'OGNSKY': 'safesky',
     'OGPAW': 'pilot_aware',
+    'OGNSIT': 'sitaco',
     'OGSKYL': 'skylines',
     'OGSPID': 'spider',
     'OGSPOT': 'spot',

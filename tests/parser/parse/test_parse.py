@@ -141,6 +141,20 @@ def test_spot_beacons():
     _parse_valid_beacon_data_file(filename='OGSPOT_Spot.txt', beacon_type='spot')
 
 
+def test_sitaco_beacons():
+    message = parse("SITB4E21C>OGNSIT,qOR:/104212h4842.74N/00918.94E'072/024/A=001354 !W16! id37B4E21C +039fpm",
+                    reference_timestamp=datetime(2015, 4, 10, 17, 0), use_server_timestamp=False)
+
+    assert message['aprs_type'] == 'position'
+    assert message['beacon_type'] == 'sitaco'
+    assert message['dstcall'] == 'OGNSIT'
+    assert message['name'] == 'SITB4E21C'
+    assert message['address'] == 'B4E21C'
+    assert message['address_type'] == 3
+    assert message['aircraft_type'] == 13
+    assert message['track'] == 72
+
+
 def test_generic_beacons():
     message = parse("EPZR>WTFDSTCALL,TCPIP*,qAC,GLIDERN1:>093456h this is a comment")
 
